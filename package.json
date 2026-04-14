@@ -1,0 +1,26 @@
+{
+  "name": "x-1985733-cafconnectsys",
+  "version": "1.0.0",
+  "description": "Workspace for developing and managing CAF Connect application components, including scripts, integrations, and custom logic for patient application processing.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "now-sdk build",
+    "deploy": "now-sdk install",
+    "transform": "now-sdk transform",
+    "types": "now-sdk dependencies"
+  },
+  "devDependencies": {
+    "@servicenow/sdk": "4.5.0",
+    "@servicenow/glide": "26.0.1",
+    "eslint": "8.50.0",
+    "@servicenow/eslint-plugin-sdk-app-plugin": "4.5.0",
+    "@servicenow/isomorphic-rollup": "^1.2.3",
+    "@types/react": "19.x",
+    "@types/react-dom": "19.x",
+    "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "react": "19.x",
+    "react-dom": "19.x"
+  }
+}

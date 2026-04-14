@@ -1,0 +1,6 @@
+{
+  "scope": "x_1985733_cafsys",
+  "scopeId": "3d15d06c831c03102cecbb96feaad3b4",
+  "name": "cafconnect",
+  "tsconfigPath": "./src/server/tsconfig.json"
+}
