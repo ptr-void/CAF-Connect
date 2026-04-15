@@ -25,7 +25,7 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Look up user by email in custom table
+                    
                     var user = new GlideRecord('x_1985733_cafsys_portal_user');
                     user.addQuery('email', email);
                     user.query();
@@ -36,7 +36,7 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Validate plaintext password (mocked prototype level auth to bypass GlideAuthenticator global scope lock)
+                    
                     if (user.getValue('password') !== password) {
                         response.setStatus(401);
                         response.setBody({ error: 'Invalid password. Please try again.' });
@@ -45,7 +45,7 @@ export const cafApi = RestApi({
 
                     response.setStatus(200);
                     response.setBody({
-                        user_name: user.getValue('email'), // Use email as unique identifier
+                        user_name: user.getValue('email'), 
                         name: user.getValue('full_name'),
                         email: user.getValue('email'),
                         sys_id: user.getUniqueValue()
@@ -77,7 +77,7 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Check duplicate email
+                    
                     var existing = new GlideRecord('x_1985733_cafsys_portal_user');
                     existing.addQuery('email', email);
                     existing.query();
@@ -87,11 +87,11 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Create new user in our custom table
+                    
                     var newUser = new GlideRecord('x_1985733_cafsys_portal_user');
                     newUser.setValue('full_name', fullName);
                     newUser.setValue('email', email);
-                    newUser.setValue('password', password); // Mock prototype password
+                    newUser.setValue('password', password); 
                     newUser.setValue('account_type', accountType);
                     var sysId = newUser.insert();
 
@@ -225,7 +225,7 @@ export const cafApi = RestApi({
                     newApp.setValue('ai_eligibility_score', body.ai_eligibility_score || '');
                     newApp.setValue('ai_reasoning', body.ai_reasoning || '');
                     newApp.setValue('needs_manual_review', body.needs_manual_review || false);
-                    newApp.setValue('state', '1'); // Standard state usually matches Open/Pending
+                    newApp.setValue('state', '1'); 
                     
                     var sysId = newApp.insert();
 
@@ -235,7 +235,7 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Create an automatic notification for the user
+                    
                     var notify = new GlideRecord('x_1985733_cafsys_notification');
                     notify.setValue('title', 'Application Received');
                     notify.setValue('message', 'Your CAF application for ' + body.patient_name + ' has been received and is under review.');
@@ -243,7 +243,7 @@ export const cafApi = RestApi({
                     notify.setValue('created_date', new GlideDateTime().getDisplayValue());
                     notify.insert();
 
-                    // Re-query to get the generated number
+                    
                     newApp.get(sysId);
 
                     response.setStatus(201);
@@ -272,7 +272,7 @@ export const cafApi = RestApi({
                     sites.query();
                     
                     var results = [];
-                    // Mock data fallback if table is empty just so the portal doesn't look completely barren initially
+                    
                     if (!sites.hasNext()) {
                          results = [
                             { sys_id: 'mock1', site_name: 'Metro Manila Medical Center', region: 'NCR', address: '123 Health Ave, Manila', contact_number: '(02) 8123-4567', operating_hours: 'Mon-Sun, 24/7' },

@@ -1,4 +1,4 @@
-// Extend Window interface to include g_ck property
+
 declare global {
     interface Window {
         g_ck: string
@@ -12,7 +12,7 @@ export class IncidentService {
         this.tableName = 'incident'
     }
 
-    // Return all incidents
+    
     async list() {
         try {
             const searchParams = new URLSearchParams()
@@ -41,7 +41,7 @@ export class IncidentService {
         }
     }
 
-    // Get a single incident by sys_id
+    
     async get(sysId) {
         try {
             const searchParams = new URLSearchParams()
@@ -68,7 +68,7 @@ export class IncidentService {
         }
     }
 
-    // Create a new incident
+    
     async create(data) {
         try {
             const response = await fetch(`/api/now/table/${this.tableName}`, {
@@ -96,7 +96,7 @@ export class IncidentService {
         }
     }
 
-    // Update an incident
+    
     async update(sysId, data) {
         try {
             const response = await fetch(`/api/now/table/${this.tableName}/${sysId}`, {
@@ -121,7 +121,7 @@ export class IncidentService {
         }
     }
 
-    // Delete an incident
+    
     async delete(sysId) {
         try {
             const response = await fetch(`/api/now/table/${this.tableName}/${sysId}`, {
