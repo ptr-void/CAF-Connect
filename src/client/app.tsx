@@ -103,7 +103,7 @@ function App() {
             </p>
           </div>
 
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="hidden items-center gap-2 md:flex">
             {navLinks.map((link) => (
               <button
                 key={link.key}
