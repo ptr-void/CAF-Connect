@@ -1,5 +1,5 @@
 import './app.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
 import EligibilityPage from "./pages/EligibilityPage";
@@ -26,7 +26,26 @@ type PageKey =
   | "admin";
 
 function App() {
-  const [activePage, setActivePage] = useState<PageKey>("landing");
+  const getInitialPage = (): PageKey => {
+    if (typeof window !== 'undefined') {
+      const match = window.location.pathname.match(/_([a-z]+)\.do$/);
+      if (match && match[1]) {
+        return match[1] as PageKey;
+      }
+    }
+    return "landing";
+  };
+
+  const [activePage, setActivePage] = useState<PageKey>(getInitialPage());
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const newPath = `/x_1985733_cafsys_${activePage}.do`;
+      if (window.location.pathname !== newPath) {
+        window.history.pushState({}, "", newPath);
+      }
+    }
+  }, [activePage]);
 
   const renderPage = () => {
     switch (activePage) {
