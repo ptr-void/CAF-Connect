@@ -58,7 +58,7 @@ function App() {
         const parsed = JSON.parse(savedUser);
         setCurrentUser(parsed);
         setIsAuthenticated(true);
-        return; // Prioritize local storage for custom portal users
+        return; 
       } catch (e) {
         console.error("Failed to parse saved user", e);
       }

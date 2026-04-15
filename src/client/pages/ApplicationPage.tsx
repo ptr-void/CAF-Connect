@@ -24,7 +24,7 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Step 1 state
+  
   const [patientName, setPatientName] = useState(currentUser?.name || "");
   const [birthDate, setBirthDate] = useState("");
   const [sex, setSex] = useState("");
@@ -32,14 +32,14 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [repName, setRepName] = useState("");
   const [relationship, setRelationship] = useState("");
 
-  // Step 2 state
+  
   const [diagnosis, setDiagnosis] = useState("");
   const [diagnosisDate, setDiagnosisDate] = useState("");
   const [hospital, setHospital] = useState("");
   const [physician, setPhysician] = useState("");
   const [treatmentNotes, setTreatmentNotes] = useState("");
 
-  // Step 3 state
+  
   const [selectedSite, setSelectedSite] = useState("");
   const [contactEmail, setContactEmail] = useState(currentUser?.email || "");
   const [coordNotes, setCoordNotes] = useState("");
@@ -119,7 +119,7 @@ Coordination Notes: ${coordNotes}
 
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-            {/* Step Indicator */}
+            {}
             <div className="mb-8 flex flex-wrap items-center gap-3">
               {steps.map((step, index) => {
                 const stepNumber = index + 1;
@@ -137,7 +137,7 @@ Coordination Notes: ${coordNotes}
               })}
             </div>
 
-            {/* Step 1 */}
+            {}
             {currentStep === 1 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 1</p>
@@ -181,7 +181,7 @@ Coordination Notes: ${coordNotes}
               </div>
             )}
 
-            {/* Step 2 */}
+            {}
             {currentStep === 2 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 2</p>
@@ -216,7 +216,7 @@ Coordination Notes: ${coordNotes}
               </div>
             )}
 
-            {/* Step 3 */}
+            {}
             {currentStep === 3 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 3</p>
@@ -251,7 +251,7 @@ Coordination Notes: ${coordNotes}
               </div>
             )}
 
-            {/* Step 4 - Review & Submit */}
+            {}
             {currentStep === 4 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 4</p>
@@ -307,7 +307,7 @@ Coordination Notes: ${coordNotes}
             )}
           </div>
 
-          {/* Sidebar */}
+          {}
           <div className="space-y-6">
             <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
               <p className="text-sm font-semibold text-sky-700">Application Tips</p>
