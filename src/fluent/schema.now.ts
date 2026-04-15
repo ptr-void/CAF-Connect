@@ -1,4 +1,4 @@
-import { Table, StringColumn, ReferenceColumn, ChoiceColumn, Role, BooleanColumn } from '@servicenow/sdk/core';
+import { Table, StringColumn, Role, BooleanColumn } from '@servicenow/sdk/core';
 
 // 1. Define Access Roles
 export const applicantRole = Role({
@@ -12,7 +12,7 @@ export const coordinatorRole = Role({
 });
 
 // 2. Database Table for CAF Applications
-export const cafApplicationTable = Table({
+export const x_1985733_cafsys_application = Table({
     name: 'x_1985733_cafsys_application',
     extends: 'task', // Extends standard ServiceNow task to get state, assignment_group, etc.
     label: 'CAF Application',
