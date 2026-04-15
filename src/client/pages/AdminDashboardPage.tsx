@@ -1,6 +1,7 @@
 type PageKey =
   | "landing"
-  | "auth"
+  | "login"
+  | "register"
   | "eligibility"
   | "documents"
   | "application"
@@ -170,8 +171,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           </nav>
 
           <div className="border-t border-slate-200 p-4">
-            <button
-              onClick={() => setActivePage("landing")}
+            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
               className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Back to Home
@@ -183,11 +183,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           <header className="border-b border-slate-200 bg-white">
             <div className="flex flex-col gap-4 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <button
-                  onClick={() => setActivePage("landing")}
+                <button className="cursor-pointer" onClick={() => setActivePage("landing")}
                   className="text-sm font-medium text-sky-700 hover:text-sky-800 xl:hidden"
                 >
-                  ‚Üê Back to Home
+                  ‚Ü?Back to Home
                 </button>
                 <h2 className="mt-2 text-3xl font-bold text-slate-800">Admin Dashboard</h2>
                 <p className="mt-1 text-slate-500">
@@ -196,15 +195,13 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setActivePage("staff")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("staff")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Open Staff Dashboard
                 </button>
-                <button
-                  onClick={() => setActivePage("notifications")}
-                  className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+                  className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                 >
                   View Notifications
                 </button>
@@ -217,7 +214,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
               {overviewCards.map((card) => (
                 <div
                   key={card.title}
-                  className={`rounded-3xl p-6 shadow-sm ring-1 ring-slate-200 ${card.bg}`}
+                  className={`rounded-3xl p-6 shadow-sm border border-white/60 shadow-lg ${card.bg}`}
                 >
                   <p className="text-sm font-semibold text-slate-600">{card.title}</p>
                   <p className={`mt-3 text-4xl font-bold ${card.text}`}>{card.value}</p>
@@ -227,7 +224,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
             </section>
 
             <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <div>
                     <p className="text-sm font-semibold text-sky-700">User and Role Management</p>
@@ -243,9 +240,9 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                     <input
                       type="text"
                       placeholder="Search user"
-                      className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
-                    <select className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>All Roles</option>
                       <option>Administrator</option>
                       <option>Site Coordinator</option>
@@ -284,7 +281,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                             </span>
                           </td>
                           <td className="px-4 py-4">
-                            <button className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+                            <button className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
                               Manage
                             </button>
                           </td>
@@ -296,7 +293,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
               </div>
 
               <div className="space-y-6">
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                   <p className="text-sm font-semibold text-emerald-700">Application Volume by Site</p>
                   <h3 className="mt-2 text-xl font-bold text-slate-800">Access site monitoring</h3>
 
@@ -324,7 +321,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   </div>
                 </div>
 
-                <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
+                <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 border border-white/60 shadow-lg">
                   <p className="text-sm font-semibold text-slate-700">System control</p>
                   <h3 className="mt-2 text-xl font-bold text-slate-800">Admin actions</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-700">
@@ -345,7 +342,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
             </section>
 
             <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                 <p className="text-sm font-semibold text-violet-700">Reports and Analytics</p>
                 <h3 className="mt-2 text-2xl font-bold text-slate-800">Key operational metrics</h3>
 
@@ -364,7 +361,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                 </div>
               </div>
 
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                 <p className="text-sm font-semibold text-amber-700">SMS Logs / Notification Monitoring</p>
                 <h3 className="mt-2 text-2xl font-bold text-slate-800">Recent message activity</h3>
 

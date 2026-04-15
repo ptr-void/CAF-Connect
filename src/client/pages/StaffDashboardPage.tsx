@@ -1,6 +1,7 @@
 type PageKey =
   | "landing"
-  | "auth"
+  | "login"
+  | "register"
   | "eligibility"
   | "documents"
   | "application"
@@ -145,8 +146,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
           </nav>
 
           <div className="border-t border-slate-200 p-4">
-            <button
-              onClick={() => setActivePage("landing")}
+            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
               className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Back to Home
@@ -158,11 +158,10 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
           <header className="border-b border-slate-200 bg-white">
             <div className="flex flex-col gap-4 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <button
-                  onClick={() => setActivePage("landing")}
+                <button className="cursor-pointer" onClick={() => setActivePage("landing")}
                   className="text-sm font-medium text-sky-700 hover:text-sky-800 xl:hidden"
                 >
-                  ‚Üê Back to Home
+                  ‚Ü?Back to Home
                 </button>
                 <h2 className="mt-2 text-3xl font-bold text-slate-800">Staff Dashboard</h2>
                 <p className="mt-1 text-slate-500">
@@ -171,15 +170,13 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setActivePage("notifications")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Open Notifications
                 </button>
-                <button
-                  onClick={() => setActivePage("admin")}
-                  className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("admin")}
+                  className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                 >
                   Go to Admin Dashboard
                 </button>
@@ -192,7 +189,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
               {summaryCards.map((card) => (
                 <div
                   key={card.title}
-                  className={`rounded-3xl p-6 shadow-sm ring-1 ring-slate-200 ${card.bg}`}
+                  className={`rounded-3xl p-6 shadow-sm border border-white/60 shadow-lg ${card.bg}`}
                 >
                   <p className="text-sm font-semibold text-slate-600">{card.title}</p>
                   <p className={`mt-3 text-4xl font-bold ${card.text}`}>{card.value}</p>
@@ -202,7 +199,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
             </section>
 
             <section className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <div>
                     <p className="text-sm font-semibold text-sky-700">Patient Records</p>
@@ -218,15 +215,15 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                     <input
                       type="text"
                       placeholder="Search patient"
-                      className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
-                    <select className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>All Sites</option>
                       <option>Jose R. Reyes MMC</option>
                       <option>East Avenue Medical Center</option>
                       <option>Philippine General Hospital</option>
                     </select>
-                    <select className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>All Status</option>
                       <option>Pending Review</option>
                       <option>Missing Documents</option>
@@ -276,7 +273,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
               </div>
 
               <div className="space-y-6">
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                   <p className="text-sm font-semibold text-emerald-700">Case Detail View</p>
                   <h3 className="mt-2 text-xl font-bold text-slate-800">Selected application</h3>
 
@@ -306,16 +303,16 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                   </div>
 
                   <div className="mt-5 grid gap-3">
-                    <button className="rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
+                    <button className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
                       Verify Documents
                     </button>
-                    <button className="rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">
+                    <button className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">
                       Send SMS Update
                     </button>
                   </div>
                 </div>
 
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                   <p className="text-sm font-semibold text-violet-700">Notes / Comments</p>
                   <h3 className="mt-2 text-xl font-bold text-slate-800">Coordinator notes</h3>
 
@@ -338,7 +335,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                   </button>
                 </div>
 
-                <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
+                <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 border border-white/60 shadow-lg">
                   <p className="text-sm font-semibold text-slate-700">Workflow actions</p>
                   <h3 className="mt-2 text-xl font-bold text-slate-800">Next coordinator steps</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-700">

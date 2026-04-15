@@ -1,6 +1,7 @@
 type PageKey =
   | "landing"
-  | "auth"
+  | "login"
+  | "register"
   | "eligibility"
   | "documents"
   | "application"
@@ -22,7 +23,7 @@ const accessSites = [
     address: "Rizal Avenue, Sta. Cruz, Manila",
     contact: "(02) 8711-9491",
     services: "CAF guidance, intake support, document review",
-    hours: "Monday to Friday ‚Ä¢ 8:00 AM - 5:00 PM",
+    hours: "Monday to Friday ‚Ä?8:00 AM - 5:00 PM",
   },
   {
     name: "East Avenue Medical Center",
@@ -30,7 +31,7 @@ const accessSites = [
     address: "East Avenue, Diliman, Quezon City",
     contact: "(02) 8928-0611",
     services: "Patient coordination, social service assistance",
-    hours: "Monday to Friday ‚Ä¢ 8:00 AM - 5:00 PM",
+    hours: "Monday to Friday ‚Ä?8:00 AM - 5:00 PM",
   },
   {
     name: "Philippine General Hospital",
@@ -38,7 +39,7 @@ const accessSites = [
     address: "Taft Avenue, Ermita, Manila",
     contact: "(02) 8554-8400",
     services: "Hospital-based case support, referral coordination",
-    hours: "Monday to Friday ‚Ä¢ 8:00 AM - 5:00 PM",
+    hours: "Monday to Friday ‚Ä?8:00 AM - 5:00 PM",
   },
   {
     name: "Bicol Medical Center",
@@ -46,7 +47,7 @@ const accessSites = [
     address: "Naga City, Camarines Sur",
     contact: "(054) 473-2181",
     services: "Regional intake support, site coordination",
-    hours: "Monday to Friday ‚Ä¢ 8:00 AM - 5:00 PM",
+    hours: "Monday to Friday ‚Ä?8:00 AM - 5:00 PM",
   },
   {
     name: "Southern Philippines Medical Center",
@@ -54,7 +55,7 @@ const accessSites = [
     address: "JP Laurel Avenue, Davao City",
     contact: "(082) 227-2731",
     services: "Referral assistance, treatment-site coordination",
-    hours: "Monday to Friday ‚Ä¢ 8:00 AM - 5:00 PM",
+    hours: "Monday to Friday ‚Ä?8:00 AM - 5:00 PM",
   },
   {
     name: "Vicente Sotto Memorial Medical Center",
@@ -62,21 +63,20 @@ const accessSites = [
     address: "B. Rodriguez Street, Cebu City",
     contact: "(032) 253-9891",
     services: "CAF intake, patient navigation, file review",
-    hours: "Monday to Friday ‚Ä¢ 8:00 AM - 5:00 PM",
+    hours: "Monday to Friday ‚Ä?8:00 AM - 5:00 PM",
   },
 ];
 
 function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-10">
+    <div className="min-h-[calc(100vh-80px)] bg-gradient-to-br from-slate-50 via-sky-50/50 to-emerald-50/50 px-6 py-10">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <button
-              onClick={() => setActivePage("landing")}
+            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
               className="text-sm font-medium text-sky-700 hover:text-sky-800"
             >
-              ‚Üê Back to Home
+              ‚Ü?Back to Home
             </button>
             <h1 className="mt-3 text-3xl font-bold text-slate-800">Access Sites Directory</h1>
             <p className="mt-2 max-w-3xl text-slate-600">
@@ -86,15 +86,13 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => setActivePage("application")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+            <button className="cursor-pointer" onClick={() => setActivePage("application")}
+              className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Go to Application
             </button>
-            <button
-              onClick={() => setActivePage("help")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+            <button className="cursor-pointer" onClick={() => setActivePage("help")}
+              className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Need Help Choosing?
             </button>
@@ -103,7 +101,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
               <div className="grid gap-4 md:grid-cols-4">
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Search Site</label>
@@ -145,7 +143,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-sky-700">Directory Results</p>
@@ -173,7 +171,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                       <div className="flex-1">
                         <div className="flex flex-wrap items-center gap-3">
                           <h3 className="text-xl font-semibold text-slate-800">{site.name}</h3>
-                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-sky-700 ring-1 ring-slate-200">
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-sky-700 border border-white/60 shadow-lg">
                             {site.region}
                           </span>
                         </div>
@@ -210,15 +208,13 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                       </div>
 
                       <div className="flex flex-col gap-3 lg:w-52">
-                        <button
-                          onClick={() => setActivePage("application")}
-                          className="rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700"
+                        <button className="cursor-pointer" onClick={() => setActivePage("application")}
+                          className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-3 font-semibold text-white hover:bg-sky-700"
                         >
                           Apply / Select Site
                         </button>
-                        <button
-                          onClick={() => setActivePage("help")}
-                          className="rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                        <button className="cursor-pointer" onClick={() => setActivePage("help")}
+                          className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                         >
                           Contact Support
                         </button>
@@ -229,7 +225,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-emerald-700">Map Preview</p>
               <h2 className="mt-2 text-2xl font-bold text-slate-800">Location-based site view</h2>
               <p className="mt-2 text-sm text-slate-500">
@@ -237,7 +233,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                 or service office.
               </p>
 
-              <div className="mt-6 rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 px-6 py-16 text-center ring-1 ring-sky-200">
+              <div className="mt-6 rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 px-6 py-16 text-center border border-white/60 shadow-lg">
                 <div className="mx-auto max-w-xl">
                   <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white text-3xl font-bold text-sky-700 shadow-sm">
                     üìç
@@ -253,7 +249,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-sky-700">How to choose a site</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">
                 Patient-friendly selection guidance
@@ -272,7 +268,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
+            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-slate-700">Need site help?</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">
                 We can guide patients and families
@@ -282,32 +278,28 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                 hospital office, or social service contact point.
               </p>
 
-              <button
-                onClick={() => setActivePage("help")}
+              <button className="cursor-pointer" onClick={() => setActivePage("help")}
                 className="mt-6 w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-800 hover:bg-slate-100"
               >
                 Open Help & Support
               </button>
             </div>
 
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-emerald-700">Quick Links</p>
               <div className="mt-4 grid gap-3">
-                <button
-                  onClick={() => setActivePage("eligibility")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("eligibility")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Eligibility Checker
                 </button>
-                <button
-                  onClick={() => setActivePage("documents")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("documents")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Document Requirements Guide
                 </button>
-                <button
-                  onClick={() => setActivePage("tracker")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("tracker")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Application Tracker
                 </button>
