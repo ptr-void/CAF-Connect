@@ -54,9 +54,10 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
         }),
       });
       const data = await res.json();
+      const payload = data.result || data;
 
       if (res.ok) {
-        const userData = { name: fullName, email, user_name: data.user_name };
+        const userData = { name: fullName, email, user_name: payload.user_name || email };
         if (setCurrentUser) setCurrentUser(userData);
         if (setIsAuthenticated) setIsAuthenticated(true);
         localStorage.setItem("caf_portal_user", JSON.stringify(userData));
