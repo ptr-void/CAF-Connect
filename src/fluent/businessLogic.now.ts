@@ -1,6 +1,6 @@
 import { BusinessRule, ClientScript, UiAction, EmailNotification } from '@servicenow/sdk/core';
 
-// 1. Business Rule: Set defaults before inserting new application
+
 export const setDefaultStatus = BusinessRule({
     $id: Now.ID['br_default_status'],
     name: 'Set Default Application Status',
@@ -8,15 +8,15 @@ export const setDefaultStatus = BusinessRule({
     when: 'before',
     action: ['insert'],
     active: true,
-    script: script`(function executeRule(current, previous /*null when async*/) {
-        // '1' typically means Open/New in Task tables
+    script: script`(function executeRule(current, previous ) {
+        
         if (!current.state) {
             current.state = 1;
         }
     })`,
 });
 
-// 2. UI Action: Native Approval Button for Coordinators
+
 export const approveApplication = UiAction({
     $id: Now.ID['ui_approve'],
     name: 'Approve Funding',
@@ -24,7 +24,7 @@ export const approveApplication = UiAction({
     actionName: 'approve_funding',
     active: true,
     form: { showButton: true },
-    condition: 'current.state != 3', // Assuming 3 is Closed Complete
+    condition: 'current.state != 3', 
     script: script`
         current.state = 3;
         current.work_notes = "Application Approved by Coordinator.";
@@ -34,7 +34,7 @@ export const approveApplication = UiAction({
     `,
 });
 
-// 3. Email Notification on Update to Approved Status
+
 export const notifyApplicantApproval = EmailNotification({
     $id: Now.ID['email_notify_approval'],
     table: 'x_1985733_cafsys_application',
@@ -44,9 +44,9 @@ export const notifyApplicantApproval = EmailNotification({
         onRecordUpdate: true,
         onRecordInsert: false,
     },
-    // Condition builder: State changes to 3 (Closed Complete)
-    // Wait, Fluent SDK might handle conditions differently, we will rely on advanced condition script if needed
-    // or just let the user add the specific field changes in the UI. We'll set a description.
+    
+    
+    
     description: 'Triggered when the Coordinator approves funding on the CAF record.',
     emailContent: {
         subject: 'CAF Request Update: ${number}',
@@ -54,7 +54,7 @@ export const notifyApplicantApproval = EmailNotification({
     },
 });
 
-// 4. Client Script: Simple Validation
+
 export const enforceEmailValidation = ClientScript({
     $id: Now.ID['cs_validate_email'],
     name: 'Validate Email Field',

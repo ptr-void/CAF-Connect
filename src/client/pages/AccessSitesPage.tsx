@@ -84,7 +84,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
           </div>
         </div>
 
-        {/* Search & Filter */}
+        {}
         <div className="mb-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
           <div className="grid gap-4 md:grid-cols-3">
             <div className="md:col-span-2">
