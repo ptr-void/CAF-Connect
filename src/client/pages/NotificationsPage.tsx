@@ -103,13 +103,13 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setActivePage("tracker")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               View Case Tracker
             </button>
             <button
               onClick={() => setActivePage("help")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+              className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Contact Support
             </button>
@@ -125,13 +125,13 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                   <input
                     type="text"
                     placeholder="Search notifications"
-                    className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500"
+                    className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500"
                   />
                 </div>
 
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Type</label>
-                  <select className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
+                  <select className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
                     <option>All Types</option>
                     <option>Reminder</option>
                     <option>Case Update</option>
@@ -141,7 +141,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
 
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Channel</label>
-                  <select className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
+                  <select className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
                     <option>All Channels</option>
                     <option>SMS</option>
                     <option>In-System</option>
@@ -151,7 +151,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
 
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Action</label>
-                  <button className="w-full rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
+                  <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
                     Filter
                   </button>
                 </div>
@@ -202,13 +202,13 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                         <div className="mt-4 flex flex-wrap gap-3">
                           <button
                             type="button"
-                            className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                            className="cursor-pointer rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
                           >
                             Mark as Read
                           </button>
                           <button
                             type="button"
-                            className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                            className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                           >
                             View Details
                           </button>
@@ -308,19 +308,19 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
               <div className="mt-4 grid gap-3">
                 <button
                   onClick={() => setActivePage("tracker")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Case Status Tracker
                 </button>
                 <button
                   onClick={() => setActivePage("application")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Application Form
                 </button>
                 <button
                   onClick={() => setActivePage("login")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Portal Login
                 </button>
@@ -334,4 +334,5 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
 }
 
 export default NotificationsPage;
+
 

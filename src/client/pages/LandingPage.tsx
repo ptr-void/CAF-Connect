@@ -1,4 +1,4 @@
-type PageKey =
+﻿type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -51,70 +51,6 @@ const processSteps = [
 function LandingPage({ setActivePage }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div>
-            <h1 className="text-2xl font-bold text-sky-700">CAF Access Navigator</h1>
-            <p className="text-sm text-slate-500">
-              Cancer Assistance Fund guidance, intake, and tracking platform
-            </p>
-          </div>
-
-          <nav className="hidden items-center gap-6 md:flex">
-            <button
-              onClick={() => setActivePage("landing")}
-              className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => setActivePage("eligibility")}
-              className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700"
-            >
-              Eligibility
-            </button>
-            <button
-              onClick={() => setActivePage("application")}
-              className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700"
-            >
-              Apply
-            </button>
-            <button
-              onClick={() => setActivePage("tracker")}
-              className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700"
-            >
-              Track
-            </button>
-            <button
-              onClick={() => setActivePage("sites")}
-              className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700"
-            >
-              Access Sites
-            </button>
-            <button
-              onClick={() => setActivePage("help")}
-              className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700"
-            >
-              Help
-            </button>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setActivePage("login")}
-              className="cursor-pointer rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => setActivePage("register")}
-              className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-400 hover:text-sky-700"
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </header>
 
       <main>
         <section className="bg-gradient-to-br from-sky-50 via-white to-emerald-50">
@@ -157,15 +93,15 @@ function LandingPage({ setActivePage }: LandingPageProps) {
               </div>
 
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
                   <p className="text-3xl font-bold text-sky-700">34</p>
                   <p className="mt-2 text-sm text-slate-500">Access sites supported nationwide</p>
                 </div>
-                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
                   <p className="text-3xl font-bold text-emerald-700">SMS</p>
                   <p className="mt-2 text-sm text-slate-500">Updates and reminders for patients</p>
                 </div>
-                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+                <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
                   <p className="text-3xl font-bold text-violet-700">Easy</p>
                   <p className="mt-2 text-sm text-slate-500">Guided steps for first-time users</p>
                 </div>
@@ -179,13 +115,13 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                     <p className="text-sm font-semibold text-sky-700">Patient Quick Overview</p>
                     <h3 className="mt-1 text-2xl font-bold text-slate-800">Start your CAF journey</h3>
                   </div>
-                  <div className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm">
+                  <div className="cursor-pointer rounded-2xl bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm">
                     Compassionate support
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="cursor-pointer rounded-2xl bg-white p-4 shadow-sm">
                     <p className="text-sm font-semibold text-slate-700">Eligibility status</p>
                     <p className="mt-2 text-lg font-bold text-emerald-600">Ready for pre-screening</p>
                     <p className="mt-1 text-sm text-slate-500">
@@ -193,7 +129,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="cursor-pointer rounded-2xl bg-white p-4 shadow-sm">
                     <p className="text-sm font-semibold text-slate-700">Required documents</p>
                     <div className="mt-3 space-y-2">
                       <div className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
@@ -211,7 +147,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl bg-white p-4 shadow-sm">
+                  <div className="cursor-pointer rounded-2xl bg-white p-4 shadow-sm">
                     <p className="text-sm font-semibold text-slate-700">Case tracker preview</p>
                     <div className="mt-3 flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-emerald-500" />
@@ -289,7 +225,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                 {accessSites.map((site) => (
                   <div
                     key={site}
-                    className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200"
+                    className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200"
                   >
                     <p className="text-lg font-semibold text-slate-800">{site}</p>
                     <p className="mt-2 text-sm text-slate-500">
@@ -317,21 +253,21 @@ function LandingPage({ setActivePage }: LandingPageProps) {
               </p>
 
               <div className="mt-8 space-y-4">
-                <div className="rounded-2xl bg-white/80 p-4">
+                <div className="cursor-pointer rounded-2xl bg-white/80 p-4">
                   <p className="font-semibold text-slate-800">Frequently Asked Questions</p>
                   <p className="mt-1 text-sm text-slate-600">
                     Quick answers for first-time applicants and guardians.
                   </p>
                 </div>
 
-                <div className="rounded-2xl bg-white/80 p-4">
+                <div className="cursor-pointer rounded-2xl bg-white/80 p-4">
                   <p className="font-semibold text-slate-800">SMS Assistance</p>
                   <p className="mt-1 text-sm text-slate-600">
                     Receive reminders for missing documents and status updates.
                   </p>
                 </div>
 
-                <div className="rounded-2xl bg-white/80 p-4">
+                <div className="cursor-pointer rounded-2xl bg-white/80 p-4">
                   <p className="font-semibold text-slate-800">Office Contact Directory</p>
                   <p className="mt-1 text-sm text-slate-600">
                     Reach out to coordinators, social service offices, and access sites.
@@ -448,3 +384,5 @@ function LandingPage({ setActivePage }: LandingPageProps) {
 }
 
 export default LandingPage;
+
+

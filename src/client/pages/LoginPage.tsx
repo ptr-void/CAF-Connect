@@ -1,4 +1,4 @@
-type PageKey =
+﻿type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -19,30 +19,6 @@ type LoginPageProps = {
 function LoginPage({ setActivePage }: LoginPageProps) {
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div>
-            <h1 className="text-2xl font-bold text-sky-700">CAF Access Navigator</h1>
-            <p className="text-sm text-slate-500">
-              Cancer Assistance Fund guidance, intake, and tracking platform
-            </p>
-          </div>
-
-          <nav className="hidden items-center gap-6 md:flex">
-            <button onClick={() => setActivePage("landing")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Home</button>
-            <button onClick={() => setActivePage("eligibility")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Eligibility</button>
-            <button onClick={() => setActivePage("application")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Apply</button>
-            <button onClick={() => setActivePage("tracker")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Track</button>
-            <button onClick={() => setActivePage("sites")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Access Sites</button>
-            <button onClick={() => setActivePage("help")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Help</button>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button onClick={() => setActivePage("login")} className="cursor-pointer rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700">Sign In</button>
-            <button onClick={() => setActivePage("register")} className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-400 hover:text-sky-700">Register</button>
-          </div>
-        </div>
-      </header>
 
       <main className="px-6 py-10">
         <div className="mx-auto max-w-7xl">
@@ -81,12 +57,12 @@ function LoginPage({ setActivePage }: LoginPageProps) {
                 <form className="mt-6 space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
-                    <input type="email" placeholder="Enter your email" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500" />
+                    <input type="email" placeholder="Enter your email" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500" />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
-                    <input type="password" placeholder="Enter your password" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500" />
+                    <input type="password" placeholder="Enter your password" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500" />
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -152,3 +128,5 @@ function LoginPage({ setActivePage }: LoginPageProps) {
 }
 
 export default LoginPage;
+
+

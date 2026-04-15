@@ -49,6 +49,15 @@ function App() {
     }
   }, [activePage]);
 
+  const navLinks: { key: PageKey; label: string }[] = [
+    { key: "landing", label: "Home" },
+    { key: "eligibility", label: "Eligibility" },
+    { key: "application", label: "Apply" },
+    { key: "tracker", label: "Track" },
+    { key: "sites", label: "Access Sites" },
+    { key: "help", label: "Help" },
+  ];
+
   const renderPage = () => {
     switch (activePage) {
       case "landing":
@@ -80,7 +89,64 @@ function App() {
     }
   };
 
-  return <div className="min-h-screen bg-slate-50 text-slate-800">{renderPage()}</div>;
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800">
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <div
+            className="cursor-pointer"
+            onClick={() => setActivePage("landing")}
+          >
+            <h1 className="text-2xl font-bold text-sky-700">CAF Access Navigator</h1>
+            <p className="text-sm text-slate-500">
+              Cancer Assistance Fund guidance, intake, and tracking platform
+            </p>
+          </div>
+
+          <nav className="hidden items-center gap-6 md:flex">
+            {navLinks.map((link) => (
+              <button
+                key={link.key}
+                onClick={() => setActivePage(link.key)}
+                className={`cursor-pointer text-sm font-medium transition hover:text-sky-700 ${
+                  activePage === link.key
+                    ? "font-semibold text-sky-700 underline underline-offset-4"
+                    : "text-slate-600"
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setActivePage("login")}
+              className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                activePage === "login"
+                  ? "bg-sky-700 text-white"
+                  : "bg-sky-600 text-white hover:bg-sky-700"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => setActivePage("register")}
+              className={`cursor-pointer rounded-xl border px-4 py-2 text-sm font-semibold transition ${
+                activePage === "register"
+                  ? "border-sky-500 text-sky-700"
+                  : "border-slate-300 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              }`}
+            >
+              Register
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main>{renderPage()}</main>
+    </div>
+  );
 }
 
 export default App;

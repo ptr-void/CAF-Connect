@@ -1,4 +1,4 @@
-type PageKey =
+﻿type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -19,30 +19,6 @@ type RegisterPageProps = {
 function RegisterPage({ setActivePage }: RegisterPageProps) {
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div>
-            <h1 className="text-2xl font-bold text-sky-700">CAF Access Navigator</h1>
-            <p className="text-sm text-slate-500">
-              Cancer Assistance Fund guidance, intake, and tracking platform
-            </p>
-          </div>
-
-          <nav className="hidden items-center gap-6 md:flex">
-            <button onClick={() => setActivePage("landing")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Home</button>
-            <button onClick={() => setActivePage("eligibility")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Eligibility</button>
-            <button onClick={() => setActivePage("application")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Apply</button>
-            <button onClick={() => setActivePage("tracker")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Track</button>
-            <button onClick={() => setActivePage("sites")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Access Sites</button>
-            <button onClick={() => setActivePage("help")} className="cursor-pointer text-sm font-medium text-slate-600 transition hover:text-sky-700">Help</button>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button onClick={() => setActivePage("login")} className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-400 hover:text-sky-700">Sign In</button>
-            <button onClick={() => setActivePage("register")} className="cursor-pointer rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700">Register</button>
-          </div>
-        </div>
-      </header>
 
       <main className="px-6 py-10">
         <div className="mx-auto max-w-7xl">
@@ -81,22 +57,22 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
                 <form className="mt-6 space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Full Name</label>
-                    <input type="text" placeholder="Enter full name" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input type="text" placeholder="Enter full name" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
-                    <input type="email" placeholder="Enter email address" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input type="email" placeholder="Enter email address" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number</label>
-                    <input type="text" placeholder="09XXXXXXXXX" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input type="text" placeholder="09XXXXXXXXX" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
-                    <input type="password" placeholder="Create password" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input type="password" placeholder="Create password" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
                   </div>
 
                   <div>
@@ -138,8 +114,8 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
                 <h3 className="mt-2 text-xl font-bold text-slate-800">Having trouble registering?</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-700">Patients and guardians who need help with registration may contact the support team or visit the help center for guidance.</p>
                 <div className="mt-5 space-y-3">
-                  <div className="rounded-2xl bg-white/80 px-4 py-3 text-sm text-slate-700">Hotline Support: Available during office hours</div>
-                  <div className="rounded-2xl bg-white/80 px-4 py-3 text-sm text-slate-700">Guardian Access: Family-assisted account setup available</div>
+                  <div className="cursor-pointer rounded-2xl bg-white/80 px-4 py-3 text-sm text-slate-700">Hotline Support: Available during office hours</div>
+                  <div className="cursor-pointer rounded-2xl bg-white/80 px-4 py-3 text-sm text-slate-700">Guardian Access: Family-assisted account setup available</div>
                 </div>
                 <button onClick={() => setActivePage("help")} className="cursor-pointer mt-6 w-full rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800">Open Help &amp; Support</button>
               </div>
@@ -161,3 +137,5 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
 }
 
 export default RegisterPage;
+
+

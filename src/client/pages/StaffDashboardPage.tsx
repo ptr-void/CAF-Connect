@@ -127,7 +127,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
 
           <nav className="flex-1 px-4 py-6">
             <div className="space-y-2">
-              <button className="w-full rounded-2xl bg-sky-600 px-4 py-3 text-left font-semibold text-white">
+              <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 text-left font-semibold text-white">
                 Dashboard Overview
               </button>
               <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
@@ -148,7 +148,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
           <div className="border-t border-slate-200 p-4">
             <button
               onClick={() => setActivePage("landing")}
-              className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Back to Home
             </button>
@@ -174,13 +174,13 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setActivePage("notifications")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Open Notifications
                 </button>
                 <button
                   onClick={() => setActivePage("admin")}
-                  className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+                  className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                 >
                   Go to Admin Dashboard
                 </button>
@@ -219,15 +219,15 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                     <input
                       type="text"
                       placeholder="Search patient"
-                      className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
-                    <select className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>All Sites</option>
                       <option>Jose R. Reyes MMC</option>
                       <option>East Avenue Medical Center</option>
                       <option>Philippine General Hospital</option>
                     </select>
-                    <select className="rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>All Status</option>
                       <option>Pending Review</option>
                       <option>Missing Documents</option>
@@ -265,7 +265,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                           </td>
                           <td className="px-4 py-4 text-sm text-slate-600">{record.date}</td>
                           <td className="px-4 py-4">
-                            <button className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                            <button className="cursor-pointer rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
                               View Case
                             </button>
                           </td>
@@ -307,10 +307,10 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                   </div>
 
                   <div className="mt-5 grid gap-3">
-                    <button className="rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
+                    <button className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
                       Verify Documents
                     </button>
-                    <button className="rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">
+                    <button className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">
                       Send SMS Update
                     </button>
                   </div>
@@ -357,3 +357,4 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
 }
 
 export default StaffDashboardPage;
+

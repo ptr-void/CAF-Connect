@@ -45,13 +45,13 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setActivePage("documents")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Review Documents
             </button>
             <button
               onClick={() => setActivePage("tracker")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+              className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Track Application
             </button>
@@ -111,7 +111,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="Enter patient full name"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -121,13 +121,13 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     </label>
                     <input
                       type="date"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Sex</label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select sex</option>
                       <option>Male</option>
                       <option>Female</option>
@@ -138,7 +138,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Civil Status
                     </label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select status</option>
                       <option>Single</option>
                       <option>Married</option>
@@ -154,7 +154,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <textarea
                       rows={4}
                       placeholder="Enter complete home address"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -165,7 +165,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="If different from patient"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -176,7 +176,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="Parent, guardian, sibling, etc."
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
                 </div>
@@ -184,13 +184,13 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 <div className="mt-8 flex items-center justify-between">
                   <button
                     type="button"
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Save Draft
                   </button>
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Next Step
                   </button>
@@ -214,7 +214,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="Enter diagnosis"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -224,7 +224,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     </label>
                     <input
                       type="date"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -235,7 +235,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="Enter hospital or clinic"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -246,7 +246,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="Enter physician name"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -257,7 +257,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <textarea
                       rows={4}
                       placeholder="Briefly describe treatment need, medicines, procedure, or support required"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -270,20 +270,20 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 <div className="mt-8 flex items-center justify-between">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                      className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                     >
                       Save Draft
                     </button>
                     <button
                       onClick={() => setCurrentStep(3)}
-                      className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                      className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                     >
                       Next Step
                     </button>
@@ -306,7 +306,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Selected Access Site
                     </label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select access site</option>
                       <option>Jose R. Reyes Memorial Medical Center</option>
                       <option>East Avenue Medical Center</option>
@@ -320,7 +320,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Preferred Contact Method
                     </label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select method</option>
                       <option>SMS</option>
                       <option>Phone Call</option>
@@ -335,7 +335,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="text"
                       placeholder="09XXXXXXXXX"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -346,7 +346,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <input
                       type="email"
                       placeholder="Enter email address"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -357,16 +357,16 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     <textarea
                       rows={4}
                       placeholder="Optional notes for staff or coordinator"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
                   <div className="md:col-span-2 grid gap-3 md:grid-cols-2">
-                    <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                    <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                       <input type="checkbox" className="mr-2" />
                       I agree to receive SMS reminders and case status updates.
                     </label>
-                    <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                    <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                       <input type="checkbox" className="mr-2" />
                       I confirm the selected access site is the correct office for this case.
                     </label>
@@ -376,20 +376,20 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 <div className="mt-8 flex items-center justify-between">
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                      className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                     >
                       Save Draft
                     </button>
                     <button
                       onClick={() => setCurrentStep(4)}
-                      className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                      className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                     >
                       Review Summary
                     </button>
@@ -410,19 +410,19 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                   <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
                     <h3 className="text-lg font-semibold text-slate-800">Applicant Summary</h3>
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="cursor-pointer rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                           Patient Name
                         </p>
                         <p className="mt-2 font-semibold text-slate-800">Juan Dela Cruz</p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="cursor-pointer rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                           Diagnosis
                         </p>
                         <p className="mt-2 font-semibold text-slate-800">For review</p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="cursor-pointer rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                           Access Site
                         </p>
@@ -430,7 +430,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                           Jose R. Reyes Memorial Medical Center
                         </p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="cursor-pointer rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                           SMS Updates
                         </p>
@@ -451,13 +451,13 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                   <div className="rounded-3xl bg-amber-50 p-6 ring-1 ring-amber-200">
                     <h3 className="text-lg font-semibold text-amber-800">Before submitting</h3>
                     <ul className="mt-4 space-y-3 text-sm text-slate-700">
-                      <li className="rounded-2xl bg-white px-4 py-3">
+                      <li className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                         Confirm the uploaded documents are complete and readable
                       </li>
-                      <li className="rounded-2xl bg-white px-4 py-3">
+                      <li className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                         Make sure contact information is active for follow-up
                       </li>
-                      <li className="rounded-2xl bg-white px-4 py-3">
+                      <li className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                         Verify the selected access site or hospital office
                       </li>
                     </ul>
@@ -467,19 +467,19 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <button
                     onClick={() => setCurrentStep(3)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <button
                     type="button"
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Save Draft
                   </button>
                   <button
                     onClick={() => setActivePage("tracker")}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Submit Application
                   </button>
@@ -530,19 +530,19 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
               <div className="mt-4 grid gap-3">
                 <button
                   onClick={() => setActivePage("sites")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Access Sites Directory
                 </button>
                 <button
                   onClick={() => setActivePage("documents")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Document Requirements Guide
                 </button>
                 <button
                   onClick={() => setActivePage("notifications")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Notifications Center
                 </button>
@@ -556,3 +556,4 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
 }
 
 export default ApplicationPage;
+

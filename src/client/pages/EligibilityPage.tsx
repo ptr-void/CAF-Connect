@@ -42,13 +42,13 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setActivePage("documents")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               View Documents Guide
             </button>
             <button
               onClick={() => setActivePage("application")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+              className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Apply Now
             </button>
@@ -111,7 +111,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <input
                       type="text"
                       placeholder="Enter full name"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -122,7 +122,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <input
                       type="number"
                       placeholder="Enter age"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -130,7 +130,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Region / Province
                     </label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select location</option>
                       <option>National Capital Region</option>
                       <option>Region VII - Central Visayas</option>
@@ -146,7 +146,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <input
                       type="text"
                       placeholder="09XXXXXXXXX"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -155,15 +155,15 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       Applicant Type
                     </label>
                     <div className="grid gap-3 md:grid-cols-3">
-                      <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                         <input type="radio" name="applicantType" className="mr-2" />
                         Patient
                       </label>
-                      <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                         <input type="radio" name="applicantType" className="mr-2" />
                         Family Member
                       </label>
-                      <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                         <input type="radio" name="applicantType" className="mr-2" />
                         Guardian / Representative
                       </label>
@@ -174,7 +174,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                 <div className="mt-8 flex items-center justify-end">
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Next Step
                   </button>
@@ -200,7 +200,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <input
                       type="text"
                       placeholder="Enter diagnosis"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -211,7 +211,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <input
                       type="text"
                       placeholder="Enter hospital / treatment center"
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
                     />
                   </div>
 
@@ -219,7 +219,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Has medical abstract?
                     </label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select answer</option>
                       <option>Yes</option>
                       <option>No</option>
@@ -231,7 +231,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Has valid identification?
                     </label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select answer</option>
                       <option>Yes</option>
                       <option>No</option>
@@ -243,15 +243,15 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       Has the patient already visited a CAF access site or social service office?
                     </label>
                     <div className="grid gap-3 md:grid-cols-3">
-                      <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                         <input type="radio" name="visitedOffice" className="mr-2" />
                         Yes
                       </label>
-                      <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                         <input type="radio" name="visitedOffice" className="mr-2" />
                         No
                       </label>
-                      <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                         <input type="radio" name="visitedOffice" className="mr-2" />
                         Not Sure
                       </label>
@@ -262,13 +262,13 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                 <div className="mt-8 flex items-center justify-between">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <button
                     onClick={() => setCurrentStep(3)}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     View Result
                   </button>
@@ -296,7 +296,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       </p>
                     </div>
 
-                    <div className="rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-emerald-100">
+                    <div className="cursor-pointer rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-emerald-100">
                       <p className="text-sm font-semibold text-slate-700">Recommended Action</p>
                       <p className="mt-2 text-sm text-slate-600">
                         Proceed to application and prepare the required documents.
@@ -343,19 +343,19 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                 <div className="mt-8 flex flex-wrap gap-4">
                   <button
                     onClick={() => setActivePage("documents")}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                   >
                     View Documents Guide
                   </button>
                   <button
                     onClick={() => setActivePage("application")}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Continue to Application
                   </button>
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="rounded-2xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-800"
+                    className="cursor-pointer rounded-2xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-800"
                   >
                     Start Again
                   </button>
@@ -409,19 +409,19 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
               <div className="mt-4 grid gap-3">
                 <button
                   onClick={() => setActivePage("sites")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Access Sites Directory
                 </button>
                 <button
                   onClick={() => setActivePage("tracker")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Case Status Tracker
                 </button>
                 <button
                   onClick={() => setActivePage("notifications")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Notifications Center
                 </button>
@@ -435,3 +435,4 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
 }
 
 export default EligibilityPage;
+
