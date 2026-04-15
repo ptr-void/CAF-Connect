@@ -154,9 +154,9 @@ function App() {
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
                       {currentUser && (
-                        <div className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-600 bg-slate-50 rounded-full border border-slate-200 shadow-sm">
-                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1`} className="w-5 h-5 rounded-full" alt="avatar" />
-                          <span className="font-medium">{currentUser.name.split(' ')[0]}</span>
+                        <div className="flex items-center gap-2">
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1&size=128`} className="h-8 w-8 rounded-full shadow-sm" alt="avatar" />
+                          <span className="text-sm font-semibold text-slate-700">{currentUser.name.split(' ')[0]}</span>
                         </div>
                       )}
                       <button
