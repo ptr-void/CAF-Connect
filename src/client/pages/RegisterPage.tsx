@@ -1,4 +1,6 @@
-﻿type PageKey =
+import { useState } from "react";
+
+type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -14,12 +16,59 @@
 
 type RegisterPageProps = {
   setActivePage: (page: PageKey) => void;
+  setIsAuthenticated?: (auth: boolean) => void;
+  setCurrentUser?: (user: { name: string; email: string; user_name: string } | null) => void;
 };
 
-function RegisterPage({ setActivePage }: RegisterPageProps) {
+function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: RegisterPageProps) {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
+  const [accountType, setAccountType] = useState("Patient");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async () => {
+    setError("");
+    if (!fullName || !email || !password) {
+      setError("Full name, email, and password are required.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/x_1985733_cafsys/caf/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: fullName,
+          email,
+          mobile,
+          password,
+          account_type: accountType,
+        }),
+      });
+      const data = await res.json();
+      if (res.status === 201) {
+        if (setCurrentUser) setCurrentUser({ name: fullName, email, user_name: data.user_name });
+        if (setIsAuthenticated) setIsAuthenticated(true);
+        setActivePage("tracker");
+      } else {
+        setError(data.error || "Registration failed. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
-
       <main className="px-6 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-6">
@@ -54,41 +103,82 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
                 <h2 className="mt-2 text-2xl font-bold text-slate-800">Create Account</h2>
                 <p className="mt-2 text-sm text-slate-500">Fill in the patient or guardian account details to start the process.</p>
 
-                <form className="mt-6 space-y-4">
+                <div className="mt-6 space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Full Name</label>
-                    <input type="text" placeholder="Enter full name" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input
+                      type="text"
+                      placeholder="Enter full name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                    />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
-                    <input type="email" placeholder="Enter email address" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input
+                      type="email"
+                      placeholder="Enter email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                    />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number</label>
-                    <input type="text" placeholder="09XXXXXXXXX" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input
+                      type="text"
+                      placeholder="09XXXXXXXXX"
+                      value={mobile}
+                      onChange={(e) => setMobile(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                    />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
-                    <input type="password" placeholder="Create password" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500" />
+                    <input
+                      type="password"
+                      placeholder="Create password (min. 6 characters)"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                    />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Account Type</label>
-                    <select className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500">
+                    <select
+                      value={accountType}
+                      onChange={(e) => setAccountType(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                    >
                       <option>Patient</option>
                       <option>Family Member / Guardian</option>
                     </select>
                   </div>
 
+                  {error && (
+                    <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-amber-200">
                     Please use an active mobile number to receive SMS reminders and case updates.
                   </div>
 
-                  <button type="button" className="cursor-pointer w-full rounded-2xl bg-sky-600 px-5 py-3 font-semibold text-white transition hover:bg-sky-700">Create Account</button>
-                </form>
+                  <button
+                    type="button"
+                    onClick={handleRegister}
+                    disabled={loading}
+                    className={`cursor-pointer w-full rounded-2xl px-5 py-3 font-semibold text-white transition ${loading ? "bg-slate-400" : "bg-sky-600 hover:bg-sky-700"}`}
+                  >
+                    {loading ? "Creating account..." : "Create Account"}
+                  </button>
+                </div>
 
                 <p className="mt-6 text-center text-sm text-slate-600">
                   Already have an account?{" "}
@@ -117,16 +207,7 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
                   <div className="cursor-pointer rounded-2xl bg-white/80 px-4 py-3 text-sm text-slate-700">Hotline Support: Available during office hours</div>
                   <div className="cursor-pointer rounded-2xl bg-white/80 px-4 py-3 text-sm text-slate-700">Guardian Access: Family-assisted account setup available</div>
                 </div>
-                <button onClick={() => setActivePage("help")} className="cursor-pointer mt-6 w-full rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800">Open Help &amp; Support</button>
-              </div>
-
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <p className="text-sm font-semibold text-violet-700">Quick access</p>
-                <div className="mt-4 grid gap-3">
-                  <button onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700">Eligibility Checker</button>
-                  <button onClick={() => setActivePage("application")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700">Patient Application Form</button>
-                  <button onClick={() => setActivePage("documents")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700">Document Requirements Guide</button>
-                </div>
+                <button onClick={() => setActivePage("help")} className="cursor-pointer mt-6 w-full rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800">Open Help & Support</button>
               </div>
             </div>
           </div>
@@ -137,6 +218,3 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
 }
 
 export default RegisterPage;
-
-
-

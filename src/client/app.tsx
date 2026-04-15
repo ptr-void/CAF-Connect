@@ -40,6 +40,7 @@ function App() {
 
   const [activePage, setActivePage] = useState<PageKey>(getInitialPage());
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; user_name: string } | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -60,19 +61,18 @@ function App() {
   ];
 
   const renderPage = () => {
-    // Auth guard
     const securePages = ["application", "tracker", "notifications", "staff", "admin"];
     if (securePages.includes(activePage) && !isAuthenticated) {
-      return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} />;
+      return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
     }
 
     switch (activePage) {
       case "landing":
         return <LandingPage setActivePage={setActivePage} />;
       case "login":
-        return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} />;
+        return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
       case "register":
-        return <RegisterPage setActivePage={setActivePage} />;
+        return <RegisterPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
       case "eligibility":
         return <EligibilityPage setActivePage={setActivePage} />;
       case "documents":
@@ -128,12 +128,17 @@ function App() {
 
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
-              <button
-                onClick={() => { setIsAuthenticated(false); setActivePage("landing"); }}
-                className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-red-400 hover:text-red-700 transition"
-              >
-                Sign Out
-              </button>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-slate-700">
+                  Hi, {currentUser?.name?.split(" ")[0] || "User"}
+                </span>
+                <button
+                  onClick={() => { setIsAuthenticated(false); setCurrentUser(null); setActivePage("landing"); }}
+                  className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-red-400 hover:text-red-700 transition"
+                >
+                  Sign Out
+                </button>
+              </div>
             ) : (
               <>
                 <button
