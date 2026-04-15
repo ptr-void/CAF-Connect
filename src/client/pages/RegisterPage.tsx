@@ -54,18 +54,26 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
         }),
       });
       const data = await res.json();
-      if (res.status === 201) {
-        if (setCurrentUser) setCurrentUser({ name: fullName, email, user_name: data.user_name });
+
+      if (res.ok) {
+        const userData = { name: fullName, email, user_name: data.user_name };
+        if (setCurrentUser) setCurrentUser(userData);
         if (setIsAuthenticated) setIsAuthenticated(true);
+        localStorage.setItem("caf_portal_user", JSON.stringify(userData));
         setActivePage("tracker");
       } else {
-        const errorMsg = typeof data.error === "string"
-          ? data.error
-          : data.message || data.detail || "Registration failed. Please try again.";
-        setError(errorMsg);
+        let errorMsg = "Registration failed. Please try again.";
+        if (typeof data.error === "string") {
+          errorMsg = data.error;
+        } else if (data.error && data.error.message) {
+          errorMsg = data.error.message;
+        } else if (data.message) {
+          errorMsg = data.message;
+        }
+        setError(`Error: ${errorMsg}`);
       }
-    } catch {
-      setError("Network error. Please check your connection.");
+    } catch (err: any) {
+      setError(`Network error: ${err.message || "Please check your connection."}`);
     } finally {
       setLoading(false);
     }
