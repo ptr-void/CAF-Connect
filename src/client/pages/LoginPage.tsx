@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type PageKey =
   | "landing"
@@ -21,41 +21,32 @@ type LoginPageProps = {
 };
 
 function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginPageProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(true);
 
-  const handleSignIn = async () => {
-    setError("");
-    if (!email || !password) {
-      setError("Please enter your email and password.");
-      return;
-    }
-    setLoading(true);
-    try {
-      const res = await fetch("/api/x_1985733_cafsys/caf/me", {
-        method: "GET",
-        headers: {
-          "Authorization": "Basic " + btoa(email + ":" + password),
-          "Accept": "application/json",
-        },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (setCurrentUser) setCurrentUser(data);
-        if (setIsAuthenticated) setIsAuthenticated(true);
-        setActivePage("tracker");
-      } else if (res.status === 401) {
-        setError("Invalid email or password. Please try again.");
-      } else {
-        setError("Login failed. Please try again.");
-      }
-    } catch {
-      setError("Network error. Please check your connection.");
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    fetch("/api/x_1985733_cafsys/caf/me", {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      credentials: "same-origin",
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return null;
+      })
+      .then((data) => {
+        if (data && data.user_name) {
+          if (setCurrentUser) setCurrentUser(data);
+          if (setIsAuthenticated) setIsAuthenticated(true);
+          setActivePage("tracker");
+        }
+      })
+      .catch(() => {})
+      .finally(() => setChecking(false));
+  }, []);
+
+  const handleSignIn = () => {
+    const returnUrl = encodeURIComponent(window.location.href);
+    window.location.href = `/login.do?redirectTo=${returnUrl}`;
   };
 
   return (
@@ -95,51 +86,34 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
                 <p className="mt-2 text-sm text-slate-500">Log in to continue a saved application or check your current case status.</p>
 
                 <div className="mt-6 space-y-4">
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
-                    <input
-                      type="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500"
-                    />
-                  </div>
-
-                  {error && (
-                    <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200">
-                      {error}
+                  {checking ? (
+                    <div className="flex items-center justify-center gap-3 py-6">
+                      <div className="h-6 w-6 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600"></div>
+                      <span className="text-sm text-slate-500">Checking session...</span>
                     </div>
+                  ) : (
+                    <>
+                      <div className="rounded-2xl bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-sky-200">
+                        You will be redirected to the secure ServiceNow login page to sign in with your registered credentials.
+                      </div>
+
+                      <div className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 ring-1 ring-emerald-200">
+                        Guardians may also sign in to help patients complete the application process.
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleSignIn}
+                        className="cursor-pointer w-full rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
+                      >
+                        Sign In with ServiceNow
+                      </button>
+
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <button type="button" onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Check Eligibility</button>
+                      </div>
+                    </>
                   )}
-
-                  <div className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 ring-1 ring-emerald-200">
-                    Guardians may also sign in to help patients complete the application process.
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleSignIn}
-                    disabled={loading}
-                    className={`cursor-pointer w-full rounded-2xl px-5 py-3 font-semibold text-white transition ${loading ? "bg-slate-400" : "bg-emerald-600 hover:bg-emerald-700"}`}
-                  >
-                    {loading ? "Signing in..." : "Sign In"}
-                  </button>
-
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <button type="button" onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Check Eligibility</button>
-                  </div>
                 </div>
 
                 <p className="mt-6 text-center text-sm text-slate-600">
