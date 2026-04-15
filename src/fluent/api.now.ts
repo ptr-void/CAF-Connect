@@ -164,5 +164,182 @@ export const cafApi = RestApi({
               })(request, response);
             `,
         },
+        {
+            $id: Now.ID['restapi_caf_applications_get'],
+            name: 'get_applications',
+            method: 'GET',
+            path: '/applications',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var email = request.queryParams.email;
+                    if (!email) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Email parameter is required.' });
+                        return;
+                    }
+
+                    var apps = new GlideRecord('x_1985733_cafsys_application');
+                    apps.addQuery('email', email);
+                    apps.orderByDesc('sys_created_on');
+                    apps.query();
+
+                    var results = [];
+                    while (apps.next()) {
+                        results.push({
+                            sys_id: apps.getUniqueValue(),
+                            number: apps.getValue('number'),
+                            patient_name: apps.getValue('patient_name'),
+                            medical_condition: apps.getValue('medical_condition'),
+                            selected_site: apps.getValue('selected_site'),
+                            state: apps.getValue('state') || 'Pending',
+                            sys_created_on: apps.getValue('sys_created_on')
+                        });
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_applications_post'],
+            name: 'post_application',
+            method: 'POST',
+            path: '/applications',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var body = JSON.parse(request.body.dataString);
+                    var newApp = new GlideRecord('x_1985733_cafsys_application');
+                    newApp.setValue('patient_name', body.patient_name || '');
+                    newApp.setValue('email', body.email || '');
+                    newApp.setValue('phone_number', body.phone_number || '');
+                    newApp.setValue('medical_condition', body.medical_condition || '');
+                    newApp.setValue('selected_site', body.selected_site || '');
+                    newApp.setValue('medical_abstract', body.medical_abstract || '');
+                    newApp.setValue('ai_eligibility_score', body.ai_eligibility_score || '');
+                    newApp.setValue('ai_reasoning', body.ai_reasoning || '');
+                    newApp.setValue('needs_manual_review', body.needs_manual_review || false);
+                    newApp.setValue('state', '1'); // Standard state usually matches Open/Pending
+                    
+                    var sysId = newApp.insert();
+
+                    if (!sysId) {
+                        response.setStatus(500);
+                        response.setBody({ error: 'Failed to create application in database.' });
+                        return;
+                    }
+
+                    // Create an automatic notification for the user
+                    var notify = new GlideRecord('x_1985733_cafsys_notification');
+                    notify.setValue('title', 'Application Received');
+                    notify.setValue('message', 'Your CAF application for ' + body.patient_name + ' has been received and is under review.');
+                    notify.setValue('user_email', body.email);
+                    notify.setValue('created_date', new GlideDateTime().getDisplayValue());
+                    notify.insert();
+
+                    // Re-query to get the generated number
+                    newApp.get(sysId);
+
+                    response.setStatus(201);
+                    response.setBody({
+                        sys_id: sysId,
+                        number: newApp.getValue('number'),
+                        message: 'Application submitted successfully.'
+                    });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_sites'],
+            name: 'get_sites',
+            method: 'GET',
+            path: '/sites',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var sites = new GlideRecord('x_1985733_cafsys_site');
+                    sites.addQuery('is_active', true);
+                    sites.query();
+                    
+                    var results = [];
+                    // Mock data fallback if table is empty just so the portal doesn't look completely barren initially
+                    if (!sites.hasNext()) {
+                         results = [
+                            { sys_id: 'mock1', site_name: 'Metro Manila Medical Center', region: 'NCR', address: '123 Health Ave, Manila', contact_number: '(02) 8123-4567', operating_hours: 'Mon-Sun, 24/7' },
+                            { sys_id: 'mock2', site_name: 'Cebu Doctors University Hospital', region: 'Central Visayas', address: 'Osmeña Blvd, Cebu City', contact_number: '(032) 255-5555', operating_hours: 'Mon-Sat, 8AM-5PM' },
+                            { sys_id: 'mock3', site_name: 'Davao Regional Hospital', region: 'Davao Region', address: 'Tagum City, Davao del Norte', contact_number: '(084) 216-9133', operating_hours: 'Mon-Fri, 9AM-4PM' }
+                         ];
+                    } else {
+                        while (sites.next()) {
+                            results.push({
+                                sys_id: sites.getUniqueValue(),
+                                site_name: sites.getValue('site_name'),
+                                region: sites.getValue('region'),
+                                address: sites.getValue('address'),
+                                contact_number: sites.getValue('contact_number'),
+                                operating_hours: sites.getValue('operating_hours')
+                            });
+                        }
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_notifications'],
+            name: 'get_notifications',
+            method: 'GET',
+            path: '/notifications',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var email = request.queryParams.email;
+                    if (!email) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Email parameter is required.' });
+                        return;
+                    }
+
+                    var notifs = new GlideRecord('x_1985733_cafsys_notification');
+                    notifs.addQuery('user_email', email);
+                    notifs.orderByDesc('sys_created_on');
+                    notifs.query();
+
+                    var results = [];
+                    while (notifs.next()) {
+                        results.push({
+                            sys_id: notifs.getUniqueValue(),
+                            title: notifs.getValue('title'),
+                            message: notifs.getValue('message'),
+                            is_read: notifs.getValue('is_read') === '1' || notifs.getValue('is_read') === 'true',
+                            created_date: notifs.getValue('created_date') || notifs.getValue('sys_created_on')
+                        });
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        }
     ]
 });
