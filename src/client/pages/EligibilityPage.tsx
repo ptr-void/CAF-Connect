@@ -53,7 +53,10 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
       // In a real deployed SN environment, this fetches the Scripted REST API
       const res = await fetch("/api/x_1985733_cafsys/caf/groq/evaluate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-UserToken": (window as any).g_ck || "",
+        },
         body: JSON.stringify(formData)
       });
       
