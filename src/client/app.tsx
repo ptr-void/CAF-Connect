@@ -102,13 +102,13 @@ function App() {
       case "documents":
         return <DocumentsPage setActivePage={setActivePage} />;
       case "application":
-        return <ApplicationPage setActivePage={setActivePage} />;
+        return <ApplicationPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "tracker":
-        return <TrackerPage setActivePage={setActivePage} />;
+        return <TrackerPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "sites":
         return <AccessSitesPage setActivePage={setActivePage} />;
       case "notifications":
-        return <NotificationsPage setActivePage={setActivePage} />;
+        return <NotificationsPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "help":
         return <HelpSupportPage setActivePage={setActivePage} />;
       case "staff":
@@ -155,7 +155,7 @@ function App() {
               <div className="flex items-center gap-4">
                       {currentUser && (
                         <div className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 bg-slate-50 rounded-full border border-slate-200">
-                          <img src="https://ui-avatars.com/api/?name=User&background=bae6fd&color=0369a1" className="w-6 h-6 rounded-full" alt="avatar" />
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1`} className="w-6 h-6 rounded-full" alt="avatar" />
                           <span className="font-medium">{currentUser.name.split(' ')[0]}</span>
                         </div>
                       )}

@@ -50,3 +50,32 @@ export const x_1985733_cafsys_portal_user = Table({
         account_type: StringColumn({ label: 'Account Type', maxLength: 50 })
     }
 });
+
+// 4. Database Table for Approved Access Sites
+export const x_1985733_cafsys_site = Table({
+    name: 'x_1985733_cafsys_site',
+    label: 'CAF Access Site',
+    display: 'site_name',
+    schema: {
+        site_name: StringColumn({ label: 'Site Name', mandatory: true, maxLength: 200 }),
+        region: StringColumn({ label: 'Region', maxLength: 100 }),
+        address: StringColumn({ label: 'Address', maxLength: 500 }),
+        contact_number: StringColumn({ label: 'Contact Number', maxLength: 50 }),
+        operating_hours: StringColumn({ label: 'Operating Hours', maxLength: 100 }),
+        is_active: BooleanColumn({ label: 'Active', defaultValue: true })
+    }
+});
+
+// 5. Database Table for Portal Notifications
+export const x_1985733_cafsys_notification = Table({
+    name: 'x_1985733_cafsys_notification',
+    label: 'CAF Notification',
+    display: 'title',
+    schema: {
+        title: StringColumn({ label: 'Title', mandatory: true, maxLength: 200 }),
+        message: StringColumn({ label: 'Message', mandatory: true, maxLength: 1000 }),
+        user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
+        is_read: BooleanColumn({ label: 'Is Read', defaultValue: false }),
+        created_date: StringColumn({ label: 'Created Date', maxLength: 50 }) // String representation since now SDK DateTime columns are tricky
+    }
+});
