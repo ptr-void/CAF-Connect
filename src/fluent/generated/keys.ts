@@ -5,6 +5,14 @@ declare global {
         namespace Internal {
             interface Keys extends KeysRegistry {
                 explicit: {
+                    '1569fe0583d403102cecbb96feaad368': {
+                        table: 'sys_scope_privilege'
+                        id: '1569fe0583d403102cecbb96feaad368'
+                    }
+                    '22d9f64583d403102cecbb96feaad3bc': {
+                        table: 'sys_scope_privilege'
+                        id: '22d9f64583d403102cecbb96feaad3bc'
+                    }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
                         id: '8955724d839403102cecbb96feaad322'
@@ -32,6 +40,10 @@ declare global {
                     cs_validate_email: {
                         table: 'sys_script_client'
                         id: '1424ad00487c4286b3bf03a6fde8d168'
+                    }
+                    d969fe0583d403102cecbb96feaad36e: {
+                        table: 'sys_scope_privilege'
+                        id: 'd969fe0583d403102cecbb96feaad36e'
                     }
                     email_notify_approval: {
                         table: 'sysevent_email_action'
