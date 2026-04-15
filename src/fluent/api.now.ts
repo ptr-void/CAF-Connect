@@ -9,26 +9,53 @@ export const cafApi = RestApi({
     routes: [
         {
             $id: Now.ID['restapi_caf_me'],
-            name: 'me',
-            method: 'GET',
-            path: '/me',
+            name: 'login',
+            method: 'POST',
+            path: '/login',
             script: script`
               (function process(request, response) {
-                var userId = gs.getUserID();
-                if (!userId) {
-                    response.setStatus(401);
-                    response.setBody({ error: 'Not authenticated' });
-                    return;
+                try {
+                    var body = JSON.parse(request.body.dataString);
+                    var email = body.email || '';
+                    var password = body.password || '';
+
+                    if (!email || !password) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Email and password are required.' });
+                        return;
+                    }
+
+                    // Look up user by email
+                    var user = new GlideRecord('sys_user');
+                    user.addQuery('email', email);
+                    user.addQuery('active', true);
+                    user.query();
+
+                    if (!user.next()) {
+                        response.setStatus(401);
+                        response.setBody({ error: 'No account found with this email.' });
+                        return;
+                    }
+
+                    // Validate password using GlideUser
+                    var auth = GlideAuthenticator.authenticate(user.getValue('user_name'), password);
+                    if (!auth) {
+                        response.setStatus(401);
+                        response.setBody({ error: 'Invalid password. Please try again.' });
+                        return;
+                    }
+
+                    response.setStatus(200);
+                    response.setBody({
+                        user_name: user.getValue('user_name'),
+                        name: user.getValue('name'),
+                        email: user.getValue('email'),
+                        sys_id: user.getUniqueValue()
+                    });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
                 }
-                var user = new GlideRecord('sys_user');
-                user.get(userId);
-                response.setStatus(200);
-                response.setBody({
-                    user_name: user.getValue('user_name'),
-                    name: user.getValue('name'),
-                    email: user.getValue('email'),
-                    sys_id: userId
-                });
               })(request, response);
             `,
         },
