@@ -39,6 +39,7 @@ function App() {
   };
 
   const [activePage, setActivePage] = useState<PageKey>(getInitialPage());
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,21 +50,27 @@ function App() {
     }
   }, [activePage]);
 
-  const navLinks: { key: PageKey; label: string }[] = [
+  const navLinks: { key: PageKey; label: string; secure?: boolean }[] = [
     { key: "landing", label: "Home" },
     { key: "eligibility", label: "Eligibility" },
-    { key: "application", label: "Apply" },
-    { key: "tracker", label: "Track" },
+    { key: "application", label: "Apply", secure: true },
+    { key: "tracker", label: "Track", secure: true },
     { key: "sites", label: "Access Sites" },
     { key: "help", label: "Help" },
   ];
 
   const renderPage = () => {
+    // Auth guard
+    const securePages = ["application", "tracker", "notifications", "staff", "admin"];
+    if (securePages.includes(activePage) && !isAuthenticated) {
+      return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} />;
+    }
+
     switch (activePage) {
       case "landing":
         return <LandingPage setActivePage={setActivePage} />;
       case "login":
-        return <LoginPage setActivePage={setActivePage} />;
+        return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} />;
       case "register":
         return <RegisterPage setActivePage={setActivePage} />;
       case "eligibility":
@@ -104,7 +111,7 @@ function App() {
           </div>
 
           <nav className="hidden items-center gap-2 md:flex">
-            {navLinks.map((link) => (
+            {navLinks.filter(l => !l.secure || isAuthenticated).map((link) => (
               <button
                 key={link.key}
                 onClick={() => setActivePage(link.key)}
@@ -120,24 +127,33 @@ function App() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setActivePage("login")}
-              className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                activePage === "login"
-                  ? "bg-sky-700 text-white"
-                  : "bg-sky-600 text-white hover:bg-sky-700"
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => setActivePage("register")}
-              className={`cursor-pointer rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-                activePage === "register"
-                  ? "border-sky-500 text-sky-700"
-                  : "border-slate-300 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700"
-              }`}
-            >
+            {isAuthenticated ? (
+              <button
+                onClick={() => { setIsAuthenticated(false); setActivePage("landing"); }}
+                className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-red-400 hover:text-red-700 transition"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => setActivePage("login")}
+                  className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                    activePage === "login"
+                      ? "bg-sky-700 text-white"
+                      : "bg-sky-600 text-white hover:bg-sky-700"
+                  }`}
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => setActivePage("register")}
+                  className={`cursor-pointer rounded-xl border px-4 py-2 text-sm font-semibold transition ${
+                    activePage === "register"
+                      ? "border-sky-500 text-sky-700"
+                      : "border-slate-300 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                  }`}
+                >
               Register
             </button>
           </div>

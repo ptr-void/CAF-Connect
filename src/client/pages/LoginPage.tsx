@@ -1,4 +1,4 @@
-﻿type PageKey =
+type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -14,9 +14,10 @@
 
 type LoginPageProps = {
   setActivePage: (page: PageKey) => void;
+  setIsAuthenticated?: (auth: boolean) => void;
 };
 
-function LoginPage({ setActivePage }: LoginPageProps) {
+function LoginPage({ setActivePage, setIsAuthenticated }: LoginPageProps) {
   return (
     <div className="min-h-screen bg-slate-50">
 
@@ -77,7 +78,16 @@ function LoginPage({ setActivePage }: LoginPageProps) {
                     Guardians may also sign in to help patients complete the application process.
                   </div>
 
-                  <button type="button" className="cursor-pointer w-full rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700">Sign In</button>
+                  <button 
+                    type="button" 
+                    onClick={() => {
+                      if (setIsAuthenticated) setIsAuthenticated(true);
+                      setActivePage("tracker");
+                    }}
+                    className="cursor-pointer w-full rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
+                  >
+                    Sign In
+                  </button>
 
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button type="button" onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Check Eligibility</button>
