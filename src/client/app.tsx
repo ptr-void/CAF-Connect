@@ -139,11 +139,10 @@ function App() {
               <button
                 key={link.key}
                 onClick={() => setActivePage(link.key)}
-                className={`cursor-pointer rounded-full px-4 py-2 text-sm transition ${
-                  activePage === link.key
+                className={`cursor-pointer rounded-full px-4 py-2 text-sm transition ${activePage === link.key
                     ? "bg-sky-100 font-semibold text-sky-800"
                     : "font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                }`}
+                  }`}
               >
                 {link.label}
               </button>
@@ -153,43 +152,41 @@ function App() {
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
-                      {currentUser && (
-                        <div className="flex items-center gap-2">
-                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1&size=128`} className="h-8 w-8 rounded-full shadow-sm" alt="avatar" />
-                          <span className="text-sm font-semibold text-slate-700">{currentUser.name.split(' ')[0]}</span>
-                        </div>
-                      )}
-                      <button
-                        onClick={() => {
-                          setIsAuthenticated(false);
-                          setCurrentUser(null);
-                          localStorage.removeItem("caf_portal_user");
-                          setActivePage("login");
-                        }}
-                        className="cursor-pointer text-sm font-medium text-slate-600 hover:text-red-600"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
-                  ) : (
+                {currentUser && (
+                  <div className="flex items-center gap-2">
+                    <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1&size=128`} className="h-2 w-2 rounded-full shadow-sm" alt="avatar" />
+                    <span className="text-sm font-semibold text-slate-700">{currentUser.name.split(' ')[0]}</span>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    setIsAuthenticated(false);
+                    setCurrentUser(null);
+                    localStorage.removeItem("caf_portal_user");
+                    setActivePage("login");
+                  }}
+                  className="cursor-pointer text-sm font-medium text-slate-600 hover:text-red-600"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
               <>
                 <button
                   onClick={() => setActivePage("login")}
-                  className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition ${
-                    activePage === "login"
+                  className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition ${activePage === "login"
                       ? "bg-sky-700 text-white"
                       : "bg-sky-600 text-white hover:bg-sky-700"
-                  }`}
+                    }`}
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => setActivePage("register")}
-                  className={`cursor-pointer rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-                    activePage === "register"
+                  className={`cursor-pointer rounded-xl border px-4 py-2 text-sm font-semibold transition ${activePage === "register"
                       ? "border-sky-500 text-sky-700"
                       : "border-slate-300 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700"
-                  }`}
+                    }`}
                 >
                   Register
                 </button>
