@@ -43,7 +43,10 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
     try {
       const res = await fetch("/api/x_1985733_cafsys/caf/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-UserToken": (window as any).g_ck || "",
+        },
         body: JSON.stringify({
           full_name: fullName,
           email,
