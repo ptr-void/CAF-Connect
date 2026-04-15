@@ -46,8 +46,10 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (res.ok && data.user_name) {
-        const userData = { name: data.name, email: data.email, user_name: data.user_name };
+      const payload = data.result || data; // Handle ServiceNow 'result' wrapper
+      
+      if (res.ok && payload.user_name) {
+        const userData = { name: payload.name, email: payload.email, user_name: payload.user_name };
         if (setCurrentUser) setCurrentUser(userData);
         if (setIsAuthenticated) setIsAuthenticated(true);
         localStorage.setItem("caf_portal_user", JSON.stringify(userData));
