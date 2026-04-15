@@ -154,8 +154,10 @@ function App() {
                       : "border-slate-300 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700"
                   }`}
                 >
-              Register
-            </button>
+                  Register
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>
