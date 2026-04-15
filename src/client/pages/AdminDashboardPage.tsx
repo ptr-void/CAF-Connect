@@ -171,7 +171,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           </nav>
 
           <div className="border-t border-slate-200 p-4">
-            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
+            <button onClick={() => setActivePage("landing")}
               className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Back to Home
@@ -183,7 +183,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           <header className="border-b border-slate-200 bg-white">
             <div className="flex flex-col gap-4 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <button className="cursor-pointer" onClick={() => setActivePage("landing")}
+                <button onClick={() => setActivePage("landing")}
                   className="text-sm font-medium text-sky-700 hover:text-sky-800 xl:hidden"
                 >
                   â†?Back to Home
@@ -195,12 +195,12 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <button className="cursor-pointer" onClick={() => setActivePage("staff")}
+                <button onClick={() => setActivePage("staff")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Open Staff Dashboard
                 </button>
-                <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+                <button onClick={() => setActivePage("notifications")}
                   className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                 >
                   View Notifications
@@ -407,3 +407,4 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 }
 
 export default AdminDashboardPage;
+

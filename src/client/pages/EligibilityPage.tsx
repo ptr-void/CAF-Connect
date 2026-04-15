@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 
 type PageKey =
   | "landing"
@@ -202,7 +202,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                          <ul className="mt-4 space-y-3">
                            {['Medical abstract uploaded', 'Approved site location', 'Valid identity verification'].map(i => (
                              <li key={i} className="flex items-center gap-3 font-semibold text-slate-600">
-                               <span className="text-emerald-500">✓</span> {i}
+                               <span className="text-emerald-500">&#10003;</span> {i}
                              </li>
                            ))}
                          </ul>
@@ -248,3 +248,4 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
 }
 
 export default EligibilityPage;
+

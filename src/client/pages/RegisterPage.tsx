@@ -1,4 +1,4 @@
-type PageKey =
+﻿type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -110,15 +110,15 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
           <h3 className="text-xl font-bold text-slate-800">Why register securely?</h3>
           <ul className="mt-4 space-y-3 text-sm text-slate-700">
             <li className="flex items-center gap-3 rounded-2xl bg-white/60 px-4 py-3 shadow-sm hover:scale-[1.01] transition-transform">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">✓</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">&#10003;</span>
               Save incomplete applications as drafts
             </li>
             <li className="flex items-center gap-3 rounded-2xl bg-white/60 px-4 py-3 shadow-sm hover:scale-[1.01] transition-transform">
-               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">✓</span>
+               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">&#10003;</span>
               Manage strictly required medical documents easily
             </li>
             <li className="flex items-center gap-3 rounded-2xl bg-white/60 px-4 py-3 shadow-sm hover:scale-[1.01] transition-transform">
-               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">✓</span>
+               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">&#10003;</span>
               Real-time SMS alerts tracking application statuses
             </li>
           </ul>
@@ -136,3 +136,5 @@ function RegisterPage({ setActivePage }: RegisterPageProps) {
 }
 
 export default RegisterPage;
+
+
