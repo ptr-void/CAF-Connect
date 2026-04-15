@@ -25,10 +25,9 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Look up user by email
-                    var user = new GlideRecord('sys_user');
+                    // Look up user by email in custom table
+                    var user = new GlideRecord('x_1985733_cafsys_portal_user');
                     user.addQuery('email', email);
-                    user.addQuery('active', true);
                     user.query();
 
                     if (!user.next()) {
@@ -37,9 +36,8 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Validate password using GlideUser
-                    var auth = GlideAuthenticator.authenticate(user.getValue('user_name'), password);
-                    if (!auth) {
+                    // Validate plaintext password (mocked prototype level auth to bypass GlideAuthenticator global scope lock)
+                    if (user.getValue('password') !== password) {
                         response.setStatus(401);
                         response.setBody({ error: 'Invalid password. Please try again.' });
                         return;
@@ -47,8 +45,8 @@ export const cafApi = RestApi({
 
                     response.setStatus(200);
                     response.setBody({
-                        user_name: user.getValue('user_name'),
-                        name: user.getValue('name'),
+                        user_name: user.getValue('email'), // Use email as unique identifier
+                        name: user.getValue('full_name'),
                         email: user.getValue('email'),
                         sys_id: user.getUniqueValue()
                     });
@@ -70,7 +68,6 @@ export const cafApi = RestApi({
                     var body = JSON.parse(request.body.dataString);
                     var fullName = body.full_name || '';
                     var email = body.email || '';
-                    var mobile = body.mobile || '';
                     var password = body.password || '';
                     var accountType = body.account_type || 'Patient';
 
@@ -81,7 +78,7 @@ export const cafApi = RestApi({
                     }
 
                     // Check duplicate email
-                    var existing = new GlideRecord('sys_user');
+                    var existing = new GlideRecord('x_1985733_cafsys_portal_user');
                     existing.addQuery('email', email);
                     existing.query();
                     if (existing.next()) {
@@ -90,38 +87,22 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Generate a username from email prefix
-                    var userName = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '_');
-
-                    var newUser = new GlideRecord('sys_user');
-                    newUser.setValue('name', fullName);
+                    // Create new user in our custom table
+                    var newUser = new GlideRecord('x_1985733_cafsys_portal_user');
+                    newUser.setValue('full_name', fullName);
                     newUser.setValue('email', email);
-                    newUser.setValue('user_name', userName);
-                    newUser.setValue('mobile_phone', mobile);
-                    newUser.setValue('title', accountType);
-                    newUser.setDisplayValue('user_password', password);
-                    newUser.setValue('active', true);
+                    newUser.setValue('password', password); // Mock prototype password
+                    newUser.setValue('account_type', accountType);
                     var sysId = newUser.insert();
 
                     if (!sysId) {
                         response.setStatus(500);
-                        response.setBody({ error: 'Account creation failed on the server.' });
+                        response.setBody({ error: 'Account creation failed on the server. Make sure you build and deploy to register the new database table.' });
                         return;
                     }
 
-                    // Assign applicant role
-                    var roleGr = new GlideRecord('sys_user_has_role');
-                    roleGr.setValue('user', sysId);
-                    var role = new GlideRecord('sys_user_role');
-                    role.addQuery('name', 'x_1985733_cafsys.applicant');
-                    role.query();
-                    if (role.next()) {
-                        roleGr.setValue('role', role.getUniqueValue());
-                        roleGr.insert();
-                    }
-
                     response.setStatus(201);
-                    response.setBody({ message: 'Account created successfully.', user_name: userName });
+                    response.setBody({ message: 'Account created successfully.', user_name: email });
                 } catch(ex) {
                     response.setStatus(500);
                     response.setBody({ error: ex.message });

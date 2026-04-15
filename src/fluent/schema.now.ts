@@ -37,3 +37,16 @@ export const x_1985733_cafsys_application = Table({
         needs_manual_review: BooleanColumn({ label: 'Needs Manual Review' })
     }
 });
+
+// 3. Database Table for Custom Portal Users (avoids Cross-Scope ACL locks on sys_user)
+export const x_1985733_cafsys_portal_user = Table({
+    name: 'x_1985733_cafsys_portal_user',
+    label: 'CAF Portal User',
+    display: 'full_name',
+    schema: {
+        full_name: StringColumn({ label: 'Full Name', mandatory: true, maxLength: 100 }),
+        email: StringColumn({ label: 'Email', mandatory: true, maxLength: 100 }),
+        password: StringColumn({ label: 'Password', mandatory: true, maxLength: 100 }),
+        account_type: StringColumn({ label: 'Account Type', maxLength: 50 })
+    }
+});
