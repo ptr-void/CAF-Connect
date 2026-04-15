@@ -58,7 +58,10 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
         if (setIsAuthenticated) setIsAuthenticated(true);
         setActivePage("tracker");
       } else {
-        setError(data.error || "Registration failed. Please try again.");
+        const errorMsg = typeof data.error === "string"
+          ? data.error
+          : data.message || data.detail || "Registration failed. Please try again.";
+        setError(errorMsg);
       }
     } catch {
       setError("Network error. Please check your connection.");
