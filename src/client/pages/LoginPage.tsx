@@ -46,7 +46,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      const payload = data.result || data; // Handle ServiceNow 'result' wrapper
+      const payload = data.result || data; 
       
       if (res.ok && payload.user_name) {
         const userData = { name: payload.name, email: payload.email, user_name: payload.user_name };
@@ -63,7 +63,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
         } else if (data.message) {
           errorMsg = data.message;
         } else {
-          // Fallback to show exactly what the server responded with so we can debug it
+          
           errorMsg = `Login failed. Server replied: ${JSON.stringify(data)}`;
         }
         setError(`Error: ${errorMsg}`);

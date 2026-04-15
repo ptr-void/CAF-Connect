@@ -22,7 +22,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   
-  // Real database connection state
+  
   const [formData, setFormData] = useState({
     patient_name: "",
     age: "",
@@ -34,7 +34,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
     hasAbstract: "Select answer",
     hasId: "Select answer",
     visitedOffice: "Not Sure",
-    medical_abstract: "Patient presented with a biopsy-confirmed case needing financial oncology support." // Example note
+    medical_abstract: "Patient presented with a biopsy-confirmed case needing financial oncology support." 
   });
 
   const [aiResult, setAiResult] = useState({ outcome: "", reasoning: "" });
@@ -42,7 +42,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
   const steps = [
     "Patient Information",
     "Medical & Assistance Details",
-    "Eligibility Result", // Match user screenshot
+    "Eligibility Result", 
   ];
   
   const handleNextToStep3 = async () => {
@@ -50,7 +50,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
     setIsLoading(true);
     
     try {
-      // In a real deployed SN environment, this fetches the Scripted REST API
+      
       const res = await fetch("/api/x_1985733_cafsys/caf/groq/evaluate", {
         method: "POST",
         headers: {
@@ -61,14 +61,20 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
       });
       
       const data = await res.json();
-      if (data.outcome) {
-          setAiResult(data);
+      const payload = data.result || data;
+      
+      if (!res.ok) {
+          throw new Error(payload.error || payload.details || "Internal Server Error");
+      }
+
+      if (payload.outcome) {
+          setAiResult(payload);
       } else {
           setAiResult({ outcome: "Needs Manual Review", reasoning: "Could not automatically determine eligibility via AI. Please submit." });
       }
-    } catch(err) {
+    } catch(err: any) {
       console.error(err);
-      setAiResult({ outcome: "Possibly Eligible", reasoning: "Network error fetching AI analysis. Pre-qualified based on basic criteria. Proceed to application and prepare required documents."});
+      setAiResult({ outcome: "Error", reasoning: `Server replied: ${err.message}` });
     } finally {
       setIsLoading(false);
     }
