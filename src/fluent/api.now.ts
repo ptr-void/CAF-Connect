@@ -124,7 +124,7 @@ export const cafApi = RestApi({
                     var abstract = bodyObj.medical_abstract || 'None provided';
 
                     var systemPrompt = "You are a clinical eligibility screener for a Cancer Assistance Fund (CAF). Determine if the applicant is 'Possibly Eligible' or 'Not Eligible' strictly based on this data. A patient is usually eligible if they have a confirmed cancer diagnosis and outline financial hardship. The output MUST be a JSON object with two exact keys: 'outcome' (either 'Possibly Eligible' or 'Not Eligible') and 'reasoning' (1 paragraph explanation).";
-                    var userPrompt = "Patient: " + patientName + "\nDiagnosis: " + diagnosis + "\nMedical Abstract: " + abstract;
+                    var userPrompt = "Patient: " + patientName + "\\nDiagnosis: " + diagnosis + "\\nMedical Abstract: " + abstract;
 
                     var rm = new sn_ws.RESTMessageV2();
                     rm.setEndpoint('https://api.groq.com/openai/v1/chat/completions');
