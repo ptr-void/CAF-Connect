@@ -60,6 +60,9 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
           errorMsg = data.error.message;
         } else if (data.message) {
           errorMsg = data.message;
+        } else {
+          // Fallback to show exactly what the server responded with so we can debug it
+          errorMsg = `Login failed. Server replied: ${JSON.stringify(data)}`;
         }
         setError(`Error: ${errorMsg}`);
       }
