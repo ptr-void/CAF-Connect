@@ -1,6 +1,7 @@
 type PageKey =
   | "landing"
-  | "auth"
+  | "login"
+  | "register"
   | "eligibility"
   | "documents"
   | "application"
@@ -28,17 +29,17 @@ const recentUpdates = [
   {
     title: "Application received",
     description: "Your intake form was submitted successfully and forwarded to the selected access site.",
-    time: "Apr 10, 2026 ‚Ä¢ 9:20 AM",
+    time: "Apr 10, 2026 ‚Ä?9:20 AM",
   },
   {
     title: "Initial review started",
     description: "A coordinator has started reviewing the patient details and uploaded requirements.",
-    time: "Apr 11, 2026 ‚Ä¢ 1:40 PM",
+    time: "Apr 11, 2026 ‚Ä?1:40 PM",
   },
   {
     title: "Additional document requested",
     description: "Please upload a corrected doctor‚Äôs prescription to continue the review process.",
-    time: "Apr 12, 2026 ‚Ä¢ 10:05 AM",
+    time: "Apr 12, 2026 ‚Ä?10:05 AM",
   },
 ];
 
@@ -83,15 +84,14 @@ function getLineClasses(status: string) {
 
 function TrackerPage({ setActivePage }: TrackerPageProps) {
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-10">
+    <div className="min-h-[calc(100vh-80px)] bg-gradient-to-br from-slate-50 via-sky-50/50 to-emerald-50/50 px-6 py-10">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <button
-              onClick={() => setActivePage("landing")}
+            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
               className="text-sm font-medium text-sky-700 hover:text-sky-800"
             >
-              ‚Üê Back to Home
+              ‚Ü?Back to Home
             </button>
             <h1 className="mt-3 text-3xl font-bold text-slate-800">Application Tracker / Case Status</h1>
             <p className="mt-2 max-w-3xl text-slate-600">
@@ -101,15 +101,13 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => setActivePage("documents")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+            <button className="cursor-pointer" onClick={() => setActivePage("documents")}
+              className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               View Documents
             </button>
-            <button
-              onClick={() => setActivePage("help")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+            <button className="cursor-pointer" onClick={() => setActivePage("help")}
+              className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Contact Support
             </button>
@@ -118,7 +116,7 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-sky-700">Case Overview</p>
@@ -162,19 +160,19 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-emerald-700">Recent Updates Log</p>
               <h2 className="mt-2 text-2xl font-bold text-slate-800">Latest case activity</h2>
 
               <div className="mt-6 space-y-4">
                 {recentUpdates.map((item) => (
-                  <div key={item.title} className="rounded-3xl bg-slate-50 p-5 ring-1 ring-slate-200">
+                  <div key={item.title} className="rounded-3xl bg-slate-50 p-5 border border-white/60 shadow-lg">
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div>
                         <h3 className="text-lg font-semibold text-slate-800">{item.title}</h3>
                         <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
                       </div>
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
+                      <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-500 border border-white/60 shadow-lg">
                         {item.time}
                       </span>
                     </div>
@@ -184,7 +182,7 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                 <p className="text-sm font-semibold text-violet-700">Assigned Site</p>
                 <h3 className="mt-2 text-xl font-bold text-slate-800">Jose R. Reyes Memorial Medical Center</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">
@@ -205,7 +203,7 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
                 </div>
               </div>
 
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
                 <p className="text-sm font-semibold text-amber-700">Pending Requirement</p>
                 <h3 className="mt-2 text-xl font-bold text-slate-800">Doctor‚Äôs Prescription</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">
@@ -214,15 +212,13 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <button
-                    onClick={() => setActivePage("documents")}
-                    className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+                  <button className="cursor-pointer" onClick={() => setActivePage("documents")}
+                    className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                   >
                     Upload Corrected File
                   </button>
-                  <button
-                    onClick={() => setActivePage("notifications")}
-                    className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                  <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+                    className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                   >
                     View Notification
                   </button>
@@ -232,7 +228,7 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-sky-700">SMS Notification Status</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">Message delivery panel</h3>
 
@@ -247,15 +243,14 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
                 ))}
               </div>
 
-              <button
-                onClick={() => setActivePage("notifications")}
+              <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
                 className="mt-6 w-full rounded-2xl bg-sky-600 px-5 py-3 font-semibold text-white hover:bg-sky-700"
               >
                 Open Notifications Center
               </button>
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
+            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-slate-700">Need follow-up?</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">Support is available</h3>
               <p className="mt-3 text-sm leading-6 text-slate-700">
@@ -263,32 +258,28 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
                 documents, access site assignment, or case movement.
               </p>
 
-              <button
-                onClick={() => setActivePage("help")}
+              <button className="cursor-pointer" onClick={() => setActivePage("help")}
                 className="mt-6 w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-800 hover:bg-slate-100"
               >
                 Go to Help & Support
               </button>
             </div>
 
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-emerald-700">Quick Links</p>
               <div className="mt-4 grid gap-3">
-                <button
-                  onClick={() => setActivePage("application")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("application")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Application Form
                 </button>
-                <button
-                  onClick={() => setActivePage("sites")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("sites")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Access Sites Directory
                 </button>
-                <button
-                  onClick={() => setActivePage("auth")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("auth")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Portal Login
                 </button>

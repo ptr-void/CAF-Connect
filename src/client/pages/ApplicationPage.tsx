@@ -2,7 +2,8 @@ import { useState } from "react";
 
 type PageKey =
   | "landing"
-  | "auth"
+  | "login"
+  | "register"
   | "eligibility"
   | "documents"
   | "application"
@@ -28,15 +29,14 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-10">
+    <div className="min-h-[calc(100vh-80px)] bg-gradient-to-br from-slate-50 via-sky-50/50 to-emerald-50/50 px-6 py-10">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <button
-              onClick={() => setActivePage("landing")}
+            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
               className="text-sm font-medium text-sky-700 hover:text-sky-800"
             >
-              ‚Üê Back to Home
+              ‚Ü?Back to Home
             </button>
             <h1 className="mt-3 text-3xl font-bold text-slate-800">
               Patient Intake / Application Form
@@ -48,15 +48,13 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => setActivePage("documents")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+            <button className="cursor-pointer" onClick={() => setActivePage("documents")}
+              className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Review Documents
             </button>
-            <button
-              onClick={() => setActivePage("tracker")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+            <button className="cursor-pointer" onClick={() => setActivePage("tracker")}
+              className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Track Application
             </button>
@@ -64,7 +62,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
-          <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
             <div className="mb-8 flex flex-wrap items-center gap-3">
               {steps.map((step, index) => {
                 const stepNumber = index + 1;
@@ -189,13 +187,12 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 <div className="mt-8 flex items-center justify-between">
                   <button
                     type="button"
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Save Draft
                   </button>
-                  <button
-                    onClick={() => setCurrentStep(2)}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                  <button className="cursor-pointer" onClick={() => setCurrentStep(2)}
+                    className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Next Step
                   </button>
@@ -273,22 +270,20 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                  <button className="cursor-pointer" onClick={() => setCurrentStep(1)}
+                    className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                      className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                     >
                       Save Draft
                     </button>
-                    <button
-                      onClick={() => setCurrentStep(3)}
-                      className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    <button className="cursor-pointer" onClick={() => setCurrentStep(3)}
+                      className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                     >
                       Next Step
                     </button>
@@ -367,11 +362,11 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                   </div>
 
                   <div className="md:col-span-2 grid gap-3 md:grid-cols-2">
-                    <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                    <label className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                       <input type="checkbox" className="mr-2" />
                       I agree to receive SMS reminders and case status updates.
                     </label>
-                    <label className="rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
+                    <label className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
                       <input type="checkbox" className="mr-2" />
                       I confirm the selected access site is the correct office for this case.
                     </label>
@@ -379,22 +374,20 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <button
-                    onClick={() => setCurrentStep(2)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                  <button className="cursor-pointer" onClick={() => setCurrentStep(2)}
+                    className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                      className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                     >
                       Save Draft
                     </button>
-                    <button
-                      onClick={() => setCurrentStep(4)}
-                      className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    <button className="cursor-pointer" onClick={() => setCurrentStep(4)}
+                      className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                     >
                       Review Summary
                     </button>
@@ -412,7 +405,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 </p>
 
                 <div className="mt-6 grid gap-5">
-                  <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
+                  <div className="rounded-3xl bg-slate-50 p-6 border border-white/60 shadow-lg">
                     <h3 className="text-lg font-semibold text-slate-800">Applicant Summary</h3>
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
                       <div className="rounded-2xl bg-white p-4">
@@ -444,7 +437,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                     </div>
                   </div>
 
-                  <div className="rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-200">
+                  <div className="rounded-3xl bg-emerald-50 p-6 border border-white/60 shadow-lg">
                     <h3 className="text-lg font-semibold text-emerald-800">Ready for submission</h3>
                     <p className="mt-3 text-sm leading-7 text-slate-700">
                       Once submitted, the application will enter the review process. The patient or
@@ -470,21 +463,19 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 </div>
 
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <button
-                    onClick={() => setCurrentStep(3)}
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                  <button className="cursor-pointer" onClick={() => setCurrentStep(3)}
+                    className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Back
                   </button>
                   <button
                     type="button"
-                    className="rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                    className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
                   >
                     Save Draft
                   </button>
-                  <button
-                    onClick={() => setActivePage("tracker")}
-                    className="rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                  <button className="cursor-pointer" onClick={() => setActivePage("tracker")}
+                    className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Submit Application
                   </button>
@@ -494,7 +485,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-sky-700">Application Tips</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">
                 Make submission easier and faster
@@ -512,7 +503,7 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
+            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-slate-700">Need guidance?</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">
                 Patients and guardians can ask for help
@@ -522,32 +513,28 @@ function ApplicationPage({ setActivePage }: ApplicationPageProps) {
                 applicants who may not be familiar with the process.
               </p>
 
-              <button
-                onClick={() => setActivePage("help")}
+              <button className="cursor-pointer" onClick={() => setActivePage("help")}
                 className="mt-6 w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-800 hover:bg-slate-100"
               >
                 Open Help & Support
               </button>
             </div>
 
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-emerald-700">Quick Links</p>
               <div className="mt-4 grid gap-3">
-                <button
-                  onClick={() => setActivePage("sites")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("sites")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Access Sites Directory
                 </button>
-                <button
-                  onClick={() => setActivePage("documents")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("documents")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Document Requirements Guide
                 </button>
-                <button
-                  onClick={() => setActivePage("notifications")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Notifications Center
                 </button>
