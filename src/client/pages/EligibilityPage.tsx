@@ -64,7 +64,11 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
       const payload = data.result || data;
       
       if (!res.ok) {
-          throw new Error(payload.error || payload.details || "Internal Server Error");
+          let errorMsg = payload.error || payload.details || payload;
+          if (typeof errorMsg === 'object') {
+              errorMsg = JSON.stringify(errorMsg);
+          }
+          throw new Error(errorMsg);
       }
 
       if (payload.outcome) {
