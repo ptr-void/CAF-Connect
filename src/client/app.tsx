@@ -1,4 +1,4 @@
-import './app.css';
+﻿import './app.css';
 import { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -108,10 +108,10 @@ function App() {
               <button
                 key={link.key}
                 onClick={() => setActivePage(link.key)}
-                className={`cursor-pointer text-sm font-medium transition hover:text-sky-700 ${
+                className={`cursor-pointer rounded-lg px-3 py-2 text-sm transition ${
                   activePage === link.key
-                    ? "font-semibold text-sky-700 underline underline-offset-4"
-                    : "text-slate-600"
+                    ? "bg-sky-100 font-semibold text-sky-800"
+                    : "font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
                 {link.label}
@@ -150,3 +150,4 @@ function App() {
 }
 
 export default App;
+

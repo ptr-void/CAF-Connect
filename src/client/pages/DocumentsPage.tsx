@@ -185,7 +185,7 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
                   </p>
                   <button
                     type="button"
-                    className="mt-6 rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer mt-6 rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Browse Files
                   </button>
@@ -337,4 +337,5 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
 }
 
 export default DocumentsPage;
+
 
