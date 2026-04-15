@@ -40,6 +40,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
           "Content-Type": "application/json",
           "Accept": "application/json",
           "X-no-response-body": "false",
+          "X-UserToken": (window as any).g_ck || "",
         },
         credentials: "same-origin",
         body: JSON.stringify({ email, password }),
