@@ -1,103 +1,63 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { IncidentService } from './services/IncidentService'
-import IncidentList from './components/IncidentList'
-import IncidentForm from './components/IncidentForm'
-import './app.css'
+import './app.css';
+import { useState } from "react";
+import LandingPage from "./pages/LandingPage";
+import AuthPage from "./pages/AuthPage";
+import EligibilityPage from "./pages/EligibilityPage";
+import DocumentsPage from "./pages/DocumentsPage";
+import ApplicationPage from "./pages/ApplicationPage";
+import TrackerPage from "./pages/TrackerPage";
+import AccessSitesPage from "./pages/AccessSitesPage";
+import NotificationsPage from "./pages/NotificationsPage";
+import HelpSupportPage from "./pages/HelpSupportPage";
+import StaffDashboardPage from "./pages/StaffDashboardPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 
-export default function App() {
-    const [incidents, setIncidents] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [showForm, setShowForm] = useState(false)
-    const [selectedIncident, setSelectedIncident] = useState(null)
-    const [error, setError] = useState(null)
+type PageKey =
+  | "landing"
+  | "auth"
+  | "eligibility"
+  | "documents"
+  | "application"
+  | "tracker"
+  | "sites"
+  | "notifications"
+  | "help"
+  | "staff"
+  | "admin";
 
-    const incidentService = useMemo(() => new IncidentService(), [])
+function App() {
+  const [activePage, setActivePage] = useState<PageKey>("landing");
 
-    const refreshIncidents = async () => {
-        try {
-            setLoading(true)
-            setError(null)
-            const data = await incidentService.list()
-            setIncidents(data)
-        } catch (err) {
-            setError('Failed to load incidents: ' + (err.message || 'Unknown error'))
-            console.error(err)
-        } finally {
-            setLoading(false)
-        }
+  const renderPage = () => {
+    switch (activePage) {
+      case "landing":
+        return <LandingPage setActivePage={setActivePage} />;
+      case "auth":
+        return <AuthPage setActivePage={setActivePage} />;
+      case "eligibility":
+        return <EligibilityPage setActivePage={setActivePage} />;
+      case "documents":
+        return <DocumentsPage setActivePage={setActivePage} />;
+      case "application":
+        return <ApplicationPage setActivePage={setActivePage} />;
+      case "tracker":
+        return <TrackerPage setActivePage={setActivePage} />;
+      case "sites":
+        return <AccessSitesPage setActivePage={setActivePage} />;
+      case "notifications":
+        return <NotificationsPage setActivePage={setActivePage} />;
+      case "help":
+        return <HelpSupportPage setActivePage={setActivePage} />;
+      case "staff":
+        return <StaffDashboardPage setActivePage={setActivePage} />;
+      case "admin":
+        return <AdminDashboardPage setActivePage={setActivePage} />;
+      default:
+        return <LandingPage setActivePage={setActivePage} />;
     }
+  };
 
-    useEffect(() => {
-        void refreshIncidents()
-    }, [])
-
-    const handleCreateClick = () => {
-        setSelectedIncident(null)
-        setShowForm(true)
-    }
-
-    const handleEditClick = (incident) => {
-        setSelectedIncident(incident)
-        setShowForm(true)
-    }
-
-    const handleFormClose = () => {
-        setShowForm(false)
-        setSelectedIncident(null)
-    }
-
-    const handleFormSubmit = async (formData) => {
-        setLoading(true)
-        try {
-            if (selectedIncident) {
-                const sysId =
-                    typeof selectedIncident.sys_id === 'object'
-                        ? selectedIncident.sys_id.value
-                        : selectedIncident.sys_id
-                await incidentService.update(sysId, formData)
-            } else {
-                await incidentService.create(formData)
-            }
-            setShowForm(false)
-            await refreshIncidents()
-        } catch (err) {
-            setError('Failed to save incident: ' + (err.message || 'Unknown error'))
-            console.error(err)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    return (
-        <div className="incident-app">
-            <header className="app-header">
-                <h1>Incident aw Response Manager</h1>
-                <button className="create-button" onClick={handleCreateClick}>
-                    Create New Incident
-                </button>
-            </header>
-
-            {error && (
-                <div className="error-message">
-                    {error}
-                    <button onClick={() => setError(null)}>Dismiss</button>
-                </div>
-            )}
-
-            {loading ? (
-                <div className="loading">Loading...</div>
-            ) : (
-                <IncidentList
-                    incidents={incidents}
-                    onEdit={handleEditClick}
-                    onRefresh={refreshIncidents}
-                    service={incidentService}
-                />
-            )}
-
-            {showForm && (
-                <IncidentForm incident={selectedIncident} onSubmit={handleFormSubmit} onCancel={handleFormClose} />
-            )}
-        </div>
-    )
+  return <div className="min-h-screen bg-slate-50 text-slate-800">{renderPage()}</div>;
 }
+
+export default App;
