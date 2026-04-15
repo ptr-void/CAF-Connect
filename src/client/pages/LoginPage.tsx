@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type PageKey =
   | "landing"
   | "login"
@@ -15,12 +17,49 @@ type PageKey =
 type LoginPageProps = {
   setActivePage: (page: PageKey) => void;
   setIsAuthenticated?: (auth: boolean) => void;
+  setCurrentUser?: (user: { name: string; email: string; user_name: string } | null) => void;
 };
 
-function LoginPage({ setActivePage, setIsAuthenticated }: LoginPageProps) {
+function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginPageProps) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSignIn = async () => {
+    setError("");
+    if (!email || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/x_1985733_cafsys/caf/me", {
+        method: "GET",
+        headers: {
+          "Authorization": "Basic " + btoa(email + ":" + password),
+          "Accept": "application/json",
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (setCurrentUser) setCurrentUser(data);
+        if (setIsAuthenticated) setIsAuthenticated(true);
+        setActivePage("tracker");
+      } else if (res.status === 401) {
+        setError("Invalid email or password. Please try again.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
-
       <main className="px-6 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-6">
@@ -55,45 +94,53 @@ function LoginPage({ setActivePage, setIsAuthenticated }: LoginPageProps) {
                 <h2 className="mt-2 text-2xl font-bold text-slate-800">Sign In</h2>
                 <p className="mt-2 text-sm text-slate-500">Log in to continue a saved application or check your current case status.</p>
 
-                <form className="mt-6 space-y-4">
+                <div className="mt-6 space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
-                    <input type="email" placeholder="Enter your email" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500" />
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500"
+                    />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
-                    <input type="password" placeholder="Enter your password" className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500" />
+                    <input
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500"
+                    />
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-600">
-                      <input type="checkbox" className="h-4 w-4 rounded border-slate-300" />
-                      Remember me
-                    </label>
-                    <button type="button" className="cursor-pointer text-sm font-medium text-sky-700 hover:text-sky-800">Forgot Password?</button>
-                  </div>
+                  {error && (
+                    <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200">
+                      {error}
+                    </div>
+                  )}
 
                   <div className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 ring-1 ring-emerald-200">
                     Guardians may also sign in to help patients complete the application process.
                   </div>
 
-                  <button 
-                    type="button" 
-                    onClick={() => {
-                      if (setIsAuthenticated) setIsAuthenticated(true);
-                      setActivePage("tracker");
-                    }}
-                    className="cursor-pointer w-full rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
+                  <button
+                    type="button"
+                    onClick={handleSignIn}
+                    disabled={loading}
+                    className={`cursor-pointer w-full rounded-2xl px-5 py-3 font-semibold text-white transition ${loading ? "bg-slate-400" : "bg-emerald-600 hover:bg-emerald-700"}`}
                   >
-                    Sign In
+                    {loading ? "Signing in..." : "Sign In"}
                   </button>
 
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button type="button" onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Check Eligibility</button>
-                    <button type="button" onClick={() => setActivePage("tracker")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Track Application</button>
                   </div>
-                </form>
+                </div>
 
                 <p className="mt-6 text-center text-sm text-slate-600">
                   Don't have an account?{" "}
@@ -118,16 +165,7 @@ function LoginPage({ setActivePage, setIsAuthenticated }: LoginPageProps) {
                 <p className="text-sm font-semibold text-slate-700">Account assistance</p>
                 <h3 className="mt-2 text-xl font-bold text-slate-800">Having trouble signing in?</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-700">Patients and guardians who need help with registration, password reset, or account recovery may contact the support team or visit the help center.</p>
-                <button onClick={() => setActivePage("help")} className="cursor-pointer mt-6 w-full rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800">Open Help &amp; Support</button>
-              </div>
-
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <p className="text-sm font-semibold text-violet-700">Quick access</p>
-                <div className="mt-4 grid gap-3">
-                  <button onClick={() => setActivePage("application")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700">Patient Intake / Application Form</button>
-                  <button onClick={() => setActivePage("documents")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700">Document Requirements Guide</button>
-                  <button onClick={() => setActivePage("notifications")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700">Notifications Center</button>
-                </div>
+                <button onClick={() => setActivePage("help")} className="cursor-pointer mt-6 w-full rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800">Open Help & Support</button>
               </div>
             </div>
           </div>
@@ -138,6 +176,3 @@ function LoginPage({ setActivePage, setIsAuthenticated }: LoginPageProps) {
 }
 
 export default LoginPage;
-
-
-
