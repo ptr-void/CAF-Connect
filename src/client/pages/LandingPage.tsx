@@ -1,4 +1,4 @@
-﻿type PageKey =
+type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -92,14 +92,10 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                 </button>
               </div>
 
-              <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
                   <p className="text-3xl font-bold text-sky-700">34</p>
                   <p className="mt-2 text-sm text-slate-500">Access sites supported nationwide</p>
-                </div>
-                <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-                  <p className="text-3xl font-bold text-emerald-700">SMS</p>
-                  <p className="mt-2 text-sm text-slate-500">Updates and reminders for patients</p>
                 </div>
                 <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
                   <p className="text-3xl font-bold text-violet-700">Easy</p>

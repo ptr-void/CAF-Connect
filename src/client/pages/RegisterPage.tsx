@@ -23,7 +23,6 @@ type RegisterPageProps = {
 function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: RegisterPageProps) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [accountType, setAccountType] = useState("Patient");
   const [error, setError] = useState("");
@@ -50,7 +49,6 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
         body: JSON.stringify({
           full_name: fullName,
           email,
-          mobile,
           password,
           account_type: accountType,
         }),
@@ -95,7 +93,7 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                 <div className="rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-100">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-lg font-bold text-white">2</div>
                   <h3 className="mt-5 text-xl font-semibold text-slate-800">Verify details</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">Confirm your mobile number and email to activate SMS case updates and portal notifications.</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">Confirm your email to activate portal notifications.</p>
                 </div>
                 <div className="rounded-3xl bg-violet-50 p-6 ring-1 ring-violet-100">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-600 text-lg font-bold text-white">3</div>
@@ -133,17 +131,6 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number</label>
-                    <input
-                      type="text"
-                      placeholder="09XXXXXXXXX"
-                      value={mobile}
-                      onChange={(e) => setMobile(e.target.value)}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
-                    />
-                  </div>
-
-                  <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
                     <input
                       type="password"
@@ -172,10 +159,6 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                     </div>
                   )}
 
-                  <div className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-amber-200">
-                    Please use an active mobile number to receive SMS reminders and case updates.
-                  </div>
-
                   <button
                     type="button"
                     onClick={handleRegister}
@@ -200,7 +183,7 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                 <ul className="mt-5 space-y-3 text-sm text-slate-600">
                   <li className="rounded-2xl bg-slate-50 px-4 py-3">Save incomplete applications as draft</li>
                   <li className="rounded-2xl bg-slate-50 px-4 py-3">Review missing and uploaded documents</li>
-                  <li className="rounded-2xl bg-slate-50 px-4 py-3">Receive case updates through SMS and portal alerts</li>
+                  <li className="rounded-2xl bg-slate-50 px-4 py-3">Receive case updates through portal alerts</li>
                   <li className="rounded-2xl bg-slate-50 px-4 py-3">Choose and manage the correct access site</li>
                 </ul>
               </div>
