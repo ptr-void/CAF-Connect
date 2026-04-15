@@ -23,8 +23,7 @@ export const approveApplication = UiAction({
     table: 'x_1985733_cafsys_application',
     actionName: 'approve_funding',
     active: true,
-    client: false, // Server side execution
-    formButton: true,
+    form: { showButton: true },
     condition: 'current.state != 3', // Assuming 3 is Closed Complete
     script: script`
         current.state = 3;
@@ -61,7 +60,7 @@ export const enforceEmailValidation = ClientScript({
     name: 'Validate Email Field',
     table: 'x_1985733_cafsys_application',
     type: 'onChange',
-    fieldName: 'email',
+    field: 'email',
     active: true,
     script: script`function onChange(control, oldValue, newValue, isLoading, isTemplate) {
         if (isLoading || newValue === '') {
