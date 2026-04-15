@@ -83,13 +83,13 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setActivePage("application")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Go to Application
             </button>
             <button
               onClick={() => setActivePage("help")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+              className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Need Help Choosing?
             </button>
@@ -105,13 +105,13 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                   <input
                     type="text"
                     placeholder="Hospital, office, or site"
-                    className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500"
+                    className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500"
                   />
                 </div>
 
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Region</label>
-                  <select className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
+                  <select className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
                     <option>All Regions</option>
                     <option>National Capital Region</option>
                     <option>Region V - Bicol</option>
@@ -122,7 +122,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
 
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Service Type</label>
-                  <select className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
+                  <select className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-500">
                     <option>All Services</option>
                     <option>Intake Support</option>
                     <option>Document Review</option>
@@ -133,7 +133,7 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
 
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Action</label>
-                  <button className="w-full rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
+                  <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
                     Search Directory
                   </button>
                 </div>
@@ -174,28 +174,28 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                         </div>
 
                         <div className="mt-4 grid gap-3 md:grid-cols-2">
-                          <div className="rounded-2xl bg-white px-4 py-3">
+                          <div className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                               Address
                             </p>
                             <p className="mt-2 text-sm text-slate-700">{site.address}</p>
                           </div>
 
-                          <div className="rounded-2xl bg-white px-4 py-3">
+                          <div className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                               Contact
                             </p>
                             <p className="mt-2 text-sm text-slate-700">{site.contact}</p>
                           </div>
 
-                          <div className="rounded-2xl bg-white px-4 py-3">
+                          <div className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                               Services Available
                             </p>
                             <p className="mt-2 text-sm text-slate-700">{site.services}</p>
                           </div>
 
-                          <div className="rounded-2xl bg-white px-4 py-3">
+                          <div className="cursor-pointer rounded-2xl bg-white px-4 py-3">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                               Office Hours
                             </p>
@@ -207,13 +207,13 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                       <div className="flex flex-col gap-3 lg:w-52">
                         <button
                           onClick={() => setActivePage("application")}
-                          className="rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700"
+                          className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700"
                         >
                           Apply / Select Site
                         </button>
                         <button
                           onClick={() => setActivePage("help")}
-                          className="rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                          className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                         >
                           Contact Support
                         </button>
@@ -290,19 +290,19 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
               <div className="mt-4 grid gap-3">
                 <button
                   onClick={() => setActivePage("eligibility")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Eligibility Checker
                 </button>
                 <button
                   onClick={() => setActivePage("documents")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Document Requirements Guide
                 </button>
                 <button
                   onClick={() => setActivePage("tracker")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Application Tracker
                 </button>
@@ -316,3 +316,4 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
 }
 
 export default AccessSitesPage;
+

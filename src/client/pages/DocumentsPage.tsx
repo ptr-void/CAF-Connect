@@ -87,13 +87,13 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setActivePage("eligibility")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Back to Eligibility
             </button>
             <button
               onClick={() => setActivePage("application")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+              className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Continue to Application
             </button>
@@ -149,13 +149,13 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
                     <div className="mt-5 flex flex-wrap gap-3">
                       <button
                         type="button"
-                        className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                        className="cursor-pointer rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
                       >
                         Upload File
                       </button>
                       <button
                         type="button"
-                        className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                        className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                       >
                         View Guidance
                       </button>
@@ -311,19 +311,19 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
               <div className="mt-4 grid gap-3">
                 <button
                   onClick={() => setActivePage("sites")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
                 >
                   Access Sites Directory
                 </button>
                 <button
                   onClick={() => setActivePage("tracker")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
                 >
                   Case Status Tracker
                 </button>
                 <button
                   onClick={() => setActivePage("help")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
                 >
                   Help & Support
                 </button>
@@ -337,3 +337,4 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
 }
 
 export default DocumentsPage;
+

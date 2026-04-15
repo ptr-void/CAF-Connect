@@ -98,13 +98,13 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setActivePage("documents")}
-              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               View Documents
             </button>
             <button
               onClick={() => setActivePage("help")}
-              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+              className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Contact Support
             </button>
@@ -211,13 +211,13 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button
                     onClick={() => setActivePage("documents")}
-                    className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                   >
                     Upload Corrected File
                   </button>
                   <button
                     onClick={() => setActivePage("notifications")}
-                    className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                   >
                     View Notification
                   </button>
@@ -271,19 +271,19 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
               <div className="mt-4 grid gap-3">
                 <button
                   onClick={() => setActivePage("application")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Application Form
                 </button>
                 <button
                   onClick={() => setActivePage("sites")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Access Sites Directory
                 </button>
                 <button
                   onClick={() => setActivePage("login")}
-                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                  className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Portal Login
                 </button>
@@ -297,4 +297,5 @@ function TrackerPage({ setActivePage }: TrackerPageProps) {
 }
 
 export default TrackerPage;
+
 
