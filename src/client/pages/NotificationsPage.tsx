@@ -1,4 +1,4 @@
-type PageKey =
+ï»¿type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -23,7 +23,7 @@ const notificationItems = [
       "Please upload the corrected doctorâ€™s prescription so your application can continue to the next review step.",
     type: "Reminder",
     channel: "SMS + In-System",
-    time: "Apr 12, 2026 â€?10:05 AM",
+    time: "Apr 12, 2026 â€¢ 10:05 AM",
     status: "Delivered",
   },
   {
@@ -32,7 +32,7 @@ const notificationItems = [
       "Your CAF application has been submitted successfully and is now waiting for site coordinator review.",
     type: "Case Update",
     channel: "In-System",
-    time: "Apr 10, 2026 â€?9:20 AM",
+    time: "Apr 10, 2026 â€¢ 9:20 AM",
     status: "Read",
   },
   {
@@ -41,7 +41,7 @@ const notificationItems = [
       "A site coordinator has started reviewing the patient details and uploaded requirements.",
     type: "Case Update",
     channel: "SMS + In-System",
-    time: "Apr 11, 2026 â€?1:40 PM",
+    time: "Apr 11, 2026 â€¢ 1:40 PM",
     status: "Delivered",
   },
   {
@@ -50,7 +50,7 @@ const notificationItems = [
       "Please keep your mobile number active for additional instructions from the assigned access site.",
     type: "Follow-Up",
     channel: "SMS",
-    time: "Apr 12, 2026 â€?3:15 PM",
+    time: "Apr 12, 2026 â€¢ 3:15 PM",
     status: "Queued",
   },
 ];
@@ -89,15 +89,10 @@ function getStatusClasses(status: string) {
 
 function NotificationsPage({ setActivePage }: NotificationsPageProps) {
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-gradient-to-br from-slate-50 via-sky-50/50 to-emerald-50/50 px-6 py-10">
+    <div className="min-h-screen bg-slate-50 px-6 py-10">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <button onClick={() => setActivePage("landing")}
-              className="text-sm font-medium text-sky-700 hover:text-sky-800"
-            >
-              â†?Back to Home
-            </button>
             <h1 className="mt-3 text-3xl font-bold text-slate-800">Notifications Center</h1>
             <p className="mt-2 max-w-3xl text-slate-600">
               Review SMS and in-system notifications, including reminders for missing documents,
@@ -106,13 +101,15 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button onClick={() => setActivePage("tracker")}
-              className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+            <button
+              onClick={() => setActivePage("tracker")}
+              className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               View Case Tracker
             </button>
-            <button onClick={() => setActivePage("help")}
-              className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+            <button
+              onClick={() => setActivePage("help")}
+              className="rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Contact Support
             </button>
@@ -121,7 +118,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
+            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
               <div className="grid gap-4 md:grid-cols-4">
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <label className="mb-2 block text-sm font-medium text-slate-700">Search</label>
@@ -161,7 +158,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-8 lg:p-10 shadow-sm border border-white/60 shadow-lg">
+            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-sky-700">Notification Feed</p>
@@ -195,7 +192,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                           >
                             {item.type}
                           </span>
-                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 border border-white/60 shadow-lg">
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
                             {item.channel}
                           </span>
                         </div>
@@ -211,7 +208,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                           </button>
                           <button
                             type="button"
-                            className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
+                            className="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                           >
                             View Details
                           </button>
@@ -235,7 +232,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
+              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <p className="text-sm font-semibold text-emerald-700">SMS Settings Preview</p>
                 <h3 className="mt-2 text-xl font-bold text-slate-800">Current notification setup</h3>
 
@@ -252,7 +249,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                 </div>
               </div>
 
-              <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
+              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <p className="text-sm font-semibold text-violet-700">Reminder Summary</p>
                 <h3 className="mt-2 text-xl font-bold text-slate-800">Pending patient action</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">
@@ -260,7 +257,8 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                   Once uploaded, the application can move forward in the review process.
                 </p>
 
-                <button onClick={() => setActivePage("documents")}
+                <button
+                  onClick={() => setActivePage("documents")}
                   className="mt-5 rounded-2xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
                 >
                   Go to Document Upload
@@ -270,7 +268,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
+            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
               <p className="text-sm font-semibold text-sky-700">Why this matters</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">Stay updated without confusion</h3>
 
@@ -287,7 +285,7 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 border border-white/60 shadow-lg">
+            <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
               <p className="text-sm font-semibold text-slate-700">Need assistance?</p>
               <h3 className="mt-2 text-xl font-bold text-slate-800">
                 Support can explain any update
@@ -297,28 +295,32 @@ function NotificationsPage({ setActivePage }: NotificationsPageProps) {
                 coordinator for more guidance.
               </p>
 
-              <button onClick={() => setActivePage("help")}
+              <button
+                onClick={() => setActivePage("help")}
                 className="mt-6 w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-800 hover:bg-slate-100"
               >
                 Open Help & Support
               </button>
             </div>
 
-            <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
+            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
               <p className="text-sm font-semibold text-emerald-700">Quick Links</p>
               <div className="mt-4 grid gap-3">
-                <button onClick={() => setActivePage("tracker")}
-                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button
+                  onClick={() => setActivePage("tracker")}
+                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Case Status Tracker
                 </button>
-                <button onClick={() => setActivePage("application")}
-                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button
+                  onClick={() => setActivePage("application")}
+                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Application Form
                 </button>
-                <button onClick={() => setActivePage("login")}
-                  className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
+                <button
+                  onClick={() => setActivePage("login")}
+                  className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Patient Portal Login
                 </button>
