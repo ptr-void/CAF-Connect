@@ -21,27 +21,20 @@ type LoginPageProps = {
 };
 
 function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginPageProps) {
-  const [checking, setChecking] = useState(true);
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
-    fetch("/api/x_1985733_cafsys/caf/me", {
-      method: "GET",
-      headers: { "Accept": "application/json" },
-      credentials: "same-origin",
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        return null;
-      })
-      .then((data) => {
-        if (data && data.user_name) {
-          if (setCurrentUser) setCurrentUser(data);
-          if (setIsAuthenticated) setIsAuthenticated(true);
-          setActivePage("tracker");
-        }
-      })
-      .catch(() => {})
-      .finally(() => setChecking(false));
+    const gUser = (window as any).g_user;
+    if (gUser && gUser.userID && gUser.userID !== '') {
+      if (setCurrentUser) setCurrentUser({
+        name: (gUser.firstName || '') + ' ' + (gUser.lastName || ''),
+        email: gUser.email || '',
+        user_name: gUser.userName || '',
+      });
+      if (setIsAuthenticated) setIsAuthenticated(true);
+      setActivePage('tracker');
+    }
+    setChecking(false);
   }, []);
 
   const handleSignIn = () => {

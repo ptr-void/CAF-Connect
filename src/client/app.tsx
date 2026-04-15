@@ -52,19 +52,15 @@ function App() {
   }, [activePage]);
 
   useEffect(() => {
-    fetch("/api/x_1985733_cafsys/caf/me", {
-      method: "GET",
-      headers: { "Accept": "application/json" },
-      credentials: "same-origin",
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data && data.user_name) {
-          setCurrentUser(data);
-          setIsAuthenticated(true);
-        }
-      })
-      .catch(() => {});
+    const gUser = (window as any).g_user;
+    if (gUser && gUser.userID && gUser.userID !== '') {
+      setCurrentUser({
+        name: (gUser.firstName || '') + ' ' + (gUser.lastName || ''),
+        email: gUser.email || '',
+        user_name: gUser.userName || '',
+      });
+      setIsAuthenticated(true);
+    }
   }, []);
 
   const navLinks: { key: PageKey; label: string; secure?: boolean }[] = [
