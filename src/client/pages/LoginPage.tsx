@@ -47,15 +47,24 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
       });
       const data = await res.json();
       if (res.ok && data.user_name) {
-        if (setCurrentUser) setCurrentUser({ name: data.name, email: data.email, user_name: data.user_name });
+        const userData = { name: data.name, email: data.email, user_name: data.user_name };
+        if (setCurrentUser) setCurrentUser(userData);
         if (setIsAuthenticated) setIsAuthenticated(true);
+        localStorage.setItem("caf_portal_user", JSON.stringify(userData));
         setActivePage("tracker");
       } else {
-        const errorMsg = typeof data.error === "string" ? data.error : "Login failed. Please try again.";
-        setError(errorMsg);
+        let errorMsg = "Login failed. Please try again.";
+        if (typeof data.error === "string") {
+          errorMsg = data.error;
+        } else if (data.error && data.error.message) {
+          errorMsg = data.error.message;
+        } else if (data.message) {
+          errorMsg = data.message;
+        }
+        setError(`Error: ${errorMsg}`);
       }
-    } catch {
-      setError("Network error. Please check your connection.");
+    } catch (err: any) {
+      setError(`Network error: ${err.message || "Please check your connection."}`);
     } finally {
       setLoading(false);
     }

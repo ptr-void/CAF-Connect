@@ -52,6 +52,18 @@ function App() {
   }, [activePage]);
 
   useEffect(() => {
+    const savedUser = localStorage.getItem("caf_portal_user");
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        setCurrentUser(parsed);
+        setIsAuthenticated(true);
+        return; // Prioritize local storage for custom portal users
+      } catch (e) {
+        console.error("Failed to parse saved user", e);
+      }
+    }
+
     const gUser = (window as any).g_user;
     if (gUser && gUser.userID && gUser.userID !== '') {
       setCurrentUser({
@@ -140,18 +152,26 @@ function App() {
 
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-medium text-slate-700">
-                  Hi, {currentUser?.name?.split(" ")[0] || "User"}
-                </span>
-                <button
-                  onClick={() => { setIsAuthenticated(false); setCurrentUser(null); setActivePage("landing"); }}
-                  className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-red-400 hover:text-red-700 transition"
-                >
-                  Sign Out
-                </button>
-              </div>
-            ) : (
+              <div className="flex items-center gap-4">
+                      {currentUser && (
+                        <div className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 bg-slate-50 rounded-full border border-slate-200">
+                          <img src="https://ui-avatars.com/api/?name=User&background=bae6fd&color=0369a1" className="w-6 h-6 rounded-full" alt="avatar" />
+                          <span className="font-medium">{currentUser.name.split(' ')[0]}</span>
+                        </div>
+                      )}
+                      <button
+                        onClick={() => {
+                          setIsAuthenticated(false);
+                          setCurrentUser(null);
+                          localStorage.removeItem("caf_portal_user");
+                          setActivePage("login");
+                        }}
+                        className="cursor-pointer text-sm font-medium text-slate-600 hover:text-red-600"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  ) : (
               <>
                 <button
                   onClick={() => setActivePage("login")}
