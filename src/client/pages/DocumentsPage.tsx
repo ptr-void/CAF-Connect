@@ -77,7 +77,7 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
+            <button onClick={() => setActivePage("landing")}
               className="text-sm font-medium text-sky-700 hover:text-sky-800"
             >
               â†?Back to Home
@@ -90,12 +90,12 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button className="cursor-pointer" onClick={() => setActivePage("eligibility")}
+            <button onClick={() => setActivePage("eligibility")}
               className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Back to Eligibility
             </button>
-            <button className="cursor-pointer" onClick={() => setActivePage("application")}
+            <button onClick={() => setActivePage("application")}
               className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Continue to Application
@@ -283,7 +283,7 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
                 </div>
               </div>
 
-              <button className="cursor-pointer" onClick={() => setActivePage("application")}
+              <button onClick={() => setActivePage("application")}
                 className="mt-6 w-full rounded-2xl bg-sky-600 px-5 py-3 font-semibold text-white hover:bg-sky-700"
               >
                 Continue Application
@@ -300,7 +300,7 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
                 to reduce review delays and follow-up requests.
               </p>
 
-              <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+              <button onClick={() => setActivePage("notifications")}
                 className="mt-6 w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-800 hover:bg-slate-100"
               >
                 View Notification Reminders
@@ -310,17 +310,17 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
             <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-violet-700">Quick Access</p>
               <div className="mt-4 grid gap-3">
-                <button className="cursor-pointer" onClick={() => setActivePage("sites")}
+                <button onClick={() => setActivePage("sites")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
                 >
                   Access Sites Directory
                 </button>
-                <button className="cursor-pointer" onClick={() => setActivePage("tracker")}
+                <button onClick={() => setActivePage("tracker")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
                 >
                   Case Status Tracker
                 </button>
-                <button className="cursor-pointer" onClick={() => setActivePage("help")}
+                <button onClick={() => setActivePage("help")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-violet-400 hover:text-violet-700"
                 >
                   Help & Support
@@ -335,3 +335,4 @@ function DocumentsPage({ setActivePage }: DocumentsPageProps) {
 }
 
 export default DocumentsPage;
+

@@ -57,7 +57,7 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <button className="cursor-pointer" onClick={() => setActivePage("landing")}
+            <button onClick={() => setActivePage("landing")}
               className="text-sm font-medium text-sky-700 hover:text-sky-800"
             >
               â†?Back to Home
@@ -70,12 +70,12 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button className="cursor-pointer" onClick={() => setActivePage("eligibility")}
+            <button onClick={() => setActivePage("eligibility")}
               className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
             >
               Check Eligibility
             </button>
-            <button className="cursor-pointer" onClick={() => setActivePage("application")}
+            <button onClick={() => setActivePage("application")}
               className="cursor-pointer shadow-md transition-all hover:scale-[1.02] hover:shadow-lg rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
             >
               Start Application
@@ -199,12 +199,12 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                  <button className="cursor-pointer" onClick={() => setActivePage("documents")}
+                  <button onClick={() => setActivePage("documents")}
                     className="rounded-2xl bg-white px-5 py-3 font-semibold text-slate-800 hover:bg-slate-100"
                   >
                     View Documents
                   </button>
-                  <button className="cursor-pointer" onClick={() => setActivePage("tracker")}
+                  <button onClick={() => setActivePage("tracker")}
                     className="rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800"
                   >
                     Track Case
@@ -218,17 +218,17 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
             <div className="rounded-3xl bg-white/80 backdrop-blur-md p-6 shadow-sm border border-white/60 shadow-lg">
               <p className="text-sm font-semibold text-sky-700">Quick Access</p>
               <div className="mt-4 grid gap-3">
-                <button className="cursor-pointer" onClick={() => setActivePage("auth")}
+                <button onClick={() => setActivePage("login")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Patient Registration / Login
                 </button>
-                <button className="cursor-pointer" onClick={() => setActivePage("notifications")}
+                <button onClick={() => setActivePage("notifications")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Notifications Center
                 </button>
-                <button className="cursor-pointer" onClick={() => setActivePage("sites")}
+                <button onClick={() => setActivePage("sites")}
                   className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md rounded-2xl border border-slate-300 bg-white px-4 py-3 text-left font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
                 >
                   Access Sites Directory
@@ -260,12 +260,12 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
               </p>
 
               <div className="mt-5 grid gap-3">
-                <button className="cursor-pointer" onClick={() => setActivePage("staff")}
+                <button onClick={() => setActivePage("staff")}
                   className="rounded-2xl bg-white px-4 py-3 font-semibold text-slate-800 hover:bg-slate-100"
                 >
                   Open Staff Dashboard
                 </button>
-                <button className="cursor-pointer" onClick={() => setActivePage("admin")}
+                <button onClick={() => setActivePage("admin")}
                   className="rounded-2xl bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800"
                 >
                   Open Admin Dashboard
@@ -280,3 +280,4 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
 }
 
 export default HelpSupportPage;
+
