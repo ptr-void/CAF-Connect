@@ -13,6 +13,10 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: '22d9f64583d403102cecbb96feaad3bc'
                     }
+                    '683ff201831803102cecbb96feaad368': {
+                        table: 'sys_scope_privilege'
+                        id: '683ff201831803102cecbb96feaad368'
+                    }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
                         id: '8955724d839403102cecbb96feaad322'
@@ -83,10 +87,27 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_dictionary'
+                        id: '130e4307d2f341eaa9ebc3b727729c23'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'full_name'
+                        }
+                    },
+                    {
                         table: 'sys_ui_page'
                         id: '1ef9229bafe845a1a170ea14c74975c2'
                         key: {
                             endpoint: 'x_1985733_cafsys_help.do'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '21313098758c4c66bb5676f815872870'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'password'
+                            language: 'en'
                         }
                     },
                     {
@@ -104,6 +125,24 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'phone_number'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '2939ff1f057b4ab5ae683f1a01756921'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'account_type'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '3c20fbf0c79c43cabc843956b6c26a73'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'NULL'
                             language: 'en'
                         }
                     },
@@ -133,6 +172,14 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_dictionary'
+                        id: '50f5274a341749d59bb89818e7fb2567'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'email'
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: '51abdeb3f1764a879f88e84bb95d9db5'
                         key: {
@@ -149,11 +196,27 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_dictionary'
+                        id: '5399be19d57b4752a12f96dbb171b81c'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'account_type'
+                        }
+                    },
+                    {
                         table: 'sys_ui_page'
                         id: '60f5662f98434a4aafc97e56b64d380a'
                         deleted: true
                         key: {
                             endpoint: 'x_1985733_cafsys_incident_manager.do'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '683a20ebe66a455db78beff331e55b13'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'NULL'
                         }
                     },
                     {
@@ -217,6 +280,13 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_condition'
+                        }
+                    },
+                    {
+                        table: 'ua_table_licensing_config'
+                        id: '9ccd4dc896e24f5c8d3ff0a6f974ed39'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
                         }
                     },
                     {
@@ -318,6 +388,15 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_documentation'
+                        id: 'cb891f3c38064c928ce68e200447bccc'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'full_name'
+                            language: 'en'
+                        }
+                    },
+                    {
                         table: 'sys_ux_lib_asset'
                         id: 'cc064489758247abaf862a2fa29b8707'
                         key: {
@@ -367,10 +446,34 @@ declare global {
                     },
                     {
                         table: 'sys_dictionary'
+                        id: 'db835a38303d4ab2bacaaecde9f6925c'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'password'
+                        }
+                    },
+                    {
+                        table: 'sys_db_object'
+                        id: 'db943c15630748bb8a01994d402fd109'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
                         id: 'ead8c42266774f53a26e3e384443ea84'
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'NULL'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: 'ebfba52b4c1d4a77acaff00e89382d2e'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'email'
+                            language: 'en'
                         }
                     },
                     {
