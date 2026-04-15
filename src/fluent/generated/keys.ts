@@ -57,6 +57,14 @@ declare global {
                         table: 'sys_module'
                         id: '698ce03a02bd41238f12db669d398c41'
                     }
+                    restapi_caf_applications_get: {
+                        table: 'sys_ws_operation'
+                        id: '21352a0c06a04d8c9e06f50984480e32'
+                    }
+                    restapi_caf_applications_post: {
+                        table: 'sys_ws_operation'
+                        id: '1d1368e0c7e94c8cbfa94b7f9c1d0328'
+                    }
                     restapi_caf_main: {
                         table: 'sys_ws_definition'
                         id: 'e615faddf60045be93d19ae45e2046aa'
@@ -65,9 +73,17 @@ declare global {
                         table: 'sys_ws_operation'
                         id: 'ad847a23216945cb8990d67d192f1499'
                     }
+                    restapi_caf_notifications: {
+                        table: 'sys_ws_operation'
+                        id: '2164fd4dfb1f4fe883f1a20631ef8d83'
+                    }
                     restapi_caf_register: {
                         table: 'sys_ws_operation'
                         id: '4ca1c39316ac45d7a9e5840d4a4a3431'
+                    }
+                    restapi_caf_sites: {
+                        table: 'sys_ws_operation'
+                        id: 'e4ac9b681629444e91f5d384fcb17139'
                     }
                     restapi_groq_ai_evaluate: {
                         table: 'sys_ws_operation'
@@ -79,6 +95,14 @@ declare global {
                     }
                 }
                 composite: [
+                    {
+                        table: 'sys_dictionary'
+                        id: '090ecee5d09249ed9d29149473a6cba7'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'user_email'
+                        }
+                    },
                     {
                         table: 'sys_ui_page'
                         id: '0fff0e1167134d3b815815ff5d82afa2'
@@ -95,10 +119,36 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_documentation'
+                        id: '18b976fd0c6545bcbc3d4afcde9f3bf5'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'is_read'
+                            language: 'en'
+                        }
+                    },
+                    {
                         table: 'sys_ui_page'
                         id: '1ef9229bafe845a1a170ea14c74975c2'
                         key: {
                             endpoint: 'x_1985733_cafsys_help.do'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '1f63dca1fe4d4463abbfc7954b176100'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'NULL'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '1ffdfa8f876b41aa8a6b1e703873e3e8'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'message'
                         }
                     },
                     {
@@ -138,11 +188,44 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_dictionary'
+                        id: '2ddf8f65ab9940288837b8462489cc34'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'NULL'
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: '3c20fbf0c79c43cabc843956b6c26a73'
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'NULL'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '3f202919a039476c98bf5fabf21d7cb0'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'site_name'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '41594c043f3f4fb7bbd0af2aa8a3b930'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'is_active'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '432c642279ad4079bdbccf00f4cd4bbb'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'is_active'
                             language: 'en'
                         }
                     },
@@ -204,11 +287,55 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_documentation'
+                        id: '53dc236327b04bb5b4e769a379c57fef'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'user_email'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '573ac4b0b6c2406d960f59f88faee85a'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'created_date'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '598642a7708b4d55a1acb2addfd1ec96'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'operating_hours'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '5d918f5faa18450caf12a4fa3a460d38'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'created_date'
+                            language: 'en'
+                        }
+                    },
+                    {
                         table: 'sys_ui_page'
                         id: '60f5662f98434a4aafc97e56b64d380a'
                         deleted: true
                         key: {
                             endpoint: 'x_1985733_cafsys_incident_manager.do'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '67385e662e074699be6e2fed3d847ff3'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'site_name'
+                            language: 'en'
                         }
                     },
                     {
@@ -232,6 +359,15 @@ declare global {
                         id: '6b295d8f6c1a4483877267ebfa7eb6fd'
                         key: {
                             name: 'x_1985733_cafsys_application'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '7043f9a4da5e492b94d25dca0d0444bd'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'address'
+                            language: 'en'
                         }
                     },
                     {
@@ -275,11 +411,52 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_documentation'
+                        id: '86419faec1e24e908cdc4ab512193169'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'message'
+                            language: 'en'
+                        }
+                    },
+                    {
                         table: 'sys_dictionary'
                         id: '8756133ce81a4ab3a8842699895ab7a4'
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_condition'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '89565247a102401996b09fe942074379'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'operating_hours'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '9096630ea3bf4b40ab651e1ffe0240c2'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'is_read'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '93627800a3dc4d3ba7c460cb30d63521'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'contact_number'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_db_object'
+                        id: '93fd0ade0b2c4e6397814d8ef4802837'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
                         }
                     },
                     {
@@ -295,6 +472,14 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'patient_name'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '9e0fb22b57dd44408ca995ca1710ccf7'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'title'
                         }
                     },
                     {
@@ -321,6 +506,21 @@ declare global {
                     },
                     {
                         table: 'ua_table_licensing_config'
+                        id: 'a268dd1e3e4f4c6cbf55704a22249713'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'a334e900546f4afdb7964a580e6365dd'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'NULL'
+                        }
+                    },
+                    {
+                        table: 'ua_table_licensing_config'
                         id: 'ac5f266e59ea47aa978d437bd8246a55'
                         key: {
                             name: 'x_1985733_cafsys_application'
@@ -340,6 +540,22 @@ declare global {
                         id: 'b0e22211e89e46aca2be08c66de18441'
                         key: {
                             endpoint: 'x_1985733_cafsys_sites.do'
+                        }
+                    },
+                    {
+                        table: 'sys_db_object'
+                        id: 'b3c9c9b17f9c469ea6d8d29e5f959bcd'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: 'b402932734e6410dbbd5147997a5b8f8'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'title'
+                            language: 'en'
                         }
                     },
                     {
@@ -373,6 +589,14 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_dictionary'
+                        id: 'be5a15453ca14c4ea36e99a21baf74f0'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'contact_number'
+                        }
+                    },
+                    {
                         table: 'sys_ui_page'
                         id: 'c4d4feebdfb64f578c6b9655317b27d0'
                         key: {
@@ -385,6 +609,23 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_abstract'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'c85e691e4772440cb78c908606850efd'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'address'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: 'cacad469f54847bb8dfcd8f60849bdbe'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'region'
+                            language: 'en'
                         }
                     },
                     {
@@ -417,6 +658,13 @@ declare global {
                         id: 'cf3e34464c4549d7b1b366574683a92c'
                         key: {
                             endpoint: 'x_1985733_cafsys_application.do'
+                        }
+                    },
+                    {
+                        table: 'ua_table_licensing_config'
+                        id: 'd06dd81409c7436ab558921287451c5f'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
                         }
                     },
                     {
@@ -461,6 +709,14 @@ declare global {
                     },
                     {
                         table: 'sys_dictionary'
+                        id: 'e7e4d1ed4a744cecbb3d11c32ae4d1eb'
+                        key: {
+                            name: 'x_1985733_cafsys_site'
+                            element: 'region'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
                         id: 'ead8c42266774f53a26e3e384443ea84'
                         key: {
                             name: 'x_1985733_cafsys_application'
@@ -481,6 +737,15 @@ declare global {
                         id: 'f580bc09f6d04c85ab3e683940097be5'
                         key: {
                             endpoint: 'x_1985733_cafsys_admin.do'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: 'f95be10fb01741b397353d4b21421690'
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'NULL'
+                            language: 'en'
                         }
                     },
                     {
