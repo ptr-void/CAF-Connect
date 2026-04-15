@@ -155,16 +155,16 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
               <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 text-left font-semibold text-white">
                 Overview
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 User Management
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 Access Site Management
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 Reports & Analytics
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 SMS Logs
               </button>
             </div>
@@ -398,7 +398,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   </div>
                 </div>
 
-                <button className="mt-6 w-full rounded-2xl bg-amber-500 px-4 py-3 font-semibold text-white hover:bg-amber-600">
+                <button className="cursor-pointer mt-6 w-full rounded-2xl bg-amber-500 px-4 py-3 font-semibold text-white hover:bg-amber-600">
                   Open Full SMS Logs
                 </button>
               </div>
@@ -411,4 +411,5 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 }
 
 export default AdminDashboardPage;
+
 

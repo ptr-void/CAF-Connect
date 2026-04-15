@@ -130,16 +130,16 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
               <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 text-left font-semibold text-white">
                 Dashboard Overview
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 Patient Records
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 Document Verification
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 SMS Updates
               </button>
-              <button className="w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
                 Site Filters
               </button>
             </div>
@@ -334,7 +334,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                     className="mt-5 w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-500"
                   />
 
-                  <button className="mt-4 w-full rounded-2xl bg-violet-600 px-4 py-3 font-semibold text-white hover:bg-violet-700">
+                  <button className="cursor-pointer mt-4 w-full rounded-2xl bg-violet-600 px-4 py-3 font-semibold text-white hover:bg-violet-700">
                     Save Note
                   </button>
                 </div>
@@ -357,4 +357,5 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
 }
 
 export default StaffDashboardPage;
+
 
