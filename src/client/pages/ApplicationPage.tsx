@@ -269,7 +269,7 @@ Coordination Notes: ${coordNotes}
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 3</p>
                 <h2 className="mt-2 text-2xl font-bold text-slate-800">Access Site & Contact</h2>
-                <p className="mt-2 text-sm text-slate-500">Select the most appropriate access site and enter contact details for case coordination.</p>
+                <p className="mt-2 text-sm text-slate-500">Select the most appropriate access site and confirm coordination details.</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Selected Access Site</label>
@@ -294,15 +294,7 @@ Coordination Notes: ${coordNotes}
                     </div>
                   )}
 
-                  <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Preferred Contact Method</label>
-                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
-                      <option>Select method</option>
-                      <option>SMS</option>
-                      <option>Email</option>
-                      <option>Phone Call</option>
-                    </select>
-                  </div>
+
 
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Additional Coordination Notes (Optional)</label>
@@ -312,7 +304,7 @@ Coordination Notes: ${coordNotes}
                   <div className="md:col-span-2 mt-4 grid gap-4 md:grid-cols-2">
                     <label className="flex items-start gap-3 cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-slate-300">
                       <input type="checkbox" className="mt-1" />
-                      <span className="text-sm text-slate-600">I agree to receive SMS reminders and case status updates.</span>
+                      <span className="text-sm text-slate-600">I agree to receive email reminders and case status updates.</span>
                     </label>
                     <label className="flex items-start gap-3 cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-slate-300">
                       <input type="checkbox" className="mt-1" />
