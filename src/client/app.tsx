@@ -92,6 +92,14 @@ function App() {
       return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
     }
 
+    // Role guarding
+    if (activePage === "admin" && currentUser?.account_type !== "Administrator") {
+       return <LandingPage setActivePage={setActivePage} />;
+    }
+    if (activePage === "staff" && (currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Administrator")) {
+       return <LandingPage setActivePage={setActivePage} />;
+    }
+
     switch (activePage) {
       case "landing":
         return <LandingPage setActivePage={setActivePage} />;
@@ -124,7 +132,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
-      <header className="border-b border-slate-200 bg-white">
+      <header className="border-b border-slate-200 bg-white sticky top-0 z-50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div
             className="cursor-pointer"
@@ -132,14 +140,14 @@ function App() {
           >
             <h1 className="text-2xl font-bold text-sky-700">CAF Access Navigator</h1>
             <p className="text-sm text-slate-500">
-              Cancer Assistance Fund guidance, intake, and tracking platform
+              Cancer Assistance Fund portal
             </p>
           </div>
 
           <nav className="hidden items-center gap-2 md:flex">
             {navLinks.filter(l => {
               if (l.secure && !isAuthenticated) return false;
-              if (l.key === "staff" && currentUser?.account_type !== "Coordinator") return false;
+              if (l.key === "staff" && currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Administrator") return false;
               if (l.key === "admin" && currentUser?.account_type !== "Administrator") return false;
               if ((l.key === "application" || l.key === "tracker") && 
                   currentUser && currentUser.account_type !== "Patient" && currentUser.account_type !== "Family Member / Guardian" && currentUser.account_type !== "Applicant") {
@@ -160,13 +168,33 @@ function App() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {isAuthenticated ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-6">
+                <button 
+                  onClick={() => setActivePage("notifications")}
+                  className="relative cursor-pointer text-slate-500 hover:text-sky-700 transition"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                  </svg>
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                  </span>
+                </button>
+
                 {currentUser && (
                   <div className="flex items-center gap-2">
-                    <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1&size=50`} className="h-2 w-2 rounded-full shadow-sm" alt="avatar" />
-                    <span className="text-medium font-semibold text-slate-700">{currentUser.name.split(' ')[0]}</span>
+                    <img 
+                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=bae6fd&color=0369a1&size=50`} 
+                      className="h-8 w-8 rounded-full shadow-sm ring-2 ring-white" 
+                      alt="avatar" 
+                    />
+                    <div className="hidden sm:block">
+                      <p className="text-sm font-bold text-slate-700 leading-none">{currentUser.name.split(' ')[0]}</p>
+                      <p className="text-[10px] text-slate-500 mt-1 uppercase font-bold tracking-wider">{currentUser.account_type}</p>
+                    </div>
                   </div>
                 )}
                 <button
@@ -175,33 +203,28 @@ function App() {
                     setCurrentUser(null);
                     localStorage.removeItem("caf_portal_user");
                     setActivePage("login");
+                    window.location.reload();
                   }}
-                  className="cursor-pointer text-sm font-medium text-slate-600 hover:text-red-600"
+                  className="cursor-pointer text-sm font-bold text-sky-700 hover:text-red-600 transition"
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
-              <>
+              <div className="flex items-center gap-3">
                 <button
                   onClick={() => setActivePage("login")}
-                  className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition ${activePage === "login"
-                    ? "bg-sky-700 text-white"
-                    : "bg-sky-600 text-white hover:bg-sky-700"
-                    }`}
+                  className="cursor-pointer rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-sky-700 shadow-sm"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => setActivePage("register")}
-                  className={`cursor-pointer rounded-xl border px-4 py-2 text-sm font-semibold transition ${activePage === "register"
-                    ? "border-sky-500 text-sky-700"
-                    : "border-slate-300 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700"
-                    }`}
+                  className="cursor-pointer rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-700 hover:border-sky-400 hover:text-sky-700 shadow-sm"
                 >
                   Register
                 </button>
-              </>
+              </div>
             )}
           </div>
         </div>
@@ -213,4 +236,3 @@ function App() {
 }
 
 export default App;
-

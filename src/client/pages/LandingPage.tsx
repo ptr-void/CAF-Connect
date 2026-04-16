@@ -46,7 +46,7 @@ const processSteps = [
   {
     title: "Track the Case",
     description:
-      "Monitor progress, receive updates, and stay informed through status tracking and activity logs.",
+      "Monitor progress, receive real-time updates, and stay informed through the secure notifications center.",
   },
 ];
 
@@ -87,13 +87,13 @@ function LandingPage({ setActivePage }: LandingPageProps) {
               <div className="mt-8 flex flex-wrap gap-4">
                 <button
                   onClick={() => setActivePage("eligibility")}
-                  className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-700"
+                  className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-700 shadow-lg shadow-sky-100"
                 >
                   Check Eligibility
                 </button>
                 <button
                   onClick={() => setActivePage("application")}
-                  className="cursor-pointer rounded-2xl bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+                  className="cursor-pointer rounded-2xl bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 shadow-lg shadow-emerald-100"
                 >
                   Apply Now
                 </button>
@@ -166,9 +166,11 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                       <div className="h-3 w-3 rounded-full bg-slate-300" />
                       <div className="h-1 flex-1 rounded-full bg-slate-200" />
                       <div className="h-3 w-3 rounded-full bg-slate-300" />
+                      <div className="h-1 flex-1 rounded-full bg-slate-200" />
+                      <div className="h-3 w-3 rounded-full bg-slate-300" />
                     </div>
                     <p className="mt-3 text-sm text-slate-500">
-                      Submitted → Under Review → Pending Documents → Verified
+                      Submitted → Under Review → Pending Docs → Verified
                     </p>
                   </div>
                 </div>
@@ -257,8 +259,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                 Support is available for every step
               </h3>
               <p className="mt-4 leading-7 text-slate-700">
-                Get document guidance, hotline details, SMS support information, and answers to
-                common questions from the help center.
+                Get document guidance, hotline details, and real-time support directly through the secure notifications center.
               </p>
 
               <div className="mt-8 space-y-4">
@@ -270,9 +271,9 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                 </div>
 
                 <div className="cursor-pointer rounded-2xl bg-white/80 p-4">
-                  <p className="font-semibold text-slate-800">SMS Assistance</p>
+                  <p className="font-semibold text-slate-800">Live Status Notifications</p>
                   <p className="mt-1 text-sm text-slate-600">
-                    Receive reminders for missing documents and status updates.
+                    Receive instant alerts for missing documents and major status changes.
                   </p>
                 </div>
 
@@ -358,7 +359,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
             <p className="font-semibold text-slate-800">Support</p>
             <div className="mt-4 space-y-2 text-sm text-slate-500">
               <p>Hotline Support</p>
-              <p>SMS Notification Assistance</p>
+              <p>In-System Notifications</p>
               <p>Site Coordinator Helpdesk</p>
             </div>
           </div>
@@ -393,6 +394,3 @@ function LandingPage({ setActivePage }: LandingPageProps) {
 }
 
 export default LandingPage;
-
-
-
