@@ -800,49 +800,41 @@ export const cafApi = RestApi({
               (function process(request, response) {
                 try {
                     var body = request.body.data;
-                    var gr = new GlideRecord('x_1985733_cafsys_portal_user');
-                    gr.initialize();
-                    gr.setValue('full_name', body.name);
-                    gr.setValue('email', body.email);
-                    gr.setValue('password', body.password || 'TemporaryPassword123!');
-                    gr.setValue('account_type', body.role);
-                    gr.setValue('assigned_site', body.site);
-                    var sysId = gr.insert();
+                    var action = body.action || 'add';
 
-                    response.setStatus(201);
-                    response.setBody({ message: 'User added', sys_id: sysId });
-                } catch(ex) {
-                    response.setStatus(500);
-                    response.setBody({ error: ex.message });
-                }
-              })(request, response);
-            `,
-        },
-        {
-            $id: Now.ID['restapi_caf_update_user'],
-            name: 'update_user',
-            method: 'POST',
-            path: '/admin/update_user',
-            script: script`
-              (function process(request, response) {
-                try {
-                    var body = request.body.data;
-                    var gr = new GlideRecord('x_1985733_cafsys_portal_user');
-                    gr.addQuery('sys_id', body.id); 
-                    gr.query();
-                    if(gr.next()) {
-                        if (body.role) {
-                           gr.setValue('account_type', body.role);
+                    if (action === 'update_role') {
+                        var gr = new GlideRecord('x_1985733_cafsys_portal_user');
+                        if (gr.get(body.id)) {
+                            gr.setValue('account_type', body.role);
+                            gr.update();
+                            response.setStatus(200);
+                            response.setBody({ message: 'Role updated to ' + body.role });
+                        } else {
+                            response.setStatus(404);
+                            response.setBody({ error: 'User not found', id: body.id });
                         }
-                        if (typeof body.is_active !== 'undefined') {
-                           gr.setValue('is_active', body.is_active ? '1' : '0');
+                    } else if (action === 'toggle_active') {
+                        var gr2 = new GlideRecord('x_1985733_cafsys_portal_user');
+                        if (gr2.get(body.id)) {
+                            gr2.setValue('is_active', body.is_active ? '1' : '0');
+                            gr2.update();
+                            response.setStatus(200);
+                            response.setBody({ message: body.is_active ? 'User activated' : 'User deactivated' });
+                        } else {
+                            response.setStatus(404);
+                            response.setBody({ error: 'User not found', id: body.id });
                         }
-                        gr.update();
-                        response.setStatus(200);
-                        response.setBody({ message: 'User updated' });
                     } else {
-                        response.setStatus(404);
-                        response.setBody({ error: 'User not found', debug: { received_id: body.id, raw_body: body } });
+                        var newGr = new GlideRecord('x_1985733_cafsys_portal_user');
+                        newGr.initialize();
+                        newGr.setValue('full_name', body.name);
+                        newGr.setValue('email', body.email);
+                        newGr.setValue('password', body.password || 'TemporaryPassword123!');
+                        newGr.setValue('account_type', body.role);
+                        newGr.setValue('assigned_site', body.site);
+                        var sysId = newGr.insert();
+                        response.setStatus(201);
+                        response.setBody({ message: 'User added', sys_id: sysId });
                     }
                 } catch(ex) {
                     response.setStatus(500);

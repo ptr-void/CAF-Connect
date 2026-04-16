@@ -153,6 +153,7 @@ declare global {
                     restapi_caf_update_user: {
                         table: 'sys_ws_operation'
                         id: '5f4e34018c3d476688d443eefb321437'
+                        deleted: true
                     }
                     restapi_groq_ai_evaluate: {
                         table: 'sys_ws_operation'
