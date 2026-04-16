@@ -42,6 +42,8 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
+  const [activeTab, setActiveTab] = useState("overview");
+  const [caseNotes, setCaseNotes] = useState<string[]>([]);
 
   useEffect(() => {
     const userStr = localStorage.getItem("caf_portal_user");
@@ -50,6 +52,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
       setCurrentUser(user);
 
       if (user.assigned_site) {
+        setLoading(true);
         fetch(`/api/x_1985733_cafsys/caf/staff/applications?site=${encodeURIComponent(user.assigned_site)}`, {
           headers: { "X-UserToken": (window as any).g_ck || "" },
         })
@@ -60,6 +63,17 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
           })
           .catch((err) => console.error("Error fetching staff applications:", err))
           .finally(() => setLoading(false));
+
+        fetch(`/api/x_1985733_cafsys/caf/notifications?site=${encodeURIComponent(user.assigned_site)}`, {
+            headers: { "X-UserToken": (window as any).g_ck || "" }
+        })
+          .then(res => res.json())
+          .then(data => {
+             const payload = data.result || data;
+             if (Array.isArray(payload)) {
+                setCaseNotes(payload.slice(0, 5).map(n => n.message));
+             }
+          });
       } else {
         setLoading(false);
       }
@@ -90,12 +104,6 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
     { title: "Approved Cases", value: totalApproved.toString(), note: "Ready for release workflow", bg: "bg-emerald-50", text: "text-emerald-700" },
   ];
 
-  const caseNotes = [
-    "Prescription file needs correction before verification.",
-    "Patient requested email updates for follow-ups.",
-    "Site coordinator endorsed case to social service office.",
-  ];
-
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="flex min-h-screen">
@@ -112,17 +120,20 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
 
           <nav className="flex-1 px-4 py-6">
             <div className="space-y-2">
-              <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 text-left font-semibold text-white">
+              <button 
+                onClick={() => setActiveTab("overview")}
+                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold transition ${activeTab === 'overview' ? 'bg-sky-600 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
                 Dashboard Overview
               </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button 
+                onClick={() => setActiveTab("records")}
+                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold transition ${activeTab === 'records' ? 'bg-sky-600 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
                 Patient Records
               </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button 
+                onClick={() => setActiveTab("verification")}
+                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold transition ${activeTab === 'verification' ? 'bg-sky-600 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
                 Document Verification
-              </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
-                Site Filters
               </button>
             </div>
           </nav>
@@ -174,182 +185,175 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
           </header>
 
           <div className="space-y-6 p-6">
-            <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {summaryCards.map((card) => (
-                <div
-                  key={card.title}
-                  className={`rounded-3xl p-6 shadow-sm ring-1 ring-slate-200 ${card.bg}`}
-                >
-                  <p className="text-sm font-semibold text-slate-600">{card.title}</p>
-                  <p className={`mt-3 text-4xl font-bold ${card.text}`}>{card.value}</p>
-                  <p className="mt-2 text-sm text-slate-500">{card.note}</p>
-                </div>
-              ))}
-            </section>
-
-            <section className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-sky-700">Patient Records</p>
-                    <h3 className="mt-2 text-2xl font-bold text-slate-800">
-                      Cases at your access site
-                    </h3>
-                    <p className="mt-2 text-sm text-slate-500">
-                      Showing only patients who applied to <strong>{currentUser?.assigned_site || "your site"}</strong>.
-                    </p>
-                  </div>
-
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <input
-                      type="text"
-                      placeholder="Search patient or reference..."
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                      className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
-                    />
-                    <select
-                      value={statusFilter}
-                      onChange={(e) => setStatusFilter(e.target.value)}
-                      className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+            {activeTab === 'overview' && (
+              <>
+                <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                  {summaryCards.map((card) => (
+                    <div
+                      key={card.title}
+                      className={`rounded-3xl p-6 shadow-sm ring-1 ring-slate-200 ${card.bg}`}
                     >
-                      <option>All Status</option>
-                      <option>Under Review</option>
-                      <option>Pending Review</option>
-                      <option>Missing Documents</option>
-                      <option>Approved</option>
-                      <option>Referred</option>
-                    </select>
-                  </div>
-                </div>
+                      <p className="text-sm font-semibold text-slate-600">{card.title}</p>
+                      <p className={`mt-3 text-4xl font-bold ${card.text}`}>{card.value}</p>
+                      <p className="mt-2 text-sm text-slate-500">{card.note}</p>
+                    </div>
+                  ))}
+                </section>
 
-                <div className="mt-6 overflow-x-auto">
-                  <table className="min-w-full text-left">
-                    <thead>
-                      <tr className="border-b border-slate-200 text-sm text-slate-500">
-                        <th className="px-4 py-3 font-semibold">Patient</th>
-                        <th className="px-4 py-3 font-semibold">Reference</th>
-                        <th className="px-4 py-3 font-semibold">Condition</th>
-                        <th className="px-4 py-3 font-semibold">Status</th>
-                        <th className="px-4 py-3 font-semibold">Date</th>
-                        <th className="px-4 py-3 font-semibold">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {loading ? (
-                        <tr>
-                          <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
-                            Loading cases from database...
-                          </td>
-                        </tr>
-                      ) : filtered.length === 0 ? (
-                        <tr>
-                          <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
-                            {records.length === 0
-                              ? `No applications found for site: ${currentUser?.assigned_site || "No site assigned"}.`
-                              : "No results match your search/filter."}
-                          </td>
-                        </tr>
-                      ) : (
-                        filtered.map((record) => (
-                          <tr key={record.sys_id} className="border-b border-slate-100">
-                            <td className="px-4 py-4 font-semibold text-slate-800">{record.patient_name}</td>
-                            <td className="px-4 py-4 text-sm text-slate-600">{record.number}</td>
-                            <td className="px-4 py-4 text-sm text-slate-600">{record.medical_condition || "—"}</td>
-                            <td className="px-4 py-4">
-                              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusStyle(record.state)}`}>
-                                {mapStateToLabel(record.state)}
-                              </span>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-slate-600">
-                              {record.sys_created_on ? record.sys_created_on.split(" ")[0] : "N/A"}
-                            </td>
-                            <td className="px-4 py-4">
-                              <button className="cursor-pointer rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
-                                View Case
-                              </button>
-                            </td>
-                          </tr>
-                        ))
+                <section className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
+                  <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                    <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
+                      <h3 className="text-xl font-bold text-slate-800">Welcome, Coordinator</h3>
+                      <button onClick={() => setActiveTab("records")} className="text-sm font-semibold text-sky-700 hover:text-sky-800">
+                        View Records →
+                      </button>
+                    </div>
+                    <p className="text-slate-600 leading-relaxed">
+                      You are viewing real-time data for <strong>{currentUser?.assigned_site}</strong>. 
+                      All case intake, document verification, and approvals are now connected directly to the database.
+                      Use the sidebar to navigate between detailed record management and document processing.
+                    </p>
+                    <div className="mt-8 grid gap-4 md:grid-cols-2">
+                       <div className="rounded-2xl bg-sky-50 p-5 ring-1 ring-sky-100">
+                         <p className="text-sm font-bold text-sky-700 uppercase">Process Queue</p>
+                         <p className="mt-2 text-3xl font-bold text-slate-800">{totalNew + totalPending}</p>
+                         <p className="mt-1 text-xs text-slate-500">Cases needing immediate action</p>
+                       </div>
+                       <div className="rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-100">
+                         <p className="text-sm font-bold text-emerald-700 uppercase">Approval Rate</p>
+                         <p className="mt-2 text-3xl font-bold text-slate-800">
+                            {records.length > 0 ? Math.round((totalApproved / records.length) * 100) : 0}%
+                         </p>
+                         <p className="mt-1 text-xs text-slate-500">Of total cases processed at site</p>
+                       </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                    <h3 className="text-lg font-bold text-slate-800">Recent Activity Log</h3>
+                    <div className="mt-6 space-y-4">
+                      {caseNotes.length > 0 ? caseNotes.map((note, idx) => (
+                        <div key={idx} className="flex gap-4 border-l-2 border-sky-500 pl-4 py-1">
+                          <p className="text-sm text-slate-600 leading-relaxed">{note}</p>
+                        </div>
+                      )) : (
+                        <p className="text-sm text-slate-500 italic">No recent activity logs found for this site.</p>
                       )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                    </div>
+                  </div>
+                </section>
+              </>
+            )}
 
-              <div className="space-y-6">
+            {(activeTab === 'records' || activeTab === 'verification') && (
+              <section className="grid gap-6 xl:grid-cols-[1.4fr_0.8fr]">
                 <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                  <p className="text-sm font-semibold text-emerald-700">Case Detail View</p>
-                  <h3 className="mt-2 text-xl font-bold text-slate-800">Selected application</h3>
-
-                  <div className="mt-5 space-y-3">
-                    <div className="rounded-2xl bg-slate-50 px-4 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        Coordinator
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-sky-700">
+                        {activeTab === 'verification' ? 'Document Queue' : 'Patient Records'}
                       </p>
-                      <p className="mt-2 text-sm font-medium text-slate-700">{currentUser?.name || "—"}</p>
-                    </div>
-
-                    <div className="rounded-2xl bg-slate-50 px-4 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        Assigned Site
-                      </p>
-                      <p className="mt-2 text-sm font-medium text-slate-700">
-                        {currentUser?.assigned_site || "No site assigned"}
+                      <h3 className="mt-2 text-2xl font-bold text-slate-800">
+                        {activeTab === 'verification' ? 'Pending Verifications' : 'Cases at your access site'}
+                      </h3>
+                      <p className="mt-2 text-sm text-slate-500">
+                        {activeTab === 'verification' 
+                          ? `Only showing applications with Missing Documents status for ${currentUser?.assigned_site}.`
+                          : `Showing all patients who applied to ${currentUser?.assigned_site || "your site"}.`}
                       </p>
                     </div>
 
-                    <div className="rounded-2xl bg-slate-50 px-4 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        Total Cases
-                      </p>
-                      <p className="mt-2 text-sm font-medium text-slate-700">{records.length}</p>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <input
+                        type="text"
+                        placeholder="Search patient or reference..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      />
+                      <select
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="cursor-pointer rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      >
+                        <option>All Status</option>
+                        <option>Under Review</option>
+                        <option>Pending Review</option>
+                        <option>Missing Documents</option>
+                        <option>Approved</option>
+                        <option>Referred</option>
+                      </select>
                     </div>
                   </div>
 
-                  <div className="mt-5 grid gap-3">
-                    <button className="cursor-pointer rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
-                      Verify Documents
-                    </button>
-                    <button className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">
-                      Send Email Update
-                    </button>
+                  <div className="mt-6 overflow-x-auto">
+                    <table className="min-w-full text-left">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-sm text-slate-500">
+                          <th className="px-4 py-3 font-semibold">Patient</th>
+                          <th className="px-4 py-3 font-semibold">Reference</th>
+                          <th className="px-4 py-3 font-semibold">Condition</th>
+                          <th className="px-4 py-3 font-semibold">Status</th>
+                          <th className="px-4 py-3 font-semibold">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {loading ? (
+                          <tr><td colSpan={5} className="py-8 text-center text-slate-500">Loading cases...</td></tr>
+                        ) : filtered.filter(r => activeTab === 'records' || r.state === '4' || r.state === 'Missing Documents').length === 0 ? (
+                          <tr><td colSpan={5} className="py-8 text-center text-slate-500">No cases found in this view.</td></tr>
+                        ) : filtered
+                            .filter(r => activeTab === 'records' || r.state === '4' || r.state === 'Missing Documents')
+                            .map((record) => (
+                            <tr key={record.sys_id} className="border-b border-slate-100">
+                              <td className="px-4 py-4 font-semibold text-slate-800">{record.patient_name}</td>
+                              <td className="px-4 py-4 text-sm text-slate-600">{record.number}</td>
+                              <td className="px-4 py-4 text-sm text-slate-600">{record.medical_condition || "—"}</td>
+                              <td className="px-4 py-4">
+                                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusStyle(record.state)}`}>
+                                  {mapStateToLabel(record.state)}
+                                </span>
+                              </td>
+                              <td className="px-4 py-4">
+                                <button className="cursor-pointer rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                                  View
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                  <p className="text-sm font-semibold text-violet-700">Notes / Comments</p>
-                  <h3 className="mt-2 text-xl font-bold text-slate-800">Coordinator notes</h3>
-
-                  <div className="mt-5 space-y-3">
-                    {caseNotes.map((note) => (
-                      <div key={note} className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
-                        {note}
+                <div className="space-y-6">
+                  <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                    <p className="text-sm font-semibold text-emerald-700">Case Actions</p>
+                    <h3 className="mt-2 text-xl font-bold text-slate-800">Selected application</h3>
+                    <div className="mt-5 space-y-3">
+                      <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm">
+                        Total Cases at Site: <span className="font-bold">{records.length}</span>
                       </div>
-                    ))}
+                      <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white hover:bg-sky-700">
+                        Batch Approve
+                      </button>
+                    </div>
                   </div>
-
-                  <textarea
-                    rows={4}
-                    placeholder="Add internal note or follow-up comment"
-                    className="mt-5 w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-500"
-                  />
-
-                  <button className="cursor-pointer mt-4 w-full rounded-2xl bg-violet-600 px-4 py-3 font-semibold text-white hover:bg-violet-700">
-                    Save Note
-                  </button>
+                  
+                  <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                    <p className="text-sm font-semibold text-violet-700">Recent Activity Log</p>
+                    <div className="mt-4 space-y-3">
+                      {caseNotes.slice(0, 3).map((note, idx) => (
+                        <div key={idx} className="rounded-2xl bg-slate-50 px-4 py-3 text-xs text-slate-600 italic">
+                          "{note}"
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-
-                <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
-                  <p className="text-sm font-semibold text-slate-700">Workflow actions</p>
-                  <h3 className="mt-2 text-xl font-bold text-slate-800">Next coordinator steps</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-700">
-                    Review missing files, verify records, update case status, and notify the patient
-                    through email or the portal.
-                  </p>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
           </div>
         </main>
       </div>

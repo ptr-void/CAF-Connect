@@ -20,6 +20,7 @@ declare global {
                     '683ff201831803102cecbb96feaad368': {
                         table: 'sys_scope_privilege'
                         id: '683ff201831803102cecbb96feaad368'
+                        deleted: true
                     }
                     '6a571f0183d803102cecbb96feaad330': {
                         table: 'sys_scope_privilege'
@@ -124,6 +125,10 @@ declare global {
                     restapi_caf_post_profile_docs: {
                         table: 'sys_ws_operation'
                         id: '70c089d304ab48269e67f5317cd8e2c7'
+                    }
+                    restapi_caf_public_stats: {
+                        table: 'sys_ws_operation'
+                        id: '064b6d3d4eba4650b68e4bb72bfd6fe5'
                     }
                     restapi_caf_register: {
                         table: 'sys_ws_operation'

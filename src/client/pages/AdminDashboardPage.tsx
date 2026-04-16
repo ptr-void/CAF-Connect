@@ -35,12 +35,14 @@ function getStatusStyle(status: string) {
 }
 
 function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
-  const [stats, setStats] = useState({ totalApps: 0, activeSites: 0, pendingCases: 0, smsLogsToday: 0 });
+  const [stats, setStats] = useState({ totalApps: 0, activeSites: 0, pendingCases: 0, pendingDocRate: 0 });
   const [userRows, setUserRows] = useState<any[]>([]);
   const [siteRows, setSiteRows] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/x_1985733_cafsys/caf/admin/dashboard", {
       headers: { "X-UserToken": (window as any).g_ck || "" }
     })
@@ -48,7 +50,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(data => {
         const payload = data.result || data;
         if (payload) {
-          setStats(payload.stats || { totalApps: 0, activeSites: 0, pendingCases: 0, smsLogsToday: 0 });
+          setStats(payload.stats || { totalApps: 0, activeSites: 0, pendingCases: 0, pendingDocRate: 0 });
           setUserRows(payload.users || []);
           setSiteRows(payload.sites || []);
         }
@@ -80,11 +82,11 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       text: "text-amber-700",
     },
     {
-      title: "SMS Logs Today",
-      value: loading ? "..." : stats.smsLogsToday.toString(),
-      note: "Messages processed",
-      bg: "bg-violet-50",
-      text: "text-violet-700",
+      title: "Pending Doc Rate",
+      value: loading ? "..." : stats.pendingDocRate + "%",
+      note: "Applicants needing files",
+      bg: "bg-rose-50",
+      text: "text-rose-700",
     },
   ];
 
@@ -101,13 +103,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
     },
     {
       metric: "Pending Document Rate",
-      value: "N/A",
+      value: stats.pendingDocRate + "%",
       note: "Applications needing follow-up files",
-    },
-    {
-      metric: "SMS Delivery Success",
-      value: "100%",
-      note: "Latest processed notification batch",
     },
   ];
 
@@ -122,20 +119,20 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 
           <nav className="flex-1 px-4 py-6">
             <div className="space-y-2">
-              <button className="cursor-pointer w-full rounded-2xl bg-sky-600 px-4 py-3 text-left font-semibold text-white">
+              <button 
+                onClick={() => setActiveTab("overview")}
+                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold transition ${activeTab === 'overview' ? 'bg-sky-600 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
                 Overview
               </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button 
+                onClick={() => setActiveTab("users")}
+                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold transition ${activeTab === 'users' ? 'bg-sky-600 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
                 User Management
               </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
+              <button 
+                onClick={() => setActiveTab("sites")}
+                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold transition ${activeTab === 'sites' ? 'bg-sky-600 text-white' : 'text-slate-700 hover:bg-slate-100'}`}>
                 Access Site Management
-              </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
-                Reports & Analytics
-              </button>
-              <button className="cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-semibold text-slate-700 hover:bg-slate-100">
-                SMS Logs
               </button>
             </div>
           </nav>
@@ -184,20 +181,59 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           </header>
 
           <div className="space-y-6 p-6">
-            <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {overviewCards.map((card) => (
-                <div
-                  key={card.title}
-                  className={`rounded-3xl p-6 shadow-sm ring-1 ring-slate-200 ${card.bg}`}
-                >
-                  <p className="text-sm font-semibold text-slate-600">{card.title}</p>
-                  <p className={`mt-3 text-4xl font-bold ${card.text}`}>{card.value}</p>
-                  <p className="mt-2 text-sm text-slate-500">{card.note}</p>
-                </div>
-              ))}
-            </section>
+            {activeTab === 'overview' && (
+              <>
+                <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                  {overviewCards.map((card) => (
+                    <div
+                      key={card.title}
+                      className={`rounded-3xl p-6 shadow-sm ring-1 ring-slate-200 ${card.bg}`}
+                    >
+                      <p className="text-sm font-semibold text-slate-600">{card.title}</p>
+                      <p className={`mt-3 text-4xl font-bold ${card.text}`}>{card.value}</p>
+                      <p className="mt-2 text-sm text-slate-500">{card.note}</p>
+                    </div>
+                  ))}
+                </section>
 
-            <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+                <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+                  <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                      <div>
+                        <p className="text-sm font-semibold text-sky-700">Quick Portal Analytics</p>
+                        <h3 className="mt-2 text-2xl font-bold text-slate-800">
+                          System Performance
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="mt-8 space-y-4">
+                      {analyticsRows.map((row) => (
+                        <div key={row.metric} className="flex items-center justify-between rounded-2xl bg-slate-50 p-4">
+                          <div>
+                            <p className="font-semibold text-slate-800">{row.metric}</p>
+                            <p className="text-xs text-slate-500">{row.note}</p>
+                          </div>
+                          <p className="text-xl font-bold text-sky-700">{row.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl bg-gradient-to-br from-sky-600 to-sky-700 p-8 text-white shadow-lg">
+                    <h3 className="text-2xl font-bold">Admin Notice</h3>
+                    <p className="mt-4 text-sky-100 leading-relaxed">
+                      All system statistics are now fetched in real-time. SMS notification integration has been disabled per system requirements. 
+                      User and site management can be accessed via the sidebar.
+                    </p>
+                    <button onClick={() => setActiveTab("users")} className="mt-6 rounded-xl bg-white px-6 py-2.5 text-sm font-bold text-sky-700 shadow-md">
+                      Manage Users
+                    </button>
+                  </div>
+                </section>
+              </>
+            )}
+
+            {activeTab === 'users' && (
               <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <div>
@@ -269,118 +305,34 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   </table>
                 </div>
               </div>
+            )}
 
-              <div className="space-y-6">
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                  <p className="text-sm font-semibold text-emerald-700">Application Volume by Site</p>
-                  <h3 className="mt-2 text-xl font-bold text-slate-800">Access site monitoring</h3>
-
-                  <div className="mt-5 space-y-3">
-                    {loading ? (
-                       <p className="py-6 text-center text-slate-500">Loading sites...</p>
-                    ) : siteRows.length === 0 ? (
-                       <p className="py-6 text-center text-slate-500">No sites configured.</p>
-                    ) : siteRows.map((site) => (
-                      <div key={site.name} className="rounded-2xl bg-slate-50 px-4 py-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="font-semibold text-slate-800">{site.name}</p>
-                            <p className="mt-1 text-sm text-slate-500">{site.region}</p>
-                          </div>
-                          <span
-                            className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusStyle(
-                              site.status
-                            )}`}
-                          >
-                            {site.status}
-                          </span>
-                        </div>
-                        <p className="mt-3 text-sm text-slate-600">
-                          Total active cases: <span className="font-semibold text-slate-800">{site.cases}</span>
-                        </p>
-                      </div>
-                    ))}
+            {activeTab === 'sites' && (
+              <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                   <div>
+                    <p className="text-sm font-semibold text-sky-700">Access Site Management</p>
+                    <h3 className="mt-2 text-2xl font-bold text-slate-800">Service points and funding</h3>
+                    <p className="mt-2 text-sm text-slate-500">Monitor active treatment facilities and their case volumes.</p>
                   </div>
                 </div>
-
-                <div className="rounded-3xl bg-gradient-to-br from-sky-100 to-emerald-100 p-6 ring-1 ring-sky-200">
-                  <p className="text-sm font-semibold text-slate-700">System control</p>
-                  <h3 className="mt-2 text-xl font-bold text-slate-800">Admin actions</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-700">
-                    Update site availability, monitor case distribution, manage roles, and review
-                    notification activity from one dashboard.
-                  </p>
-
-                  <div className="mt-5 grid gap-3">
-                    <button className="cursor-pointer rounded-2xl bg-white px-4 py-3 font-semibold text-slate-800 hover:bg-slate-100">
-                      Manage Access Sites
-                    </button>
-                    <button className="cursor-pointer rounded-2xl bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-slate-800">
-                      Review SMS Logs
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <p className="text-sm font-semibold text-violet-700">Reports and Analytics</p>
-                <h3 className="mt-2 text-2xl font-bold text-slate-800">Key operational metrics</h3>
-
-                <div className="mt-6 space-y-4">
-                  {analyticsRows.map((item) => (
-                    <div key={item.metric} className="rounded-2xl bg-slate-50 px-4 py-4">
-                      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                        <div>
-                          <p className="font-semibold text-slate-800">{item.metric}</p>
-                          <p className="mt-1 text-sm text-slate-500">{item.note}</p>
-                        </div>
-                        <p className="text-lg font-bold text-violet-700">{item.value}</p>
+                
+                <div className="mt-8 grid gap-4 lg:grid-cols-2">
+                  {siteRows.map(site => (
+                    <div key={site.name} className="flex items-center justify-between rounded-2xl border border-slate-100 p-6">
+                      <div>
+                        <h4 className="font-bold text-slate-800">{site.name}</h4>
+                        <p className="text-sm text-slate-500">{site.region}</p>
+                        <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-sky-600">{site.cases} Active Cases</p>
                       </div>
+                      <span className={`rounded-xl px-4 py-1.5 text-xs font-bold uppercase ${getStatusStyle(site.status)}`}>
+                        {site.status}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
-
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <p className="text-sm font-semibold text-amber-700">SMS Logs / Notification Monitoring</p>
-                <h3 className="mt-2 text-2xl font-bold text-slate-800">Recent message activity</h3>
-
-                <div className="mt-6 space-y-4">
-                  <div className="rounded-2xl bg-slate-50 px-4 py-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      Latest batch
-                    </p>
-                    <p className="mt-2 text-sm text-slate-700">
-                      We have processed {loading ? "..." : stats.smsLogsToday} notifications today. Review error queues if delivery rate falls.
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-50 px-4 py-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      Delivery summary
-                    </p>
-                    <p className="mt-2 text-sm text-slate-700">
-                      100% delivered, 0% queued, 0% failed and pending retry.
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-50 px-4 py-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      Most common alert
-                    </p>
-                    <p className="mt-2 text-sm text-slate-700">
-                      Case Submission Acknowledgement.
-                    </p>
-                  </div>
-                </div>
-
-                <button className="cursor-pointer mt-6 w-full rounded-2xl bg-amber-500 px-4 py-3 font-semibold text-white hover:bg-amber-600">
-                  Open Full SMS Logs
-                </button>
-              </div>
-            </section>
+            )}
           </div>
         </main>
       </div>
