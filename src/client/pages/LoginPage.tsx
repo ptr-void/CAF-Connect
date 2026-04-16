@@ -32,7 +32,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
     const newErrors: Record<string, string> = {};
     if (!email) newErrors.email = "Email Address is required";
     if (!password) newErrors.password = "Password is required";
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -52,12 +52,12 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      const payload = data.result || data; 
-      
+      const payload = data.result || data;
+
       if (res.ok && payload.user_name) {
-        const userData = { 
-          name: payload.name, 
-          email: payload.email, 
+        const userData = {
+          name: payload.name,
+          email: payload.email,
           user_name: payload.user_name,
           account_type: payload.account_type,
           assigned_site: payload.assigned_site
@@ -65,9 +65,11 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
         if (setCurrentUser) setCurrentUser(userData as any);
         if (setIsAuthenticated) setIsAuthenticated(true);
         localStorage.setItem("caf_portal_user", JSON.stringify(userData));
-        
+
         if (userData.account_type === 'Coordinator') {
           setActivePage("staff");
+        } else if (userData.account_type === 'Administrator') {
+          setActivePage("admin");
         } else {
           setActivePage("tracker");
         }
@@ -80,7 +82,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
         } else if (data.message) {
           errorMsg = data.message;
         } else {
-          
+
           errorMsg = `Login failed. Server replied: ${JSON.stringify(data)}`;
         }
         setError(`Error: ${errorMsg}`);
@@ -135,7 +137,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
                       type="email"
                       placeholder="Enter your email"
                       value={email}
-                      onChange={(e) => { setEmail(e.target.value); setErrors({...errors, email: ""}); }}
+                      onChange={(e) => { setEmail(e.target.value); setErrors({ ...errors, email: "" }); }}
                       className={`w-full rounded-2xl border ${errors.email ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
                       style={errors.email ? { borderColor: "red" } : {}}
                     />
@@ -148,7 +150,7 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
                       type="password"
                       placeholder="Enter your password"
                       value={password}
-                      onChange={(e) => { setPassword(e.target.value); setErrors({...errors, password: ""}); }}
+                      onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: "" }); }}
                       onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
                       className={`w-full rounded-2xl border ${errors.password ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
                       style={errors.password ? { borderColor: "red" } : {}}
