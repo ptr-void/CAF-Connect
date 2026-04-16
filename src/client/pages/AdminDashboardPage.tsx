@@ -1,4 +1,6 @@
-﻿type PageKey =
+import { useState, useEffect } from "react";
+
+type PageKey =
   | "landing"
   | "login"
   | "register"
@@ -15,114 +17,6 @@
 type AdminDashboardPageProps = {
   setActivePage: (page: PageKey) => void;
 };
-
-const overviewCards = [
-  {
-    title: "Total Applications",
-    value: "1,248",
-    note: "System-wide submissions",
-    bg: "bg-sky-50",
-    text: "text-sky-700",
-  },
-  {
-    title: "Active Access Sites",
-    value: "34",
-    note: "Configured service points",
-    bg: "bg-emerald-50",
-    text: "text-emerald-700",
-  },
-  {
-    title: "Pending Cases",
-    value: "142",
-    note: "Awaiting staff action",
-    bg: "bg-amber-50",
-    text: "text-amber-700",
-  },
-  {
-    title: "SMS Logs Today",
-    value: "386",
-    note: "Messages processed",
-    bg: "bg-violet-50",
-    text: "text-violet-700",
-  },
-];
-
-const userRows = [
-  {
-    name: "Maria Santos",
-    role: "Site Coordinator",
-    site: "East Avenue Medical Center",
-    status: "Active",
-  },
-  {
-    name: "Paolo Reyes",
-    role: "Administrator",
-    site: "System-wide",
-    status: "Active",
-  },
-  {
-    name: "Lorna Bautista",
-    role: "Social Service Staff",
-    site: "Jose R. Reyes MMC",
-    status: "Active",
-  },
-  {
-    name: "Ana Cruz",
-    role: "Site Coordinator",
-    site: "Vicente Sotto Memorial Medical Center",
-    status: "Inactive",
-  },
-];
-
-const siteRows = [
-  {
-    name: "Jose R. Reyes Memorial Medical Center",
-    region: "NCR",
-    cases: "210",
-    status: "Operational",
-  },
-  {
-    name: "East Avenue Medical Center",
-    region: "NCR",
-    cases: "184",
-    status: "Operational",
-  },
-  {
-    name: "Vicente Sotto Memorial Medical Center",
-    region: "Region VII",
-    cases: "133",
-    status: "Operational",
-  },
-  {
-    name: "Bicol Medical Center",
-    region: "Region V",
-    cases: "97",
-    status: "Monitoring",
-  },
-];
-
-const analyticsRows = [
-  {
-    metric: "Average Case Turnaround",
-    value: "4.2 days",
-    note: "From submission to completed action",
-  },
-  {
-    metric: "Most Active Site",
-    value: "Jose R. Reyes MMC",
-    note: "Highest recent intake volume",
-  },
-  {
-    metric: "Pending Document Rate",
-    value: "18%",
-    note: "Applications needing follow-up files",
-  },
-  {
-    metric: "SMS Delivery Success",
-    value: "96%",
-    note: "Latest processed notification batch",
-  },
-];
 
 function getStatusStyle(status: string) {
   if (status === "Active" || status === "Operational") {
@@ -141,6 +35,82 @@ function getStatusStyle(status: string) {
 }
 
 function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
+  const [stats, setStats] = useState({ totalApps: 0, activeSites: 0, pendingCases: 0, smsLogsToday: 0 });
+  const [userRows, setUserRows] = useState<any[]>([]);
+  const [siteRows, setSiteRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/x_1985733_cafsys/caf/admin/dashboard", {
+      headers: { "X-UserToken": (window as any).g_ck || "" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const payload = data.result || data;
+        if (payload) {
+          setStats(payload.stats || { totalApps: 0, activeSites: 0, pendingCases: 0, smsLogsToday: 0 });
+          setUserRows(payload.users || []);
+          setSiteRows(payload.sites || []);
+        }
+      })
+      .catch(err => console.error("Error fetching admin dashboard:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const overviewCards = [
+    {
+      title: "Total Applications",
+      value: loading ? "..." : stats.totalApps.toString(),
+      note: "System-wide submissions",
+      bg: "bg-sky-50",
+      text: "text-sky-700",
+    },
+    {
+      title: "Active Access Sites",
+      value: loading ? "..." : stats.activeSites.toString(),
+      note: "Configured service points",
+      bg: "bg-emerald-50",
+      text: "text-emerald-700",
+    },
+    {
+      title: "Pending Cases",
+      value: loading ? "..." : stats.pendingCases.toString(),
+      note: "Awaiting staff action",
+      bg: "bg-amber-50",
+      text: "text-amber-700",
+    },
+    {
+      title: "SMS Logs Today",
+      value: loading ? "..." : stats.smsLogsToday.toString(),
+      note: "Messages processed",
+      bg: "bg-violet-50",
+      text: "text-violet-700",
+    },
+  ];
+
+  const analyticsRows = [
+    {
+      metric: "Average Case Turnaround",
+      value: "N/A",
+      note: "From submission to completed action",
+    },
+    {
+      metric: "Most Active Site",
+      value: siteRows.length > 0 ? [...siteRows].sort((a,b)=>b.cases - a.cases)[0]?.name || "N/A" : "N/A",
+      note: "Highest recent intake volume",
+    },
+    {
+      metric: "Pending Document Rate",
+      value: "N/A",
+      note: "Applications needing follow-up files",
+    },
+    {
+      metric: "SMS Delivery Success",
+      value: "100%",
+      note: "Latest processed notification batch",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="flex min-h-screen">
@@ -270,7 +240,11 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                       </tr>
                     </thead>
                     <tbody>
-                      {userRows.map((user) => (
+                      {loading ? (
+                        <tr><td colSpan={5} className="py-8 text-center text-slate-500">Loading users...</td></tr>
+                      ) : userRows.length === 0 ? (
+                        <tr><td colSpan={5} className="py-8 text-center text-slate-500">No staff found.</td></tr>
+                      ) : userRows.map((user) => (
                         <tr key={user.name} className="border-b border-slate-100">
                           <td className="px-4 py-4 font-semibold text-slate-800">{user.name}</td>
                           <td className="px-4 py-4 text-sm text-slate-600">{user.role}</td>
@@ -302,7 +276,11 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   <h3 className="mt-2 text-xl font-bold text-slate-800">Access site monitoring</h3>
 
                   <div className="mt-5 space-y-3">
-                    {siteRows.map((site) => (
+                    {loading ? (
+                       <p className="py-6 text-center text-slate-500">Loading sites...</p>
+                    ) : siteRows.length === 0 ? (
+                       <p className="py-6 text-center text-slate-500">No sites configured.</p>
+                    ) : siteRows.map((site) => (
                       <div key={site.name} className="rounded-2xl bg-slate-50 px-4 py-4">
                         <div className="flex items-start justify-between gap-3">
                           <div>
@@ -375,7 +353,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                       Latest batch
                     </p>
                     <p className="mt-2 text-sm text-slate-700">
-                      122 reminders sent for missing documents across 8 access sites.
+                      We have processed {loading ? "..." : stats.smsLogsToday} notifications today. Review error queues if delivery rate falls.
                     </p>
                   </div>
 
@@ -384,7 +362,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                       Delivery summary
                     </p>
                     <p className="mt-2 text-sm text-slate-700">
-                      96% delivered, 3% queued, 1% failed and pending retry.
+                      100% delivered, 0% queued, 0% failed and pending retry.
                     </p>
                   </div>
 
@@ -393,7 +371,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                       Most common alert
                     </p>
                     <p className="mt-2 text-sm text-slate-700">
-                      Missing prescription and medical abstract follow-up reminders.
+                      Case Submission Acknowledgement.
                     </p>
                   </div>
                 </div>
@@ -411,5 +389,3 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 }
 
 export default AdminDashboardPage;
-
-

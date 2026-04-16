@@ -86,3 +86,15 @@ export const x_1985733_cafsys_notification = Table({
         created_date: StringColumn({ label: 'Created Date', maxLength: 50 }) 
     }
 });
+
+export const x_1985733_cafsys_doc_req = Table({
+    name: 'x_1985733_cafsys_doc_req',
+    label: 'CAF Document Requirement',
+    display: 'name',
+    schema: {
+        name: StringColumn({ label: 'Document Name', mandatory: true, maxLength: 200 }),
+        category: StringColumn({ label: 'Category', maxLength: 100 }),
+        note: StringColumn({ label: 'Guidance Note', maxLength: 1000 }),
+        is_active: BooleanColumn({ label: 'Is Active', defaultValue: true })
+    }
+});
