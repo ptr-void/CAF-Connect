@@ -74,7 +74,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
       body: JSON.stringify({ id: selectedUser.id, role: selectedUserRole })
     })
-      .then(res => res.json())
+      .then(res => {
+         if(!res.ok) alert(`HTTP Status: ${res.status}`);
+         return res.json();
+      })
       .then(data => {
         if (data.error) {
           alert("Server Error: " + data.error + "\n" + JSON.stringify(data.debug || {}));
@@ -82,6 +85,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           fetchDashboardData(); setSelectedUser(null);
         }
       })
+      .catch(err => alert("Connection Error: API endpoint might still be configuring on the SN cloud.\n" + err))
       .finally(() => setIsUpdatingUser(false));
   };
 
@@ -93,7 +97,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
       body: JSON.stringify({ id: selectedUser.id, is_active: newStatus })
     })
-      .then(res => res.json())
+      .then(res => {
+         if(!res.ok) alert(`HTTP Status: ${res.status}`);
+         return res.json();
+      })
       .then(data => {
         if (data.error) {
           alert("Server Error: " + data.error + "\n" + JSON.stringify(data.debug || {}));
@@ -101,6 +108,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
           fetchDashboardData(); setSelectedUser(null);
         }
       })
+      .catch(err => alert("Connection Error: API endpoint might still be configuring on the SN cloud.\n" + err))
       .finally(() => setIsUpdatingUser(false));
   };
 
