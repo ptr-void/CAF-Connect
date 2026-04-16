@@ -14,7 +14,7 @@ export const coordinatorRole = Role({
 
 export const x_1985733_cafsys_application = Table({
     name: 'x_1985733_cafsys_application',
-    extends: 'task', 
+    extends: 'task',
     label: 'CAF Application',
     display: 'patient_name',
     auto_number: {
@@ -28,12 +28,12 @@ export const x_1985733_cafsys_application = Table({
         email: StringColumn({ label: 'Email', maxLength: 100 }),
         phone_number: StringColumn({ label: 'Phone Number', maxLength: 20 }),
         selected_site: StringColumn({ label: 'Selected Access Site', maxLength: 100 }),
-        
-        
+
+
         medical_abstract: StringColumn({ label: 'Medical Abstract (Raw text)', maxLength: 4000 }),
         ai_eligibility_score: StringColumn({ label: 'AI Eligibility Result', maxLength: 100 }),
         ai_reasoning: StringColumn({ label: 'AI Reasoning', maxLength: 4000 }),
-        
+
         needs_manual_review: BooleanColumn({ label: 'Needs Manual Review' }),
         requested_amount: DecimalColumn({ label: 'Requested Amount' }),
         approved_amount: DecimalColumn({ label: 'Approved Amount' }),
@@ -83,7 +83,7 @@ export const x_1985733_cafsys_notification = Table({
         message: StringColumn({ label: 'Message', mandatory: true, maxLength: 1000 }),
         user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
         is_read: BooleanColumn({ label: 'Is Read', defaultValue: false }),
-        created_date: StringColumn({ label: 'Created Date', maxLength: 50 }) 
+        created_date: StringColumn({ label: 'Created Date', maxLength: 50 })
     }
 });
 
