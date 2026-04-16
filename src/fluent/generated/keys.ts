@@ -69,6 +69,10 @@ declare global {
                         table: 'sys_ws_operation'
                         id: 'ea09208cf3a744359cbc53421a354f63'
                     }
+                    restapi_caf_get_case_logs: {
+                        table: 'sys_ws_operation'
+                        id: '8c105784a3984674bfad930afaf3a70d'
+                    }
                     restapi_caf_get_profile_docs: {
                         table: 'sys_ws_operation'
                         id: '87361038ea624dec8281e2dbdaa8aa67'
@@ -223,6 +227,15 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'assigned_site'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '243b58837d234b3c9ab918391a1742d7'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'NULL'
                             language: 'en'
                         }
                     },
@@ -612,6 +625,15 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_documentation'
+                        id: '887eb3d05e1044b091647914f92db4b7'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'title'
+                            language: 'en'
+                        }
+                    },
+                    {
                         table: 'sys_dictionary'
                         id: '88f11ad971734585a7819f38a538c5a1'
                         key: {
@@ -650,6 +672,15 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'password'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '97f5ce21ed7c4e9e9578d3ce2692a3c3'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'message'
+                            language: 'en'
                         }
                     },
                     {
@@ -708,6 +739,14 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_dictionary'
+                        id: 'a4f31d456c5044a7a6a3acf2bba8e217'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'NULL'
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: 'a6c15dfc8c724044b437ea313cf9cbf5'
                         key: {
@@ -730,6 +769,15 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'contact_number'
+                            language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: 'a90ad0bd89c9412f8351e364ed62337a'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'type'
                             language: 'en'
                         }
                     },
@@ -814,6 +862,13 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_db_object'
+                        id: 'b9956f46c48546e4809effa40f2121cb'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                        }
+                    },
+                    {
                         table: 'sys_dictionary'
                         id: 'bb985e056cb64b82af94a8c047e7772d'
                         key: {
@@ -855,11 +910,28 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_documentation'
+                        id: 'c027f132044649e0ad4320359aead58f'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'timestamp'
+                            language: 'en'
+                        }
+                    },
+                    {
                         table: 'sys_dictionary'
                         id: 'c0864f123b6c4226af53923120de1344'
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'email'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'c2fa7ad76449402ca7b98f9b8365cf94'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'title'
                         }
                     },
                     {
@@ -869,6 +941,13 @@ declare global {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'NULL'
                             language: 'en'
+                        }
+                    },
+                    {
+                        table: 'ua_table_licensing_config'
+                        id: 'c4251704d96847949ba7fd12c025adf1'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
                         }
                     },
                     {
@@ -885,6 +964,14 @@ declare global {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'file_url'
                             language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'c6af37fcf3f94f95b1d0926a2821f65d'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'message'
                         }
                     },
                     {
@@ -910,6 +997,14 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'operating_hours'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'ca0d4d169f1e4beeb93b7d09cbfc6e47'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'timestamp'
                         }
                     },
                     {
@@ -983,6 +1078,14 @@ declare global {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_condition'
                             language: 'en'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'd0f9d78f2ef142329086bbb35bb67f4d'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'type'
                         }
                     },
                     {
@@ -1062,6 +1165,14 @@ declare global {
                     },
                     {
                         table: 'sys_dictionary'
+                        id: 'ea11ab8f749749ce86d0480f9474ffb4'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'application'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
                         id: 'ead8c42266774f53a26e3e384443ea84'
                         key: {
                             name: 'x_1985733_cafsys_application'
@@ -1081,6 +1192,15 @@ declare global {
                         id: 'f580bc09f6d04c85ab3e683940097be5'
                         key: {
                             endpoint: 'x_1985733_cafsys_admin.do'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: 'f616b8106bf6430b8499ffe9f1668566'
+                        key: {
+                            name: 'x_1985733_cafsys_case_log'
+                            element: 'application'
+                            language: 'en'
                         }
                     },
                     {

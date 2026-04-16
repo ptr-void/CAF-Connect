@@ -286,7 +286,15 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    
+                    var log = new GlideRecord('x_1985733_cafsys_case_log');
+                    log.initialize();
+                    log.setValue('application', sysId);
+                    log.setValue('title', 'Application received');
+                    log.setValue('message', 'Your intake form was submitted successfully and forwarded to the selected access site.');
+                    log.setValue('type', 'info');
+                    log.setValue('timestamp', new GlideDateTime().getDisplayValue());
+                    log.insert();
+
                     var notify = new GlideRecord('x_1985733_cafsys_notification');
                     notify.setValue('title', 'Application Received');
                     notify.setValue('message', 'Your CAF application for ' + body.patient_name + ' has been received and is under review.');
@@ -608,6 +616,46 @@ export const cafApi = RestApi({
 
                     response.setStatus(201);
                     response.setBody({ message: 'Document saved successfully', sys_id: sysId });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_get_case_logs'],
+            name: 'get_case_logs',
+            method: 'GET',
+            path: '/applications/{id}/logs',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var id = request.pathParams.id;
+                    var logs = new GlideRecord('x_1985733_cafsys_case_log');
+                    logs.addQuery('application', id);
+                    logs.orderByDesc('sys_created_on');
+                    logs.query();
+
+                    var results = [];
+                    while (logs.next()) {
+                        results.push({
+                            sys_id: logs.getUniqueValue(),
+                            title: logs.getValue('title'),
+                            message: logs.getValue('message'),
+                            type: logs.getValue('type'),
+                            timestamp: logs.getValue('timestamp') || logs.getValue('sys_created_on')
+                        });
+                    }
+
+                    if (results.length === 0) {
+                        results = [
+                            { title: 'Application received', message: 'Your intake form was submitted successfully and forwarded to the selected access site.', type: 'info', timestamp: 'Initial Submission' }
+                        ];
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
                 } catch(ex) {
                     response.setStatus(500);
                     response.setBody({ error: ex.message });
