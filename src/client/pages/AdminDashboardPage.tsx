@@ -77,10 +77,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(res => res.json())
       .then(data => {
         const d = data.result || data;
-        if (d.error) {
-          alert("Error: " + d.error);
-        } else {
-          alert(d.message || "Role updated!");
+        alert("DEBUG RESPONSE:\n" + JSON.stringify(d, null, 2));
+        if (!d.error) {
           fetchDashboardData(); setSelectedUser(null);
         }
       })
@@ -99,10 +97,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(res => res.json())
       .then(data => {
         const d = data.result || data;
-        if (d.error) {
-          alert("Error: " + d.error);
-        } else {
-          alert(d.message || "Status updated!");
+        alert("DEBUG RESPONSE:\n" + JSON.stringify(d, null, 2));
+        if (!d.error) {
           fetchDashboardData(); setSelectedUser(null);
         }
       })
