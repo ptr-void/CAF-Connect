@@ -9,6 +9,10 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: '1569fe0583d403102cecbb96feaad368'
                     }
+                    '22571f0183d803102cecbb96feaad337': {
+                        table: 'sys_scope_privilege'
+                        id: '22571f0183d803102cecbb96feaad337'
+                    }
                     '22d9f64583d403102cecbb96feaad3bc': {
                         table: 'sys_scope_privilege'
                         id: '22d9f64583d403102cecbb96feaad3bc'
@@ -16,6 +20,18 @@ declare global {
                     '683ff201831803102cecbb96feaad368': {
                         table: 'sys_scope_privilege'
                         id: '683ff201831803102cecbb96feaad368'
+                    }
+                    '6a571f0183d803102cecbb96feaad330': {
+                        table: 'sys_scope_privilege'
+                        id: '6a571f0183d803102cecbb96feaad330'
+                    }
+                    '7657d34183d803102cecbb96feaad384': {
+                        table: 'sys_scope_privilege'
+                        id: '7657d34183d803102cecbb96feaad384'
+                    }
+                    '7657d34183d803102cecbb96feaad388': {
+                        table: 'sys_scope_privilege'
+                        id: '7657d34183d803102cecbb96feaad388'
                     }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
@@ -48,6 +64,18 @@ declare global {
                     d969fe0583d403102cecbb96feaad36e: {
                         table: 'sys_scope_privilege'
                         id: 'd969fe0583d403102cecbb96feaad36e'
+                    }
+                    e257d34183d803102cecbb96feaad378: {
+                        table: 'sys_scope_privilege'
+                        id: 'e257d34183d803102cecbb96feaad378'
+                    }
+                    e257d34183d803102cecbb96feaad37c: {
+                        table: 'sys_scope_privilege'
+                        id: 'e257d34183d803102cecbb96feaad37c'
+                    }
+                    e257d34183d803102cecbb96feaad380: {
+                        table: 'sys_scope_privilege'
+                        id: 'e257d34183d803102cecbb96feaad380'
                     }
                     email_notify_approval: {
                         table: 'sysevent_email_action'
@@ -120,14 +148,6 @@ declare global {
                 }
                 composite: [
                     {
-                        table: 'sys_dictionary'
-                        id: '090ecee5d09249ed9d29149473a6cba7'
-                        key: {
-                            name: 'x_1985733_cafsys_notification'
-                            element: 'user_email'
-                        }
-                    },
-                    {
                         table: 'sys_documentation'
                         id: '01ea5cd787414b21999d6badabbcf5d9'
                         key: {
@@ -181,6 +201,15 @@ declare global {
                         id: '084d993cc81b4ff78c6c1ab176f512ac'
                         key: {
                             endpoint: 'x_1985733_cafsys_register.do'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '090ecee5d09249ed9d29149473a6cba7'
+                        deleted: true
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'user_email'
                         }
                     },
                     {
@@ -686,6 +715,14 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_db_object'
+                        id: 'b3c9c9b17f9c469ea6d8d29e5f959bcd'
+                        deleted: true
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: 'b6b4af8752fb4ba899e0e0980d22da9d'
                         key: {
@@ -723,13 +760,6 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'NULL'
-                        }
-                    },
-                    {
-                        table: 'sys_db_object'
-                        id: 'b3c9c9b17f9c469ea6d8d29e5f959bcd'
-                        key: {
-                            name: 'x_1985733_cafsys_notification'
                         }
                     },
                     {
