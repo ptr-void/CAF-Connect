@@ -40,7 +40,7 @@ function App() {
 
   const [activePage, setActivePage] = useState<PageKey>(getInitialPage());
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; user_name: string } | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; user_name: string; account_type?: string; assigned_site?: string } | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -58,7 +58,7 @@ function App() {
         const parsed = JSON.parse(savedUser);
         setCurrentUser(parsed);
         setIsAuthenticated(true);
-        return; 
+        return;
       } catch (e) {
         console.error("Failed to parse saved user", e);
       }
@@ -80,6 +80,8 @@ function App() {
     { key: "eligibility", label: "Eligibility" },
     { key: "application", label: "Apply", secure: true },
     { key: "tracker", label: "Track", secure: true },
+    { key: "staff", label: "Staff Dashboard", secure: true },
+    { key: "admin", label: "Admin Dashboard", secure: true },
     { key: "sites", label: "Access Sites" },
     { key: "help", label: "Help" },
   ];
@@ -135,7 +137,16 @@ function App() {
           </div>
 
           <nav className="hidden items-center gap-2 md:flex">
-            {navLinks.filter(l => !l.secure || isAuthenticated).map((link) => (
+            {navLinks.filter(l => {
+              if (l.secure && !isAuthenticated) return false;
+              if (l.key === "staff" && currentUser?.account_type !== "Coordinator") return false;
+              if (l.key === "admin" && currentUser?.account_type !== "Administrator") return false;
+              if ((l.key === "application" || l.key === "tracker") && 
+                  currentUser && currentUser.account_type !== "Patient" && currentUser.account_type !== "Family Member / Guardian" && currentUser.account_type !== "Applicant") {
+                return false;
+              }
+              return true;
+            }).map((link) => (
               <button
                 key={link.key}
                 onClick={() => setActivePage(link.key)}
