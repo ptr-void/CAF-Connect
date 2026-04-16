@@ -50,7 +50,8 @@ export const x_1985733_cafsys_portal_user = Table({
         full_name: StringColumn({ label: 'Full Name', mandatory: true, maxLength: 100 }),
         email: StringColumn({ label: 'Email', mandatory: true, maxLength: 100 }),
         password: StringColumn({ label: 'Password', mandatory: true, maxLength: 100 }),
-        account_type: StringColumn({ label: 'Account Type', maxLength: 50 })
+        account_type: StringColumn({ label: 'Account Type', maxLength: 50 }),
+        assigned_site: StringColumn({ label: 'Assigned Site', maxLength: 200 })
     }
 });
 
@@ -83,5 +84,17 @@ export const x_1985733_cafsys_notification = Table({
         user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
         is_read: BooleanColumn({ label: 'Is Read', defaultValue: false }),
         created_date: StringColumn({ label: 'Created Date', maxLength: 50 }) 
+    }
+});
+
+export const x_1985733_cafsys_doc_req = Table({
+    name: 'x_1985733_cafsys_doc_req',
+    label: 'CAF Document Requirement',
+    display: 'name',
+    schema: {
+        name: StringColumn({ label: 'Document Name', mandatory: true, maxLength: 200 }),
+        category: StringColumn({ label: 'Category', maxLength: 100 }),
+        note: StringColumn({ label: 'Guidance Note', maxLength: 1000 }),
+        is_active: BooleanColumn({ label: 'Is Active', defaultValue: true })
     }
 });
