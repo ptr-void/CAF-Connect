@@ -226,6 +226,7 @@ export const cafApi = RestApi({
                     newApp.setValue('ai_reasoning', body.ai_reasoning || '');
                     newApp.setValue('needs_manual_review', body.needs_manual_review || false);
                     newApp.setValue('requested_amount', body.requested_amount || 0);
+                    newApp.setValue('document_url', body.document_url || '');
                     newApp.setValue('state', '1'); 
                     
                     var sysId = newApp.insert();
@@ -276,9 +277,9 @@ export const cafApi = RestApi({
                     
                     if (!sites.hasNext()) {
                          results = [
-                            { sys_id: 'mock1', site_name: 'Metro Manila Medical Center', region: 'NCR', address: '123 Health Ave, Manila', contact_number: '(02) 8123-4567', operating_hours: 'Mon-Sun, 24/7' },
-                            { sys_id: 'mock2', site_name: 'Cebu Doctors University Hospital', region: 'Central Visayas', address: 'Osmeña Blvd, Cebu City', contact_number: '(032) 255-5555', operating_hours: 'Mon-Sat, 8AM-5PM' },
-                            { sys_id: 'mock3', site_name: 'Davao Regional Hospital', region: 'Davao Region', address: 'Tagum City, Davao del Norte', contact_number: '(084) 216-9133', operating_hours: 'Mon-Fri, 9AM-4PM' }
+                            { sys_id: 'mock1', site_name: 'Metro Manila Medical Center', region: 'NCR', address: '123 Health Ave, Manila', contact_number: '(02) 8123-4567', operating_hours: 'Mon-Sun, 24/7', remaining_funds: 2500000, status: 'Available', supported_cancers: 'All Major Cancers' },
+                            { sys_id: 'mock2', site_name: 'Cebu Doctors University Hospital', region: 'Central Visayas', address: 'Osmeña Blvd, Cebu City', contact_number: '(032) 255-5555', operating_hours: 'Mon-Sat, 8AM-5PM', remaining_funds: 0, status: 'Exhausted', supported_cancers: 'Breast, Lung, Colon' },
+                            { sys_id: 'mock3', site_name: 'Davao Regional Hospital', region: 'Davao Region', address: 'Tagum City, Davao del Norte', contact_number: '(084) 216-9133', operating_hours: 'Mon-Fri, 9AM-4PM', remaining_funds: 500000, status: 'Pending Confirmation', supported_cancers: 'Pediatric Oncology, Cervical' }
                          ];
                     } else {
                         while (sites.next()) {
@@ -288,7 +289,10 @@ export const cafApi = RestApi({
                                 region: sites.getValue('region'),
                                 address: sites.getValue('address'),
                                 contact_number: sites.getValue('contact_number'),
-                                operating_hours: sites.getValue('operating_hours')
+                                operating_hours: sites.getValue('operating_hours'),
+                                remaining_funds: sites.getValue('remaining_funds'),
+                                status: sites.getValue('status'),
+                                supported_cancers: sites.getValue('supported_cancers')
                             });
                         }
                     }
