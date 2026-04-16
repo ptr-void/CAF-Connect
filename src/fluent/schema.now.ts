@@ -112,3 +112,16 @@ export const x_1985733_cafsys_patient_doc = Table({
         status: StringColumn({ label: 'Status', maxLength: 50, defaultValue: 'Uploaded' })
     }
 });
+
+export const x_1985733_cafsys_case_log = Table({
+    name: 'x_1985733_cafsys_case_log',
+    label: 'CAF Case Activity Log',
+    display: 'title',
+    schema: {
+        application: StringColumn({ label: 'Application ID', mandatory: true, maxLength: 40 }),
+        title: StringColumn({ label: 'Activity Title', mandatory: true, maxLength: 200 }),
+        message: StringColumn({ label: 'Activity Message', maxLength: 1000 }),
+        type: StringColumn({ label: 'Activity Type', maxLength: 50, defaultValue: 'info' }),
+        timestamp: StringColumn({ label: 'Activity Timestamp', maxLength: 100 })
+    }
+});
