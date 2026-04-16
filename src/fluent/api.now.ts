@@ -541,7 +541,9 @@ export const cafApi = RestApi({
 
                     var users = [];
                     var userGr = new GlideRecord('x_1985733_cafsys_portal_user');
-                    userGr.addQuery('account_type', '!=', 'Applicant');
+                    var qc = userGr.addQuery('account_type', 'Administrator');
+                    qc.addOrCondition('account_type', 'Site Coordinator');
+                    qc.addOrCondition('account_type', 'Coordinator');
                     userGr.query();
                     while (userGr.next()) {
                         users.push({
