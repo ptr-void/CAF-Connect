@@ -77,9 +77,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(res => res.json())
       .then(data => {
         const d = data.result || data;
-        alert("DEBUG RESPONSE:\n" + JSON.stringify(d, null, 2));
         if (!d.error) {
           fetchDashboardData(); setSelectedUser(null);
+        } else {
+          alert('Error: ' + d.error);
         }
       })
       .catch(err => alert("Network error: " + err))
@@ -97,9 +98,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(res => res.json())
       .then(data => {
         const d = data.result || data;
-        alert("DEBUG RESPONSE:\n" + JSON.stringify(d, null, 2));
         if (!d.error) {
           fetchDashboardData(); setSelectedUser(null);
+        } else {
+          alert('Error: ' + d.error);
         }
       })
       .catch(err => alert("Network error: " + err))

@@ -314,14 +314,18 @@ Coordination Notes: ${coordNotes}
                     <textarea rows={3} value={address} onChange={(e) => { setAddress(e.target.value); setErrors({ ...errors, address: "" }); }} placeholder="Enter complete home address" className={`w-full rounded-2xl border ${errors.address ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.address ? { borderColor: "red" } : {}} />
                     {errors.address && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.address}</p>}
                   </div>
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Applicant / Representative Name</label>
-                    <input type="text" value={repName} onChange={(e) => setRepName(e.target.value)} placeholder="If different from patient" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
-                  </div>
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Relationship to Patient</label>
-                    <input type="text" value={relationship} onChange={(e) => setRelationship(e.target.value)} placeholder="Parent, guardian, sibling, etc." className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
-                  </div>
+                  {(currentUser?.account_type === 'Family Member / Guardian' || currentUser?.role === 'Family Member / Guardian' || currentUser?.account_type === 'Family / Guardian') && (
+                    <>
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Applicant / Representative Name</label>
+                        <input type="text" value={repName} onChange={(e) => setRepName(e.target.value)} placeholder="If different from patient" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-slate-700">Relationship to Patient</label>
+                        <input type="text" value={relationship} onChange={(e) => setRelationship(e.target.value)} placeholder="Parent, guardian, sibling, etc." className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="mt-8 flex justify-end">
                   <button onClick={handleNextStep1} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700">
@@ -364,11 +368,24 @@ Coordination Notes: ${coordNotes}
                     {errors.requestedAmount && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.requestedAmount}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Medical Abstract or Clinical Summary (PDF/Image) <span style={{ color: "red" }}>*</span></label>
-                    <input type="file" accept=".pdf,image/*" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} className={`w-full cursor-pointer rounded-2xl border ${errors.documentUrl ? 'bg-red-50' : 'border-slate-300'} bg-slate-50 px-4 py-3 outline-none focus:border-sky-500 text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100 disabled:opacity-50`} style={errors.documentUrl ? { borderColor: "red" } : {}} />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Supporting Documents / Patient Diagnosis <span style={{ color: "red" }}>*</span></label>
+                    <div className={`mt-2 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed ${errors.documentUrl ? 'border-red-400 bg-red-50' : 'border-slate-300 bg-slate-50'} py-10 px-6 transition hover:bg-slate-100`}>
+                      <svg className={`mb-3 h-10 w-10 ${errors.documentUrl ? 'text-red-400' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      </svg>
+                      <p className="mb-1 text-sm font-semibold text-slate-700">Choose a file or drag & drop it here</p>
+                      <p className="text-xs text-slate-500">JPEG, PNG, PDF, and MP4 formats, up to 50MB</p>
+                      <div className="mt-4 relative">
+                        <button type="button" className="cursor-pointer rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50">
+                          Browse File
+                        </button>
+                        <input type="file" accept=".pdf,image/*,video/mp4" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} className="absolute inset-0 h-full w-full opacity-0 cursor-pointer disabled:cursor-not-allowed" />
+                      </div>
+                    </div>
                     {uploadingDoc && <p className="mt-2 text-sm text-sky-600 animate-pulse">Uploading securely...</p>}
                     {documentUrl && <p className="mt-2 text-sm text-emerald-600 font-medium">✓ Document uploaded successfully</p>}
-                    {errors.documentUrl && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.documentUrl}</p>}
+                    {errors.documentUrl && <p style={{ color: "red" }} className="mt-2 text-xs">{errors.documentUrl}</p>}
+                    <p className="mt-2 text-xs text-slate-500">Required for the AI Review Result Summary / Feedback.</p>
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treatment Notes / Assistance Needed</label>
@@ -397,7 +414,7 @@ Coordination Notes: ${coordNotes}
                       className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
                     >
                       <option value="">Select access site (optional, coordinator will assign)</option>
-                      {sites.map(s => <option key={s.sys_id} value={s.site_name}>{s.site_name} - {s.region}</option>)}
+                      {sites.filter(s => parseFloat(s.remaining_funds) > 0).map(s => <option key={s.sys_id} value={s.site_name}>{s.site_name} - {s.region}</option>)}
                     </select>
 
                     {selectedSiteData && (
