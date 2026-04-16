@@ -98,3 +98,29 @@ export const x_1985733_cafsys_doc_req = Table({
         is_active: BooleanColumn({ label: 'Is Active', defaultValue: true })
     }
 });
+
+
+export const x_1985733_cafsys_patient_doc = Table({
+    name: 'x_1985733_cafsys_patient_doc',
+    label: 'CAF Patient Document',
+    display: 'document_name',
+    schema: {
+        user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
+        document_name: StringColumn({ label: 'Document Type', mandatory: true, maxLength: 200 }),
+        file_url: StringColumn({ label: 'File URL (Cloudinary)', mandatory: true, maxLength: 1000 }),
+        status: StringColumn({ label: 'Status', maxLength: 50, defaultValue: 'Uploaded' })
+    }
+});
+
+export const x_1985733_cafsys_case_log = Table({
+    name: 'x_1985733_cafsys_case_log',
+    label: 'CAF Case Activity Log',
+    display: 'title',
+    schema: {
+        application: StringColumn({ label: 'Application ID', mandatory: true, maxLength: 40 }),
+        title: StringColumn({ label: 'Activity Title', mandatory: true, maxLength: 200 }),
+        message: StringColumn({ label: 'Activity Message', maxLength: 1000 }),
+        type: StringColumn({ label: 'Activity Type', maxLength: 50, defaultValue: 'info' }),
+        timestamp: StringColumn({ label: 'Activity Timestamp', maxLength: 100 })
+    }
+});

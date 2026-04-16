@@ -286,7 +286,15 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    
+                    var log = new GlideRecord('x_1985733_cafsys_case_log');
+                    log.initialize();
+                    log.setValue('application', sysId);
+                    log.setValue('title', 'Application received');
+                    log.setValue('message', 'Your intake form was submitted successfully and forwarded to the selected access site.');
+                    log.setValue('type', 'info');
+                    log.setValue('timestamp', new GlideDateTime().getDisplayValue());
+                    log.insert();
+
                     var notify = new GlideRecord('x_1985733_cafsys_notification');
                     notify.setValue('title', 'Application Received');
                     notify.setValue('message', 'Your CAF application for ' + body.patient_name + ' has been received and is under review.');
@@ -510,6 +518,132 @@ export const cafApi = RestApi({
                           { name: 'Valid Government ID', category: 'Identity Document', note: 'Patient or authorized representative ID must be clear and readable.' },
                           { name: 'Doctor Prescription', category: 'Treatment Support', note: 'Please upload a complete prescription with signature and date.' },
                           { name: 'Laboratory Results', category: 'Clinical Supporting File', note: 'Attach recent relevant diagnostic or laboratory results if available.' }
+                        ];
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_get_profile_docs'],
+            name: 'get_profile_documents',
+            method: 'GET',
+            path: '/profile/documents',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var email = request.queryParams.email;
+                    if (!email) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Email parameter is required.' });
+                        return;
+                    }
+
+                    var docs = new GlideRecord('x_1985733_cafsys_patient_doc');
+                    docs.addQuery('user_email', email);
+                    docs.query();
+
+                    var results = [];
+                    while (docs.next()) {
+                        results.push({
+                            sys_id: docs.getUniqueValue(),
+                            document_name: docs.getValue('document_name'),
+                            file_url: docs.getValue('file_url'),
+                            status: docs.getValue('status'),
+                            created: docs.getValue('sys_created_on')
+                        });
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_post_profile_docs'],
+            name: 'post_profile_documents',
+            method: 'POST',
+            path: '/profile/documents',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var bodyString = request.body.dataString;
+                    var body = JSON.parse(bodyString);
+                    
+                    if (!body.email || !body.document_name || !body.file_url) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Missing required parameters.' });
+                        return;
+                    }
+
+                    var existingDoc = new GlideRecord('x_1985733_cafsys_patient_doc');
+                    existingDoc.addQuery('user_email', body.email);
+                    existingDoc.addQuery('document_name', body.document_name);
+                    existingDoc.query();
+
+                    var sysId = '';
+                    if (existingDoc.next()) {
+                        existingDoc.setValue('file_url', body.file_url);
+                        existingDoc.setValue('status', 'Uploaded');
+                        existingDoc.update();
+                        sysId = existingDoc.getUniqueValue();
+                    } else {
+                        var newDoc = new GlideRecord('x_1985733_cafsys_patient_doc');
+                        newDoc.initialize();
+                        newDoc.setValue('user_email', body.email);
+                        newDoc.setValue('document_name', body.document_name);
+                        newDoc.setValue('file_url', body.file_url);
+                        newDoc.setValue('status', 'Uploaded');
+                        sysId = newDoc.insert();
+                    }
+
+                    response.setStatus(201);
+                    response.setBody({ message: 'Document saved successfully', sys_id: sysId });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_get_case_logs'],
+            name: 'get_case_logs',
+            method: 'GET',
+            path: '/applications/{id}/logs',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var id = request.pathParams.id;
+                    var logs = new GlideRecord('x_1985733_cafsys_case_log');
+                    logs.addQuery('application', id);
+                    logs.orderByDesc('sys_created_on');
+                    logs.query();
+
+                    var results = [];
+                    while (logs.next()) {
+                        results.push({
+                            sys_id: logs.getUniqueValue(),
+                            title: logs.getValue('title'),
+                            message: logs.getValue('message'),
+                            type: logs.getValue('type'),
+                            timestamp: logs.getValue('timestamp') || logs.getValue('sys_created_on')
+                        });
+                    }
+
+                    if (results.length === 0) {
+                        results = [
+                            { title: 'Application received', message: 'Your intake form was submitted successfully and forwarded to the selected access site.', type: 'info', timestamp: 'Initial Submission' }
                         ];
                     }
 
