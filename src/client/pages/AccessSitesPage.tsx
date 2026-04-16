@@ -168,20 +168,16 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                             <p className="mt-2 text-sm text-slate-700">{site.operating_hours}</p>
                           </div>
                         )}
-                        {site.remaining_funds !== undefined && (
-                          <div className="rounded-2xl bg-slate-50 px-4 py-3">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Remaining Funds</p>
-                            <p className="mt-2 text-sm font-bold text-slate-800">
-                              ₱{Number(site.remaining_funds).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                            </p>
-                          </div>
-                        )}
-                        {site.supported_cancers && (
-                          <div className="rounded-2xl bg-slate-50 px-4 py-3 md:col-span-2">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Supported Cancers</p>
-                            <p className="mt-2 text-sm text-slate-700">{site.supported_cancers}</p>
-                          </div>
-                        )}
+                        <div className="rounded-2xl bg-slate-50 px-4 py-3">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Remaining Funds</p>
+                          <p className="mt-2 text-sm font-bold text-slate-800">
+                            {site.remaining_funds ? `₱${Number(site.remaining_funds).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : "₱0.00"}
+                          </p>
+                        </div>
+                        <div className="rounded-2xl bg-slate-50 px-4 py-3 md:col-span-2">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Priority Supported Cancers</p>
+                          <p className="mt-2 text-sm text-slate-700">{site.supported_cancers || "All Major Cancers"}</p>
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-col gap-3 lg:w-52">
