@@ -125,9 +125,10 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => { setEmail(e.target.value); setErrors({...errors, email: ""}); }}
-                      className={`w-full rounded-2xl border ${errors.email ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
+                      className={`w-full rounded-2xl border ${errors.email ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
+                      style={errors.email ? { borderColor: "red" } : {}}
                     />
-                    {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+                    {errors.email && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.email}</p>}
                   </div>
 
                   <div>
@@ -138,9 +139,10 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
                       value={password}
                       onChange={(e) => { setPassword(e.target.value); setErrors({...errors, password: ""}); }}
                       onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
-                      className={`w-full rounded-2xl border ${errors.password ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
+                      className={`w-full rounded-2xl border ${errors.password ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
+                      style={errors.password ? { borderColor: "red" } : {}}
                     />
-                    {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
+                    {errors.password && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.password}</p>}
                   </div>
 
                   {error && (
