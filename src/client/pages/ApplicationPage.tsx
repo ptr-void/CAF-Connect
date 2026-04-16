@@ -213,7 +213,6 @@ Coordination Notes: ${coordNotes}
 
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-            { }
             <div className="mb-8 flex flex-wrap items-center gap-3">
               {steps.map((step, index) => {
                 const stepNumber = index + 1;
@@ -231,7 +230,6 @@ Coordination Notes: ${coordNotes}
               })}
             </div>
 
-            { }
             {currentStep === 1 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 1</p>
@@ -289,7 +287,6 @@ Coordination Notes: ${coordNotes}
               </div>
             )}
 
-            { }
             {currentStep === 2 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 2</p>
@@ -340,7 +337,6 @@ Coordination Notes: ${coordNotes}
               </div>
             )}
 
-            { }
             {currentStep === 3 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 3</p>
@@ -390,7 +386,6 @@ Coordination Notes: ${coordNotes}
               </div>
             )}
 
-            { }
             {currentStep === 4 && (
               <div>
                 <p className="text-sm font-semibold text-sky-700">Step 4</p>
@@ -454,7 +449,6 @@ Coordination Notes: ${coordNotes}
             )}
           </div>
 
-          { }
           <div className="space-y-6">
             <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
               <p className="text-sm font-semibold text-sky-700">Application Tips</p>

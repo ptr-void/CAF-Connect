@@ -490,17 +490,27 @@ export const cafApi = RestApi({
             script: script`
               (function process(request, response) {
                 try {
+                    var site = request.queryParams.site;
                     var reqs = new GlideRecord('x_1985733_cafsys_doc_req');
                     reqs.addQuery('is_active', true);
                     reqs.query();
 
                     var results = [];
                     while (reqs.next()) {
+                        var targetSite = reqs.getValue('access_site');
+                        // IF targetSite is filled, and a site is queried, they must match.
+                        // IF targetSite is filled, and no site is queried, we return it.
+                        // IF targetSite is empty, it's global and always returns.
+                        if (targetSite && site && targetSite !== site) {
+                            continue;
+                        }
+
                         results.push({
                             sys_id: reqs.getUniqueValue(),
                             name: reqs.getValue('name'),
                             category: reqs.getValue('category'),
-                            note: reqs.getValue('note')
+                            note: reqs.getValue('note'),
+                            access_site: targetSite
                         });
                     }
                     
@@ -515,6 +525,92 @@ export const cafApi = RestApi({
 
                     response.setStatus(200);
                     response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_get_profile_docs'],
+            name: 'get_profile_documents',
+            method: 'GET',
+            path: '/profile/documents',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var email = request.queryParams.email;
+                    if (!email) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Email parameter is required.' });
+                        return;
+                    }
+
+                    var docs = new GlideRecord('x_1985733_cafsys_patient_doc');
+                    docs.addQuery('user_email', email);
+                    docs.query();
+
+                    var results = [];
+                    while (docs.next()) {
+                        results.push({
+                            sys_id: docs.getUniqueValue(),
+                            document_name: docs.getValue('document_name'),
+                            file_url: docs.getValue('file_url'),
+                            status: docs.getValue('status'),
+                            created: docs.getValue('sys_created_on')
+                        });
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_post_profile_docs'],
+            name: 'post_profile_documents',
+            method: 'POST',
+            path: '/profile/documents',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var bodyString = request.body.dataString;
+                    var body = JSON.parse(bodyString);
+                    
+                    if (!body.email || !body.document_name || !body.file_url) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Missing required parameters.' });
+                        return;
+                    }
+
+                    var existingDoc = new GlideRecord('x_1985733_cafsys_patient_doc');
+                    existingDoc.addQuery('user_email', body.email);
+                    existingDoc.addQuery('document_name', body.document_name);
+                    existingDoc.query();
+
+                    var sysId = '';
+                    if (existingDoc.next()) {
+                        existingDoc.setValue('file_url', body.file_url);
+                        existingDoc.setValue('status', 'Uploaded');
+                        existingDoc.update();
+                        sysId = existingDoc.getUniqueValue();
+                    } else {
+                        var newDoc = new GlideRecord('x_1985733_cafsys_patient_doc');
+                        newDoc.initialize();
+                        newDoc.setValue('user_email', body.email);
+                        newDoc.setValue('document_name', body.document_name);
+                        newDoc.setValue('file_url', body.file_url);
+                        newDoc.setValue('status', 'Uploaded');
+                        sysId = newDoc.insert();
+                    }
+
+                    response.setStatus(201);
+                    response.setBody({ message: 'Document saved successfully', sys_id: sysId });
                 } catch(ex) {
                     response.setStatus(500);
                     response.setBody({ error: ex.message });

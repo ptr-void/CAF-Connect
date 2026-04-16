@@ -95,6 +95,20 @@ export const x_1985733_cafsys_doc_req = Table({
         name: StringColumn({ label: 'Document Name', mandatory: true, maxLength: 200 }),
         category: StringColumn({ label: 'Category', maxLength: 100 }),
         note: StringColumn({ label: 'Guidance Note', maxLength: 1000 }),
+        access_site: StringColumn({ label: 'Specific Access Site (Optional)', maxLength: 200 }),
         is_active: BooleanColumn({ label: 'Is Active', defaultValue: true })
+    }
+});
+
+
+export const x_1985733_cafsys_patient_doc = Table({
+    name: 'x_1985733_cafsys_patient_doc',
+    label: 'CAF Patient Document',
+    display: 'document_name',
+    schema: {
+        user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
+        document_name: StringColumn({ label: 'Document Type', mandatory: true, maxLength: 200 }),
+        file_url: StringColumn({ label: 'File URL (Cloudinary)', mandatory: true, maxLength: 1000 }),
+        status: StringColumn({ label: 'Status', maxLength: 50, defaultValue: 'Uploaded' })
     }
 });
