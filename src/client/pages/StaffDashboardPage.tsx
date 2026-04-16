@@ -326,13 +326,8 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                           const badge = getStatusBadge(record.state);
                           return (
                             <tr key={record.sys_id} className="group hover:bg-slate-50 transition">
-                              <td className="py-4 px-4">
-                                <div className="flex items-center gap-3">
-                                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-500">
-                                    {record.patient_name?.charAt(0) || "P"}
-                                  </div>
-                                  <span className="font-semibold text-slate-800">{record.patient_name}</span>
-                                </div>
+                              <td className="py-4 px-4 text-sm font-semibold text-slate-800">
+                                {record.patient_name}
                               </td>
                               <td className="py-4 px-4 text-sm text-slate-400">{record.number}</td>
                               <td className="py-4 px-4 text-sm text-slate-500">{record.medical_condition || "Intake Assessment"}</td>
@@ -344,7 +339,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                               <td className="py-4 px-4 text-right">
                                 <button
                                   onClick={() => handleViewCase(record.sys_id)}
-                                  className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600 hover:border-sky-400 hover:text-sky-700 transition"
+                                  className="cursor-pointer font-semibold text-sky-600 hover:text-sky-800 transition"
                                 >
                                   View Case
                                 </button>
@@ -362,8 +357,8 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
 
       {/* ── Case Detail Modal ── */}
       {selectedCase && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
-          <div className="rounded-3xl bg-white w-full max-w-3xl max-h-[85vh] shadow-xl ring-1 ring-slate-200 flex flex-col overflow-hidden">
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }} className="flex items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
+          <div className="rounded-3xl bg-white w-full max-w-3xl max-h-[85vh] shadow-xl ring-1 ring-slate-200 flex flex-col overflow-hidden relative">
 
             {/* Header */}
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between shrink-0">
