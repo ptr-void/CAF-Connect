@@ -37,13 +37,13 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [diagnosisDate, setDiagnosisDate] = useState("");
   const [hospital, setHospital] = useState("");
   const [physician, setPhysician] = useState("");
+  const [requestedAmount, setRequestedAmount] = useState("");
   const [treatmentNotes, setTreatmentNotes] = useState("");
 
   
   const [selectedSite, setSelectedSite] = useState("");
   const [contactEmail, setContactEmail] = useState(currentUser?.email || "");
   const [mobileNumber, setMobileNumber] = useState("");
-  const [requestedAmount, setRequestedAmount] = useState("");
   const [coordNotes, setCoordNotes] = useState("");
 
   const steps = ["Personal Details", "Diagnosis Details", "Access Site & Contact", "Review & Submit"];
@@ -250,7 +250,7 @@ Coordination Notes: ${coordNotes}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP)</label>
-                    <input type="number" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="Enter estimated amount based on doctor's quotation" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <input type="number" step="1000" min="0" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="e.g. 50000" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treatment Notes / Assistance Needed</label>
@@ -345,6 +345,10 @@ Coordination Notes: ${coordNotes}
                       <div className="rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Diagnosis</p>
                         <p className="mt-2 font-semibold text-slate-800">{diagnosis || "—"}</p>
+                      </div>
+                      <div className="rounded-2xl bg-white p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Requested Amount</p>
+                        <p className="mt-2 font-semibold text-slate-800">{requestedAmount ? "₱" + parseFloat(requestedAmount).toLocaleString() : "—"}</p>
                       </div>
                       <div className="rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Access Site</p>
