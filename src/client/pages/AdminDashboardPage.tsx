@@ -75,7 +75,13 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       body: JSON.stringify({ id: selectedUser.id, role: selectedUserRole })
     })
       .then(res => res.json())
-      .then(() => { fetchDashboardData(); setSelectedUser(null); })
+      .then(data => {
+        if (data.error) {
+          alert("Server Error: " + data.error + "\n" + JSON.stringify(data.debug || {}));
+        } else {
+          fetchDashboardData(); setSelectedUser(null);
+        }
+      })
       .finally(() => setIsUpdatingUser(false));
   };
 
@@ -88,7 +94,13 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       body: JSON.stringify({ id: selectedUser.id, is_active: newStatus })
     })
       .then(res => res.json())
-      .then(() => { fetchDashboardData(); setSelectedUser(null); })
+      .then(data => {
+        if (data.error) {
+          alert("Server Error: " + data.error + "\n" + JSON.stringify(data.debug || {}));
+        } else {
+          fetchDashboardData(); setSelectedUser(null);
+        }
+      })
       .finally(() => setIsUpdatingUser(false));
   };
 

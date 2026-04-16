@@ -842,7 +842,7 @@ export const cafApi = RestApi({
                         response.setBody({ message: 'User updated' });
                     } else {
                         response.setStatus(404);
-                        response.setBody({ error: 'User not found' });
+                        response.setBody({ error: 'User not found', debug: { received_id: body.id, raw_body: body } });
                     }
                 } catch(ex) {
                     response.setStatus(500);
