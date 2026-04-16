@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 type PageKey =
   | "landing"
   | "login"
@@ -24,7 +23,19 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sites, setSites] = useState<any[]>([]);
 
+  useEffect(() => {
+    fetch("/api/x_1985733_cafsys/caf/sites", {
+      headers: { "X-UserToken": (window as any).g_ck || "" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const payload = data.result || data;
+        setSites(Array.isArray(payload) ? payload : []);
+      })
+      .catch(err => console.error("Error fetching sites:", err));
+  }, []);
 
   const [patientName, setPatientName] = useState(currentUser?.name || "");
   const [birthDate, setBirthDate] = useState("");
@@ -87,38 +98,7 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   };
 
 
-  const siteDetails: Record<string, { location: string, availability: string, types: string }> = {
-    "Jose R. Reyes Memorial Medical Center": {
-      location: "San Lazaro Compound, Rizal Ave, Sta. Cruz, Manila",
-      availability: "Mon - Fri, 8:00 AM - 4:00 PM",
-      types: "Breast, Cervical, Lung, Colon Cancer"
-    },
-    "East Avenue Medical Center": {
-      location: "East Avenue, Diliman, Quezon City",
-      availability: "Mon - Fri, 7:00 AM - 5:00 PM",
-      types: "All Major Cancer Types, Pediatric Oncology"
-    },
-    "Philippine General Hospital": {
-      location: "Taft Avenue, Ermita, Manila",
-      availability: "Mon - Sat, 8:00 AM - 5:00 PM",
-      types: "Comprehensive Oncology Services, All solid tumors and hematologic malignancies"
-    },
-    "Bicol Medical Center": {
-      location: "Panganiban Drive, Naga City, Camarines Sur",
-      availability: "Mon - Fri, 8:00 AM - 5:00 PM",
-      types: "Breast, Cervical, Head and Neck Cancers"
-    },
-    "Southern Philippines Medical Center": {
-      location: "J.P. Laurel Ave, Bajada, Davao City",
-      availability: "Mon - Fri, 8:00 AM - 4:00 PM",
-      types: "Mindanao Cancer Center - All Major Types"
-    },
-    "Vicente Sotto Memorial Medical Center": {
-      location: "B. Rodriguez St, Cebu City",
-      availability: "Mon - Fri, 8:00 AM - 4:00 PM",
-      types: "Visayas Cancer Center - All Major Types"
-    }
-  };
+  const selectedSiteData = sites.find(s => s.site_name === selectedSite);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -369,23 +349,18 @@ Coordination Notes: ${coordNotes}
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Selected Access Site</label>
-                    <select value={selectedSite} onChange={(e) => setSelectedSite(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+            <select value={selectedSite} onChange={(e) => setSelectedSite(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option value="">Select access site (optional, coordinator will assign)</option>
-                      <option>Jose R. Reyes Memorial Medical Center</option>
-                      <option>East Avenue Medical Center</option>
-                      <option>Philippine General Hospital</option>
-                      <option>Bicol Medical Center</option>
-                      <option>Southern Philippines Medical Center</option>
-                      <option>Vicente Sotto Memorial Medical Center</option>
+                      {sites.map(s => <option key={s.sys_id} value={s.site_name}>{s.site_name}</option>)}
                     </select>
                   </div>
-                  {selectedSite && siteDetails[selectedSite] && (
+                  {selectedSite && selectedSiteData && (
                     <div className="md:col-span-2 rounded-2xl bg-sky-50 p-5 ring-1 ring-sky-200">
                       <h4 className="font-semibold text-sky-800 mb-3">Facility Information</h4>
                       <div className="space-y-2 text-sm text-sky-900">
-                        <p><strong className="font-medium text-sky-700">Location:</strong> {siteDetails[selectedSite].location}</p>
-                        <p><strong className="font-medium text-sky-700">Availability:</strong> {siteDetails[selectedSite].availability}</p>
-                        <p><strong className="font-medium text-sky-700">Supported Cancers:</strong> {siteDetails[selectedSite].types}</p>
+                        <p><strong className="font-medium text-sky-700">Location:</strong> {selectedSiteData.address}</p>
+                        <p><strong className="font-medium text-sky-700">Availability:</strong> {selectedSiteData.operating_hours}</p>
+                        <p><strong className="font-medium text-sky-700">Supported Cancers:</strong> {selectedSiteData.supported_cancers}</p>
                       </div>
                     </div>
                   )}
