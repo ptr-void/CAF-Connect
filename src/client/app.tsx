@@ -96,7 +96,7 @@ function App() {
     if (activePage === "admin" && currentUser?.account_type !== "Administrator") {
        return <LandingPage setActivePage={setActivePage} />;
     }
-    if (activePage === "staff" && (currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Administrator")) {
+    if (activePage === "staff" && (currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Site Coordinator" && currentUser?.account_type !== "Administrator")) {
        return <LandingPage setActivePage={setActivePage} />;
     }
 
@@ -147,7 +147,7 @@ function App() {
           <nav className="hidden items-center gap-2 md:flex">
             {navLinks.filter(l => {
               if (l.secure && !isAuthenticated) return false;
-              if (l.key === "staff" && currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Administrator") return false;
+              if (l.key === "staff" && currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Site Coordinator" && currentUser?.account_type !== "Administrator") return false;
               if (l.key === "admin" && currentUser?.account_type !== "Administrator") return false;
               if ((l.key === "application" || l.key === "tracker") && 
                   currentUser && currentUser.account_type !== "Patient" && currentUser.account_type !== "Family Member / Guardian" && currentUser.account_type !== "Applicant") {
