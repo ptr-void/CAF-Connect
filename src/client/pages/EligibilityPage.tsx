@@ -279,16 +279,18 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     />
                   </div>
 
-                  <div className="md:col-span-2">
+                  <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Medical Abstract / Brief Patient History (Required for AI Analysis)
+                      Has medical abstract?
                     </label>
-                    <textarea
-                      placeholder="Enter abstract details here"
-                      value={formData.medical_abstract}
-                      onChange={(e) => setFormData({...formData, medical_abstract: e.target.value})}
-                      className="cursor-pointer w-full min-h-[100px] rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
-                    />
+                    <select 
+                      value={formData.hasAbstract}
+                      onChange={(e) => setFormData({...formData, hasAbstract: e.target.value})}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                      <option>Select answer</option>
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
                   </div>
 
                   <div>
@@ -303,6 +305,21 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       <option>Yes</option>
                       <option>No</option>
                     </select>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="mb-2 block text-sm font-medium text-slate-700">
+                      Supporting Documents / Patient Diagnosis
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500 bg-white"
+                    />
+                    <p className="mt-2 text-xs text-slate-500">
+                      Required for the AI Review Result Summary / Feedback.
+                    </p>
                   </div>
 
                   <div className="md:col-span-2">
@@ -337,7 +354,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     onClick={handleNextToStep3}
                     className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
-                    Generate AI Result
+                    View Result
                   </button>
                 </div>
               </div>
@@ -409,6 +426,12 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                 )}
 
                 <div className="mt-8 flex flex-wrap gap-4">
+                  <button
+                    onClick={() => setCurrentStep(2)}
+                    className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400"
+                  >
+                    Back
+                  </button>
                   <button
                     onClick={() => setActivePage("documents")}
                     className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700"
