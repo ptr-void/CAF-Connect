@@ -16,6 +16,7 @@ declare global {
                     '683ff201831803102cecbb96feaad368': {
                         table: 'sys_scope_privilege'
                         id: '683ff201831803102cecbb96feaad368'
+                        deleted: true
                     }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
@@ -97,6 +98,10 @@ declare global {
                         table: 'sys_ws_operation'
                         id: '70c089d304ab48269e67f5317cd8e2c7'
                     }
+                    restapi_caf_public_stats: {
+                        table: 'sys_ws_operation'
+                        id: '064b6d3d4eba4650b68e4bb72bfd6fe5'
+                    }
                     restapi_caf_register: {
                         table: 'sys_ws_operation'
                         id: 'fa3eeef4e38747a997660bef0cb1d67f'
@@ -119,14 +124,6 @@ declare global {
                     }
                 }
                 composite: [
-                    {
-                        table: 'sys_dictionary'
-                        id: '090ecee5d09249ed9d29149473a6cba7'
-                        key: {
-                            name: 'x_1985733_cafsys_notification'
-                            element: 'user_email'
-                        }
-                    },
                     {
                         table: 'sys_documentation'
                         id: '01ea5cd787414b21999d6badabbcf5d9'
@@ -181,6 +178,15 @@ declare global {
                         id: '084d993cc81b4ff78c6c1ab176f512ac'
                         key: {
                             endpoint: 'x_1985733_cafsys_register.do'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: '090ecee5d09249ed9d29149473a6cba7'
+                        deleted: true
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                            element: 'user_email'
                         }
                     },
                     {
@@ -686,6 +692,14 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_db_object'
+                        id: 'b3c9c9b17f9c469ea6d8d29e5f959bcd'
+                        deleted: true
+                        key: {
+                            name: 'x_1985733_cafsys_notification'
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: 'b6b4af8752fb4ba899e0e0980d22da9d'
                         key: {
@@ -723,13 +737,6 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'NULL'
-                        }
-                    },
-                    {
-                        table: 'sys_db_object'
-                        id: 'b3c9c9b17f9c469ea6d8d29e5f959bcd'
-                        key: {
-                            name: 'x_1985733_cafsys_notification'
                         }
                     },
                     {

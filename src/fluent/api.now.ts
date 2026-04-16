@@ -8,6 +8,93 @@ export const cafApi = RestApi({
     produces: 'application/json',
     routes: [
         {
+            $id: Now.ID['restapi_caf_public_stats'],
+            name: 'get_public_stats',
+            method: 'GET',
+            path: '/public/stats',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var siteGa = new GlideAggregate('x_1985733_cafsys_site');
+                    siteGa.addQuery('is_active', true);
+                    siteGa.addAggregate('COUNT');
+                    siteGa.query();
+                    var siteCount = 0;
+                    if (siteGa.next()) siteCount = siteGa.getAggregate('COUNT');
+
+                    var appGa = new GlideAggregate('x_1985733_cafsys_application');
+                    appGa.addAggregate('COUNT');
+                    appGa.query();
+                    var appCount = 0;
+                    if (appGa.next()) appCount = appGa.getAggregate('COUNT');
+
+                    response.setStatus(200);
+                    response.setBody({
+                        activeSites: siteCount,
+                        totalApplications: appCount
+                    });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_notifications'],
+            name: 'get_notifications',
+            method: 'GET',
+            path: '/notifications',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var email = request.queryParams.email;
+                    if (!email) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Email parameter is required.' });
+                        return;
+                    }
+
+                    var logs = new GlideRecord('x_1985733_cafsys_case_log');
+                    
+                    var app = new GlideRecord('x_1985733_cafsys_application');
+                    app.addQuery('email', email);
+                    app.query();
+                    
+                    var appIds = [];
+                    while(app.next()) {
+                        appIds.push(app.getUniqueValue());
+                    }
+
+                    var results = [];
+                    if (appIds.length > 0) {
+                        logs.addQuery('application', 'IN', appIds.join(','));
+                        logs.orderByDesc('sys_created_on');
+                        logs.setLimit(20);
+                        logs.query();
+
+                        while(logs.next()) {
+                            results.push({
+                                sys_id: logs.getUniqueValue(),
+                                title: logs.getValue('title'),
+                                message: logs.getValue('message'),
+                                type: logs.getValue('type'),
+                                created_date: logs.getValue('sys_created_on'),
+                                is_read: true 
+                            });
+                        }
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
             $id: Now.ID['restapi_caf_me'],
             name: 'login',
             method: 'POST',
@@ -415,7 +502,7 @@ export const cafApi = RestApi({
                        totalApps: 0,
                        activeSites: 0,
                        pendingCases: 0,
-                       smsLogsToday: 386 
+                       pendingDocRate: 0
                     };
 
                     var appGa = new GlideAggregate('x_1985733_cafsys_application');
@@ -430,7 +517,19 @@ export const cafApi = RestApi({
                     pendingGa.addAggregate('COUNT');
                     pendingGa.query();
                     if (pendingGa.next()) {
-                       stats.pendingCases = pendingGa.getAggregate('COUNT');
+                       stats.pendingCases = parseInt(pendingGa.getAggregate('COUNT') || '0');
+                    }
+
+                    var missingGa = new GlideAggregate('x_1985733_cafsys_application');
+                    missingGa.addQuery('state', '4');
+                    missingGa.addAggregate('COUNT');
+                    missingGa.query();
+                    if (missingGa.next()) {
+                       var missingCount = parseInt(missingGa.getAggregate('COUNT') || '0');
+                       var total = parseInt(stats.totalApps);
+                       if (total > 0) {
+                           stats.pendingDocRate = Math.round((missingCount / total) * 100);
+                       }
                     }
 
                     var siteGa = new GlideAggregate('x_1985733_cafsys_site');
@@ -438,7 +537,7 @@ export const cafApi = RestApi({
                     siteGa.addAggregate('COUNT');
                     siteGa.query();
                     if (siteGa.next()) {
-                       stats.activeSites = siteGa.getAggregate('COUNT');
+                       stats.activeSites = parseInt(siteGa.getAggregate('COUNT') || '0');
                     }
 
                     var users = [];

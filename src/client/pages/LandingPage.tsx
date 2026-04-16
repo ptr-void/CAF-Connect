@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 type PageKey =
   | "landing"
   | "login"
@@ -44,11 +46,22 @@ const processSteps = [
   {
     title: "Track the Case",
     description:
-      "Monitor progress, receive updates, and stay informed through status tracking and SMS reminders.",
+      "Monitor progress, receive updates, and stay informed through status tracking and activity logs.",
   },
 ];
 
 function LandingPage({ setActivePage }: LandingPageProps) {
+  const [stats, setStats] = useState({ activeSites: 0, totalApplications: 0 });
+
+  useEffect(() => {
+    fetch("/api/x_1985733_cafsys/caf/public/stats")
+      .then(r => r.json())
+      .then(data => {
+        const payload = data.result || data;
+        if (payload) setStats(payload);
+      })
+      .catch(err => console.error("Error fetching public stats:", err));
+  }, []);
   return (
     <div className="min-h-screen bg-slate-50">
 
@@ -94,12 +107,12 @@ function LandingPage({ setActivePage }: LandingPageProps) {
 
               <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-                  <p className="text-3xl font-bold text-sky-700">34</p>
+                  <p className="text-3xl font-bold text-sky-700">{stats.activeSites || "..."}</p>
                   <p className="mt-2 text-sm text-slate-500">Access sites supported nationwide</p>
                 </div>
                 <div className="cursor-pointer rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-                  <p className="text-3xl font-bold text-violet-700">Easy</p>
-                  <p className="mt-2 text-sm text-slate-500">Guided steps for first-time users</p>
+                  <p className="text-3xl font-bold text-violet-700">{stats.totalApplications || "..."}</p>
+                  <p className="mt-2 text-sm text-slate-500">Total applications processed</p>
                 </div>
               </div>
             </div>
