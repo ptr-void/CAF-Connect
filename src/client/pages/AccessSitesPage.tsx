@@ -25,6 +25,9 @@ type Site = {
   address: string;
   contact_number: string;
   operating_hours: string;
+  remaining_funds?: number;
+  status?: string;
+  supported_cancers?: string;
 };
 
 function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
@@ -140,6 +143,11 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                             {site.region}
                           </span>
                         )}
+                        {site.status && (
+                          <span className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ${site.status === 'Available' ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' : site.status === 'Exhausted' ? 'bg-red-50 text-red-700 ring-red-200' : 'bg-amber-50 text-amber-700 ring-amber-200'}`}>
+                            {site.status}
+                          </span>
+                        )}
                       </div>
                       <div className="mt-4 grid gap-3 md:grid-cols-2">
                         {site.address && (
@@ -155,9 +163,23 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                           </div>
                         )}
                         {site.operating_hours && (
-                          <div className="rounded-2xl bg-slate-50 px-4 py-3 md:col-span-2">
+                          <div className="rounded-2xl bg-slate-50 px-4 py-3">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Office Hours</p>
                             <p className="mt-2 text-sm text-slate-700">{site.operating_hours}</p>
+                          </div>
+                        )}
+                        {site.remaining_funds !== undefined && (
+                          <div className="rounded-2xl bg-slate-50 px-4 py-3">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Remaining Funds</p>
+                            <p className="mt-2 text-sm font-bold text-slate-800">
+                              ₱{Number(site.remaining_funds).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+                        )}
+                        {site.supported_cancers && (
+                          <div className="rounded-2xl bg-slate-50 px-4 py-3 md:col-span-2">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Supported Cancers</p>
+                            <p className="mt-2 text-sm text-slate-700">{site.supported_cancers}</p>
                           </div>
                         )}
                       </div>
