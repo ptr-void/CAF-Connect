@@ -551,7 +551,7 @@ export const cafApi = RestApi({
                             email: userGr.getValue('email') || userGr.getValue('u_email') || userGr.getValue('email_address'),
                             role: userGr.getValue('account_type'),
                             site: userGr.getValue('assigned_site') || 'System-wide',
-                            status: 'Active'
+                            status: userGr.getValue('is_active') === '0' ? 'Inactive' : 'Active'
                         });
                     }
 
@@ -770,7 +770,7 @@ export const cafApi = RestApi({
                     if (!site) throw new Error('Site is required');
 
                     var gr = new GlideRecord('x_1985733_cafsys_application');
-                    gr.addQuery('selected_site.site_name', site);
+                    gr.addQuery('selected_site', site);
                     gr.addQuery('state', 'IN', '1,2,Pending,Pending Review'); // Under Review/Pending
                     gr.query();
                     
@@ -810,6 +810,39 @@ export const cafApi = RestApi({
 
                     response.setStatus(201);
                     response.setBody({ message: 'User added', sys_id: sysId });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_update_user'],
+            name: 'update_user',
+            method: 'POST',
+            path: '/admin/update_user',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var body = request.body.data;
+                    var gr = new GlideRecord('x_1985733_cafsys_portal_user');
+                    gr.addQuery('email', body.email); 
+                    gr.query();
+                    if(gr.next()) {
+                        if (body.role) {
+                           gr.setValue('account_type', body.role);
+                        }
+                        if (typeof body.is_active !== 'undefined') {
+                           gr.setValue('is_active', body.is_active ? '1' : '0');
+                        }
+                        gr.update();
+                        response.setStatus(200);
+                        response.setBody({ message: 'User updated' });
+                    } else {
+                        response.setStatus(404);
+                        response.setBody({ error: 'User not found' });
+                    }
                 } catch(ex) {
                     response.setStatus(500);
                     response.setBody({ error: ex.message });

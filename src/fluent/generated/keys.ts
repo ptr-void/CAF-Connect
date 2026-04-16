@@ -122,6 +122,10 @@ declare global {
                         table: 'sys_ws_operation'
                         id: '0d64924c38f840aaa410d5385386357f'
                     }
+                    restapi_caf_update_user: {
+                        table: 'sys_ws_operation'
+                        id: '5f4e34018c3d476688d443eefb321437'
+                    }
                     restapi_groq_ai_evaluate: {
                         table: 'sys_ws_operation'
                         id: '4785f880a8274af98e2533eb24fbd142'
@@ -242,6 +246,15 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'is_active'
+                        }
+                    },
+                    {
+                        table: 'sys_documentation'
+                        id: '1b4f4885acda408e871db6585b43b494'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'is_active'
+                            language: 'en'
                         }
                     },
                     {
@@ -1036,6 +1049,14 @@ declare global {
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'user_email'
+                        }
+                    },
+                    {
+                        table: 'sys_dictionary'
+                        id: 'f73f288bca2a4d76967a3bac70556b9a'
+                        key: {
+                            name: 'x_1985733_cafsys_portal_user'
+                            element: 'is_active'
                         }
                     },
                     {

@@ -87,5 +87,6 @@ export const x_1985733_cafsys_portal_user = Table({
         password: StringColumn({ label: 'Password', maxLength: 100 }),
         account_type: StringColumn({ label: 'Account Type', maxLength: 50 }),
         assigned_site: StringColumn({ label: 'Assigned Site', maxLength: 100 }),
+        is_active: BooleanColumn({ label: 'Active Status', defaultValue: true }),
     },
 });
