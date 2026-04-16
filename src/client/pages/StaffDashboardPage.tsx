@@ -357,8 +357,8 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
 
       {/* ── Case Detail Modal ── */}
       {selectedCase && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }} className="flex items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
-          <div className="rounded-3xl bg-white w-full max-w-3xl max-h-[85vh] shadow-xl ring-1 ring-slate-200 flex flex-col overflow-hidden relative">
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, backgroundColor: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)' }} className="flex items-center justify-center p-6">
+          <div style={{ width: '100%', maxWidth: '48rem', margin: '0 auto', maxHeight: '85vh' }} className="rounded-3xl bg-white shadow-xl ring-1 ring-slate-200 flex flex-col overflow-hidden relative">
 
             {/* Header */}
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between shrink-0">
