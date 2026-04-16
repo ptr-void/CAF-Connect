@@ -1,4 +1,4 @@
-﻿type PageKey =
+type PageKey =
   | "landing"
   | "login"
   | "register"
