@@ -23,6 +23,7 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   
   const [patientName, setPatientName] = useState(currentUser?.name || "");
@@ -51,8 +52,39 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
 
   const steps = ["Personal Details", "Diagnosis Details", "Access Site & Contact", "Review & Submit"];
 
-  const isStep1Valid = !!(patientName && birthDate && sex && mobileNumber && contactEmail && address);
-  const isStep2Valid = !!(diagnosis && diagnosisDate && hospital && physician && requestedAmount && documentUrl);
+  const handleNextStep1 = () => {
+    const newErrors: Record<string, string> = {};
+    if (!patientName) newErrors.patientName = "Patient Name is required";
+    if (!birthDate) newErrors.birthDate = "Birth Date is required";
+    if (!sex) newErrors.sex = "Sex is required";
+    if (!mobileNumber) newErrors.mobileNumber = "Mobile Number is required";
+    if (!contactEmail) newErrors.contactEmail = "Email is required";
+    if (!address) newErrors.address = "Address is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      setCurrentStep(2);
+    }
+  };
+
+  const handleNextStep2 = () => {
+    const newErrors: Record<string, string> = {};
+    if (!diagnosis) newErrors.diagnosis = "Diagnosis is required";
+    if (!diagnosisDate) newErrors.diagnosisDate = "Date of Diagnosis is required";
+    if (!hospital) newErrors.hospital = "Treating Hospital is required";
+    if (!physician) newErrors.physician = "Attending Physician is required";
+    if (!requestedAmount) newErrors.requestedAmount = "Requested Assistance Amount is required";
+    if (!documentUrl) newErrors.documentUrl = "Medical Abstract is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      setCurrentStep(3);
+    }
+  };
 
 
   const siteDetails: Record<string, { location: string, availability: string, types: string }> = {
@@ -227,32 +259,38 @@ Coordination Notes: ${coordNotes}
                 <p className="mt-2 text-sm text-slate-500">Enter the patient and applicant information exactly as it appears on official documents.</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Patient Full Name <span className="text-red-500">*</span></label>
-                    <input type="text" value={patientName} onChange={(e) => setPatientName(e.target.value)} placeholder="Enter patient full name" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Patient Full Name <span style={{ color: "red" }}>*</span></label>
+                    <input type="text" value={patientName} onChange={(e) => { setPatientName(e.target.value); setErrors({...errors, patientName: ""}); }} placeholder="Enter patient full name" className={`w-full rounded-2xl border ${errors.patientName ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.patientName && <p className="mt-1 text-xs text-red-500">{errors.patientName}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Birth Date <span className="text-red-500">*</span></label>
-                    <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Birth Date <span style={{ color: "red" }}>*</span></label>
+                    <input type="date" value={birthDate} onChange={(e) => { setBirthDate(e.target.value); setErrors({...errors, birthDate: ""}); }} className={`w-full rounded-2xl border ${errors.birthDate ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.birthDate && <p className="mt-1 text-xs text-red-500">{errors.birthDate}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Sex <span className="text-red-500">*</span></label>
-                    <select value={sex} onChange={(e) => setSex(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Sex <span style={{ color: "red" }}>*</span></label>
+                    <select value={sex} onChange={(e) => { setSex(e.target.value); setErrors({...errors, sex: ""}); }} className={`w-full rounded-2xl border ${errors.sex ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}>
                       <option value="">Select sex</option>
                       <option>Male</option>
                       <option>Female</option>
                     </select>
+                    {errors.sex && <p className="mt-1 text-xs text-red-500">{errors.sex}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number <span className="text-red-500">*</span></label>
-                    <input type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} placeholder="09XXXXXXXXX" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number <span style={{ color: "red" }}>*</span></label>
+                    <input type="text" value={mobileNumber} onChange={(e) => { setMobileNumber(e.target.value); setErrors({...errors, mobileNumber: ""}); }} placeholder="09XXXXXXXXX" className={`w-full rounded-2xl border ${errors.mobileNumber ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.mobileNumber && <p className="mt-1 text-xs text-red-500">{errors.mobileNumber}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email <span className="text-red-500">*</span></label>
-                    <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="Email for case updates" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email <span style={{ color: "red" }}>*</span></label>
+                    <input type="email" value={contactEmail} onChange={(e) => { setContactEmail(e.target.value); setErrors({...errors, contactEmail: ""}); }} placeholder="Email for case updates" className={`w-full rounded-2xl border ${errors.contactEmail ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.contactEmail && <p className="mt-1 text-xs text-red-500">{errors.contactEmail}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Home Address <span className="text-red-500">*</span></label>
-                    <textarea rows={3} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter complete home address" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Home Address <span style={{ color: "red" }}>*</span></label>
+                    <textarea rows={3} value={address} onChange={(e) => { setAddress(e.target.value); setErrors({...errors, address: ""}); }} placeholder="Enter complete home address" className={`w-full rounded-2xl border ${errors.address ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.address && <p className="mt-1 text-xs text-red-500">{errors.address}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Applicant / Representative Name</label>
@@ -264,7 +302,7 @@ Coordination Notes: ${coordNotes}
                   </div>
                 </div>
                 <div className="mt-8 flex justify-end">
-                  <button onClick={() => setCurrentStep(2)} disabled={!isStep1Valid} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <button onClick={handleNextStep1} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700">
                     Next Step
                   </button>
                 </div>
@@ -279,30 +317,36 @@ Coordination Notes: ${coordNotes}
                 <p className="mt-2 text-sm text-slate-500">Provide the medical and treatment details needed for the initial review.</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Diagnosis <span className="text-red-500">*</span></label>
-                    <input type="text" value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Enter diagnosis" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Diagnosis <span style={{ color: "red" }}>*</span></label>
+                    <input type="text" value={diagnosis} onChange={(e) => { setDiagnosis(e.target.value); setErrors({...errors, diagnosis: ""}); }} placeholder="Enter diagnosis" className={`w-full rounded-2xl border ${errors.diagnosis ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.diagnosis && <p className="mt-1 text-xs text-red-500">{errors.diagnosis}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Date of Diagnosis <span className="text-red-500">*</span></label>
-                    <input type="date" value={diagnosisDate} onChange={(e) => setDiagnosisDate(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Date of Diagnosis <span style={{ color: "red" }}>*</span></label>
+                    <input type="date" value={diagnosisDate} onChange={(e) => { setDiagnosisDate(e.target.value); setErrors({...errors, diagnosisDate: ""}); }} className={`w-full rounded-2xl border ${errors.diagnosisDate ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.diagnosisDate && <p className="mt-1 text-xs text-red-500">{errors.diagnosisDate}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Treating Hospital / Facility <span className="text-red-500">*</span></label>
-                    <input type="text" value={hospital} onChange={(e) => setHospital(e.target.value)} placeholder="Enter hospital or clinic" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Treating Hospital / Facility <span style={{ color: "red" }}>*</span></label>
+                    <input type="text" value={hospital} onChange={(e) => { setHospital(e.target.value); setErrors({...errors, hospital: ""}); }} placeholder="Enter hospital or clinic" className={`w-full rounded-2xl border ${errors.hospital ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.hospital && <p className="mt-1 text-xs text-red-500">{errors.hospital}</p>}
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Attending Physician <span className="text-red-500">*</span></label>
-                    <input type="text" value={physician} onChange={(e) => setPhysician(e.target.value)} placeholder="Enter physician name" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Attending Physician <span style={{ color: "red" }}>*</span></label>
+                    <input type="text" value={physician} onChange={(e) => { setPhysician(e.target.value); setErrors({...errors, physician: ""}); }} placeholder="Enter physician name" className={`w-full rounded-2xl border ${errors.physician ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.physician && <p className="mt-1 text-xs text-red-500">{errors.physician}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP) <span className="text-red-500">*</span></label>
-                    <input type="number" step="1000" min="0" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="e.g. 50000" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP) <span style={{ color: "red" }}>*</span></label>
+                    <input type="number" step="1000" min="0" value={requestedAmount} onChange={(e) => { setRequestedAmount(e.target.value); setErrors({...errors, requestedAmount: ""}); }} placeholder="e.g. 50000" className={`w-full rounded-2xl border ${errors.requestedAmount ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
+                    {errors.requestedAmount && <p className="mt-1 text-xs text-red-500">{errors.requestedAmount}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Medical Abstract or Clinical Summary (PDF/Image) <span className="text-red-500">*</span></label>
-                    <input type="file" accept=".pdf,image/*" onChange={handleFileUpload} disabled={uploadingDoc} className="w-full cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 outline-none focus:border-sky-500 cursor-pointer text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100 disabled:opacity-50" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Medical Abstract or Clinical Summary (PDF/Image) <span style={{ color: "red" }}>*</span></label>
+                    <input type="file" accept=".pdf,image/*" onChange={(e) => { setErrors({...errors, documentUrl: ""}); handleFileUpload(e); }} disabled={uploadingDoc} className={`w-full cursor-pointer rounded-2xl border ${errors.documentUrl ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-slate-50 px-4 py-3 outline-none focus:border-sky-500 text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100 disabled:opacity-50`} />
                     {uploadingDoc && <p className="mt-2 text-sm text-sky-600 animate-pulse">Uploading securely...</p>}
                     {documentUrl && <p className="mt-2 text-sm text-emerald-600 font-medium">✓ Document uploaded successfully</p>}
+                    {errors.documentUrl && <p className="mt-1 text-xs text-red-500">{errors.documentUrl}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treatment Notes / Assistance Needed</label>
@@ -311,7 +355,7 @@ Coordination Notes: ${coordNotes}
                 </div>
                 <div className="mt-8 flex items-center justify-between">
                   <button onClick={() => setCurrentStep(1)} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400">Back</button>
-                  <button onClick={() => setCurrentStep(3)} disabled={!isStep2Valid || uploadingDoc} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed">Next Step</button>
+                  <button onClick={handleNextStep2} disabled={uploadingDoc} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed">Next Step</button>
                 </div>
               </div>
             )}
