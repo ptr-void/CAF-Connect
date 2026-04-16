@@ -26,18 +26,23 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
   const [password, setPassword] = useState("");
   const [accountType, setAccountType] = useState("Patient");
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
     setError("");
-    if (!fullName || !email || !password) {
-      setError("Full name, email, and password are required.");
+    const newErrors: Record<string, string> = {};
+    if (!fullName) newErrors.fullName = "Full Name is required";
+    if (!email) newErrors.email = "Email Address is required";
+    if (!password) newErrors.password = "Password is required";
+    else if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
+    setErrors({});
+    
     setLoading(true);
     try {
       const res = await fetch("/api/x_1985733_cafsys/caf/register", {
@@ -118,40 +123,43 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
 
                 <div className="mt-6 space-y-4">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Full Name</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Full Name <span style={{ color: "red" }}>*</span></label>
                     <input
                       type="text"
                       placeholder="Enter full name"
                       value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                      onChange={(e) => { setFullName(e.target.value); setErrors({...errors, fullName: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.fullName ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-sky-500`}
                     />
+                    {errors.fullName && <p className="mt-1 text-xs text-red-500">{errors.fullName}</p>}
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Email Address <span style={{ color: "red" }}>*</span></label>
                     <input
                       type="email"
                       placeholder="Enter email address"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                      onChange={(e) => { setEmail(e.target.value); setErrors({...errors, email: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.email ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-sky-500`}
                     />
+                    {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Password <span style={{ color: "red" }}>*</span></label>
                     <input
                       type="password"
                       placeholder="Create password (min. 6 characters)"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                      onChange={(e) => { setPassword(e.target.value); setErrors({...errors, password: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.password ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-sky-500`}
                     />
+                    {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Account Type</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Account Type <span style={{ color: "red" }}>*</span></label>
                     <select
                       value={accountType}
                       onChange={(e) => setAccountType(e.target.value)}

@@ -21,6 +21,7 @@ type EligibilityPageProps = {
 function EligibilityPage({ setActivePage }: EligibilityPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   
   
   const [formData, setFormData] = useState({
@@ -44,6 +45,34 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
     "Medical & Assistance Details",
     "Eligibility Result", 
   ];
+
+  const handleNextStep1 = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.patient_name) newErrors.patientName = "Patient Name is required";
+    if (!formData.age) newErrors.age = "Age is required";
+    if (!formData.region || formData.region === 'Select location') newErrors.region = "Region is required";
+    if (!formData.contact) newErrors.contact = "Contact Number is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      setCurrentStep(2);
+    }
+  };
+
+  const handleNextToStep3WithValidation = async () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.diagnosis) newErrors.diagnosis = "Diagnosis is required";
+    if (!formData.facility) newErrors.facility = "Facility is required";
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+    await handleNextToStep3();
+  };
   
   const handleNextToStep3 = async () => {
     setCurrentStep(3);
@@ -157,57 +186,61 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Patient Full Name
+                      Patient Full Name <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
                       placeholder="Enter full name"
                       value={formData.patient_name}
-                      onChange={(e) => setFormData({...formData, patient_name: e.target.value})}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      onChange={(e) => { setFormData({...formData, patient_name: e.target.value}); setErrors({...errors, patientName: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.patientName ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                     />
+                    {errors.patientName && <p className="mt-1 text-xs text-red-500">{errors.patientName}</p>}
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Age
+                      Age <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="number"
                       placeholder="Enter age"
                       value={formData.age}
-                      onChange={(e) => setFormData({...formData, age: e.target.value})}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      onChange={(e) => { setFormData({...formData, age: e.target.value}); setErrors({...errors, age: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.age ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                     />
+                    {errors.age && <p className="mt-1 text-xs text-red-500">{errors.age}</p>}
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Region / Province
+                      Region / Province <span style={{ color: "red" }}>*</span>
                     </label>
                     <select 
                       value={formData.region}
-                      onChange={(e) => setFormData({...formData, region: e.target.value})}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                      onChange={(e) => { setFormData({...formData, region: e.target.value}); setErrors({...errors, region: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.region ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}>
                       <option>Select location</option>
                       <option>National Capital Region</option>
                       <option>Region VII - Central Visayas</option>
                       <option>Region XI - Davao Region</option>
                       <option>Region V - Bicol Region</option>
                     </select>
+                    {errors.region && <p className="mt-1 text-xs text-red-500">{errors.region}</p>}
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Contact Number
+                      Contact Number <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
                       placeholder="09XXXXXXXXX"
                       value={formData.contact}
-                      onChange={(e) => setFormData({...formData, contact: e.target.value})}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      onChange={(e) => { setFormData({...formData, contact: e.target.value}); setErrors({...errors, contact: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.contact ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                     />
+                    {errors.contact && <p className="mt-1 text-xs text-red-500">{errors.contact}</p>}
                   </div>
 
                   <div className="md:col-span-2">
@@ -233,7 +266,7 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
 
                 <div className="mt-8 flex items-center justify-end">
                   <button
-                    onClick={() => setCurrentStep(2)}
+                    onClick={handleNextStep1}
                     className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
                   >
                     Next Step
@@ -255,28 +288,30 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Diagnosis Type
+                      Diagnosis Type <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
                       placeholder="Enter diagnosis"
                       value={formData.diagnosis}
-                      onChange={(e) => setFormData({...formData, diagnosis: e.target.value})}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      onChange={(e) => { setFormData({...formData, diagnosis: e.target.value}); setErrors({...errors, diagnosis: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.diagnosis ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                     />
+                    {errors.diagnosis && <p className="mt-1 text-xs text-red-500">{errors.diagnosis}</p>}
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">
-                      Treatment Facility
+                      Treatment Facility <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
                       placeholder="Enter hospital / treatment center"
                       value={formData.facility}
-                      onChange={(e) => setFormData({...formData, facility: e.target.value})}
-                      className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500"
+                      onChange={(e) => { setFormData({...formData, facility: e.target.value}); setErrors({...errors, facility: ""}); }}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.facility ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                     />
+                    {errors.facility && <p className="mt-1 text-xs text-red-500">{errors.facility}</p>}
                   </div>
 
                   <div>
@@ -351,10 +386,11 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     Back
                   </button>
                   <button
-                    onClick={handleNextToStep3}
-                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+                    onClick={handleNextToStep3WithValidation}
+                    disabled={isLoading}
+                    className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50"
                   >
-                    View Result
+                    {isLoading ? "Evaluating..." : "Check Eligibility"}
                   </button>
                 </div>
               </div>
