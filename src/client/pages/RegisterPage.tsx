@@ -171,6 +171,11 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                       <option>Patient</option>
                       <option>Family Member / Guardian</option>
                     </select>
+                    <p className="mt-2 text-xs text-slate-500 ml-1">
+                      {accountType === "Patient" 
+                        ? "You are submitting an application for your own treatment assessment." 
+                        : "You will fill out application forms on behalf of the patient. An authorization document may be required."}
+                    </p>
                   </div>
 
                   {error && (

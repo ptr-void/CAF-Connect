@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import EligibilityPage from "./pages/EligibilityPage";
 import DocumentsPage from "./pages/DocumentsPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import TrackerPage from "./pages/TrackerPage";
@@ -107,8 +106,6 @@ function App() {
         return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
       case "register":
         return <RegisterPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
-      case "eligibility":
-        return <EligibilityPage setActivePage={setActivePage} />;
       case "documents":
         return <DocumentsPage setActivePage={setActivePage} />;
       case "application":
