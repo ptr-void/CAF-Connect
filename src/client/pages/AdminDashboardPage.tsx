@@ -69,46 +69,44 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 
   const handleUpdateRole = () => {
     setIsUpdatingUser(true);
-    fetch("/api/x_1985733_cafsys/caf/admin/update_user", {
+    fetch("/api/x_1985733_cafsys/caf/admin/add_user", {
       method: "POST",
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selectedUser.id, role: selectedUserRole })
+      body: JSON.stringify({ action: "update_role", id: selectedUser.id, role: selectedUserRole })
     })
-      .then(res => {
-         if(!res.ok) alert(`HTTP Status: ${res.status}`);
-         return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
-        if (data.error) {
-          alert("Server Error: " + data.error + "\n" + JSON.stringify(data.debug || {}));
+        const d = data.result || data;
+        if (d.error) {
+          alert("Error: " + d.error);
         } else {
+          alert(d.message || "Role updated!");
           fetchDashboardData(); setSelectedUser(null);
         }
       })
-      .catch(err => alert("Connection Error: API endpoint might still be configuring on the SN cloud.\n" + err))
+      .catch(err => alert("Network error: " + err))
       .finally(() => setIsUpdatingUser(false));
   };
 
   const handleToggleDeactivate = () => {
     setIsUpdatingUser(true);
-    const newStatus = selectedUser.status === 'Active' ? false : true;
-    fetch("/api/x_1985733_cafsys/caf/admin/update_user", {
+    const newActive = selectedUser.status !== 'Active';
+    fetch("/api/x_1985733_cafsys/caf/admin/add_user", {
       method: "POST",
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selectedUser.id, is_active: newStatus })
+      body: JSON.stringify({ action: "toggle_active", id: selectedUser.id, is_active: newActive })
     })
-      .then(res => {
-         if(!res.ok) alert(`HTTP Status: ${res.status}`);
-         return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
-        if (data.error) {
-          alert("Server Error: " + data.error + "\n" + JSON.stringify(data.debug || {}));
+        const d = data.result || data;
+        if (d.error) {
+          alert("Error: " + d.error);
         } else {
+          alert(d.message || "Status updated!");
           fetchDashboardData(); setSelectedUser(null);
         }
       })
-      .catch(err => alert("Connection Error: API endpoint might still be configuring on the SN cloud.\n" + err))
+      .catch(err => alert("Network error: " + err))
       .finally(() => setIsUpdatingUser(false));
   };
 
