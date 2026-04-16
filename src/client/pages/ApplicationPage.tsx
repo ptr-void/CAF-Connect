@@ -42,9 +42,44 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   
   const [selectedSite, setSelectedSite] = useState("");
   const [contactEmail, setContactEmail] = useState(currentUser?.email || "");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [requestedAmount, setRequestedAmount] = useState("");
   const [coordNotes, setCoordNotes] = useState("");
 
   const steps = ["Personal Details", "Diagnosis Details", "Access Site & Contact", "Review & Submit"];
+
+  const siteDetails: Record<string, { location: string, availability: string, types: string }> = {
+    "Jose R. Reyes Memorial Medical Center": {
+      location: "San Lazaro Compound, Rizal Ave, Sta. Cruz, Manila",
+      availability: "Mon - Fri, 8:00 AM - 4:00 PM",
+      types: "Breast, Cervical, Lung, Colon Cancer"
+    },
+    "East Avenue Medical Center": {
+      location: "East Avenue, Diliman, Quezon City",
+      availability: "Mon - Fri, 7:00 AM - 5:00 PM",
+      types: "All Major Cancer Types, Pediatric Oncology"
+    },
+    "Philippine General Hospital": {
+      location: "Taft Avenue, Ermita, Manila",
+      availability: "Mon - Sat, 8:00 AM - 5:00 PM",
+      types: "Comprehensive Oncology Services, All solid tumors and hematologic malignancies"
+    },
+    "Bicol Medical Center": {
+      location: "Panganiban Drive, Naga City, Camarines Sur",
+      availability: "Mon - Fri, 8:00 AM - 5:00 PM",
+      types: "Breast, Cervical, Head and Neck Cancers"
+    },
+    "Southern Philippines Medical Center": {
+      location: "J.P. Laurel Ave, Bajada, Davao City",
+      availability: "Mon - Fri, 8:00 AM - 4:00 PM",
+      types: "Mindanao Cancer Center - All Major Types"
+    },
+    "Vicente Sotto Memorial Medical Center": {
+      location: "B. Rodriguez St, Cebu City",
+      availability: "Mon - Fri, 8:00 AM - 4:00 PM",
+      types: "Visayas Cancer Center - All Major Types"
+    }
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -60,8 +95,9 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
           patient_name: patientName,
           email: currentUser?.email || contactEmail,
           medical_condition: diagnosis,
+          requested_amount: requestedAmount,
           selected_site: selectedSite || "Pending Assignment",
-          phone_number: "",
+          phone_number: mobileNumber,
           medical_abstract: `
 Birth Date: ${birthDate}
 Sex: ${sex}
@@ -160,6 +196,14 @@ Coordination Notes: ${coordNotes}
                       <option>Female</option>
                     </select>
                   </div>
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number</label>
+                    <input type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} placeholder="09XXXXXXXXX" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                  </div>
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>
+                    <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="Email for case updates" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                  </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Home Address</label>
                     <textarea rows={3} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter complete home address" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
@@ -205,6 +249,10 @@ Coordination Notes: ${coordNotes}
                     <input type="text" value={physician} onChange={(e) => setPhysician(e.target.value)} placeholder="Enter physician name" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div className="md:col-span-2">
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP)</label>
+                    <input type="number" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="Enter estimated amount based on doctor's quotation" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                  </div>
+                  <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treatment Notes / Assistance Needed</label>
                     <textarea rows={4} value={treatmentNotes} onChange={(e) => setTreatmentNotes(e.target.value)} placeholder="Briefly describe treatment need, medicines, procedure, or support required" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
@@ -235,13 +283,41 @@ Coordination Notes: ${coordNotes}
                       <option>Vicente Sotto Memorial Medical Center</option>
                     </select>
                   </div>
+                  {selectedSite && siteDetails[selectedSite] && (
+                    <div className="md:col-span-2 rounded-2xl bg-sky-50 p-5 ring-1 ring-sky-200">
+                      <h4 className="font-semibold text-sky-800 mb-3">Facility Information</h4>
+                      <div className="space-y-2 text-sm text-sky-900">
+                        <p><strong className="font-medium text-sky-700">Location:</strong> {siteDetails[selectedSite].location}</p>
+                        <p><strong className="font-medium text-sky-700">Availability:</strong> {siteDetails[selectedSite].availability}</p>
+                        <p><strong className="font-medium text-sky-700">Supported Cancers:</strong> {siteDetails[selectedSite].types}</p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>
-                    <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="Email for case updates" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Preferred Contact Method</label>
+                    <select className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                      <option>Select method</option>
+                      <option>SMS</option>
+                      <option>Email</option>
+                      <option>Phone Call</option>
+                    </select>
                   </div>
+
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Additional Coordination Notes (Optional)</label>
                     <textarea rows={3} value={coordNotes} onChange={(e) => setCoordNotes(e.target.value)} placeholder="Optional notes for staff or coordinator" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                  </div>
+
+                  <div className="md:col-span-2 mt-4 grid gap-4 md:grid-cols-2">
+                    <label className="flex items-start gap-3 cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-slate-300">
+                      <input type="checkbox" className="mt-1" />
+                      <span className="text-sm text-slate-600">I agree to receive SMS reminders and case status updates.</span>
+                    </label>
+                    <label className="flex items-start gap-3 cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-slate-300">
+                      <input type="checkbox" className="mt-1" />
+                      <span className="text-sm text-slate-600">I confirm the selected access site is the correct office for this case.</span>
+                    </label>
                   </div>
                 </div>
                 <div className="mt-8 flex items-center justify-between">
@@ -277,6 +353,10 @@ Coordination Notes: ${coordNotes}
                       <div className="rounded-2xl bg-white p-4">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Contact Email</p>
                         <p className="mt-2 font-semibold text-slate-800">{contactEmail || "—"}</p>
+                      </div>
+                      <div className="rounded-2xl bg-white p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Requested Amount</p>
+                        <p className="mt-2 font-semibold text-slate-800">{requestedAmount ? `₱${Number(requestedAmount).toLocaleString()}` : "—"}</p>
                       </div>
                     </div>
                   </div>
