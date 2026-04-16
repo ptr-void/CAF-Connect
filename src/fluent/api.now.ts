@@ -547,6 +547,7 @@ export const cafApi = RestApi({
                     userGr.query();
                     while (userGr.next()) {
                         users.push({
+                            id: userGr.getUniqueValue(),
                             name: userGr.getValue('full_name'),
                             email: userGr.getValue('email') || userGr.getValue('u_email') || userGr.getValue('email_address'),
                             role: userGr.getValue('account_type'),
@@ -827,7 +828,7 @@ export const cafApi = RestApi({
                 try {
                     var body = request.body.data;
                     var gr = new GlideRecord('x_1985733_cafsys_portal_user');
-                    gr.addQuery('email', body.email); 
+                    gr.addQuery('sys_id', body.id); 
                     gr.query();
                     if(gr.next()) {
                         if (body.role) {
