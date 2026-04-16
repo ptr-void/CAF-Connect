@@ -46,6 +46,11 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
   const [caseNotes, setCaseNotes] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // Detail Modal State
+  const [selectedCase, setSelectedCase] = useState<any>(null);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [updateNote, setUpdateNote] = useState("");
+
   const fetchRecords = (site: string) => {
     setLoading(true);
     fetch(`/api/x_1985733_cafsys/caf/staff/applications?site=${encodeURIComponent(site)}`, {
@@ -108,6 +113,28 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
     .finally(() => setIsProcessing(false));
   };
 
+  const handleUpdateStatus = (state: string) => {
+    if (!selectedCase) return;
+    setIsUpdatingStatus(true);
+    fetch(`/api/x_1985733_cafsys/caf/staff/applications/${selectedCase.sys_id}/status`, {
+        method: 'POST',
+        headers: { 
+            "X-UserToken": (window as any).g_ck || "",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: { state, note: updateNote } })
+    })
+    .then(res => res.json())
+    .then(() => {
+        alert("Status updated successfully.");
+        setSelectedCase(null);
+        setUpdateNote("");
+        fetchRecords(currentUser.assigned_site);
+    })
+    .catch(err => alert("Error updating status: " + err.message))
+    .finally(() => setIsUpdatingStatus(false));
+  };
+
   const filtered = records.filter((r) => {
     const matchSearch =
       !search ||
@@ -129,6 +156,16 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
     { title: "Missing Documents", value: totalMissing.toString(), note: "Waiting for patient upload", bg: "bg-rose-50", text: "text-rose-700" },
     { title: "Approved Cases", value: totalApproved.toString(), note: "Ready for release workflow", bg: "bg-emerald-50", text: "text-emerald-700" },
   ];
+
+  const handleViewCase = (sysId: string) => {
+    fetch(`/api/x_1985733_cafsys/caf/staff/applications/${sysId}`, {
+        headers: { "X-UserToken": (window as any).g_ck || "" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        setSelectedCase(data.result || data);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -242,7 +279,7 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                             <button 
                                 disabled={isProcessing}
                                 onClick={handleBatchApprove}
-                                className="px-8 py-4 bg-emerald-500 rounded-2xl font-black text-sm hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+                                className="cursor-pointer px-8 py-4 bg-emerald-500 rounded-2xl font-black text-sm hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20 disabled:opacity-50"
                             >
                                 {isProcessing ? "Processing..." : "Approve All"}
                             </button>
@@ -337,7 +374,10 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                                 </span>
                               </td>
                               <td className="py-6 px-4">
-                                <button className="cursor-pointer px-4 py-2 opacity-0 group-hover:opacity-100 bg-slate-900 rounded-xl font-bold text-xs text-white hover:bg-slate-800 transition shadow-lg shadow-slate-200">
+                                <button 
+                                   onClick={() => handleViewCase(record.sys_id)}
+                                   className="cursor-pointer px-4 py-2 opacity-0 group-hover:opacity-100 bg-slate-900 rounded-xl font-bold text-xs text-white hover:bg-slate-800 transition shadow-lg shadow-slate-200 shadow-slate-200/20"
+                                >
                                   View Case
                                 </button>
                               </td>
@@ -352,6 +392,105 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
           </div>
         </main>
       </div>
+
+      {selectedCase && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+           <div className="bg-white rounded-[2.5rem] w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+              <div className="bg-slate-900 p-8 text-white flex justify-between items-center shrink-0">
+                 <div>
+                    <h3 className="text-2xl font-black">Case Detail: {selectedCase.number}</h3>
+                    <p className="text-slate-400 font-medium">Submitted on {selectedCase.sys_created_on}</p>
+                 </div>
+                 <button 
+                   onClick={() => setSelectedCase(null)}
+                   className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full text-white hover:bg-white/20 transition"
+                 >✕</button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-10">
+                 <div className="grid gap-10 lg:grid-cols-[1fr_300px]">
+                    <div className="space-y-10">
+                       <section>
+                          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Patient Profile</h4>
+                          <div className="grid gap-6 md:grid-cols-2">
+                             <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                                <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Full Name</p>
+                                <p className="font-black text-slate-800 text-lg">{selectedCase.patient_name}</p>
+                             </div>
+                             <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                                <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Diagnosis</p>
+                                <p className="font-black text-slate-800 text-lg">{selectedCase.medical_condition}</p>
+                             </div>
+                             <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                                <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Email</p>
+                                <p className="font-black text-slate-800">{selectedCase.email}</p>
+                             </div>
+                             <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                                <p className="text-[10px] font-black text-slate-400 uppercase mb-1">Phone</p>
+                                <p className="font-black text-slate-800">{selectedCase.phone_number}</p>
+                             </div>
+                          </div>
+                       </section>
+
+                       <section>
+                          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Clinical Overview</h4>
+                          <div className="p-8 bg-sky-50 rounded-3xl border border-sky-100">
+                             <p className="text-[10px] font-black text-sky-700 uppercase mb-2">Medical Abstract Summary</p>
+                             <p className="text-slate-700 font-medium leading-relaxed italic">"{selectedCase.medical_abstract || "No abstract provided."}"</p>
+                          </div>
+                       </section>
+
+                       <section>
+                          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Verification Artifacts</h4>
+                          <div className="flex items-center justify-between p-6 border-2 border-slate-100 rounded-3xl">
+                             <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400">📄</div>
+                                <div>
+                                   <p className="font-bold text-slate-800">Consolidated Case Document</p>
+                                   <p className="text-xs text-slate-400">{selectedCase.document_url ? "File attached" : "No file found"}</p>
+                                </div>
+                             </div>
+                             {selectedCase.document_url && (
+                                <a href={selectedCase.document_url} target="_blank" className="px-5 py-2 bg-slate-900 text-white rounded-xl text-xs font-black">Open File</a>
+                             )}
+                          </div>
+                       </section>
+                    </div>
+
+                    <div className="space-y-6">
+                       <div className="p-6 bg-white border border-slate-200 rounded-3xl shadow-sm">
+                          <p className="text-[10px] font-black text-slate-400 uppercase mb-4">Case Action</p>
+                          <div className="space-y-2">
+                             <button 
+                                onClick={() => handleUpdateStatus("3")}
+                                className="w-full py-3 bg-emerald-500 text-white font-black rounded-2xl hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/20"
+                             >Approve Case</button>
+                             <button 
+                                onClick={() => handleUpdateStatus("4")}
+                                className="w-full py-3 bg-white border-2 border-rose-100 text-rose-500 font-black rounded-2xl hover:bg-rose-50 transition"
+                             >Missing Docs</button>
+                             <button 
+                                onClick={() => handleUpdateStatus("Referred")}
+                                className="w-full py-3 bg-white border-2 border-slate-100 text-slate-400 font-black rounded-2xl hover:bg-slate-50 transition"
+                             >Refer Case</button>
+                          </div>
+                       </div>
+
+                       <div className="p-6 bg-slate-50 border border-slate-100 rounded-3xl">
+                          <p className="text-[10px] font-black text-slate-400 uppercase mb-3">Staff Note</p>
+                          <textarea 
+                             value={updateNote}
+                             onChange={e => setUpdateNote(e.target.value)}
+                             placeholder="Add internal verification note..."
+                             className="w-full h-32 p-4 bg-white border border-slate-200 rounded-2xl text-sm outline-none focus:border-sky-500 transition"
+                          ></textarea>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      )}
     </div>
   );
 }
