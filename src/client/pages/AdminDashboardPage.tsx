@@ -421,7 +421,6 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   >
                     <option value="Administrator">Administrator</option>
                     <option value="Site Coordinator">Site Coordinator</option>
-                    <option value="Staff">Staff</option>
                   </select>
                 </div>
               </div>
