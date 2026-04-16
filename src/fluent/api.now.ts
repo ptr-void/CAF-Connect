@@ -498,9 +498,6 @@ export const cafApi = RestApi({
                     var results = [];
                     while (reqs.next()) {
                         var targetSite = reqs.getValue('access_site');
-                        // IF targetSite is filled, and a site is queried, they must match.
-                        // IF targetSite is filled, and no site is queried, we return it.
-                        // IF targetSite is empty, it's global and always returns.
                         if (targetSite && site && targetSite !== site) {
                             continue;
                         }

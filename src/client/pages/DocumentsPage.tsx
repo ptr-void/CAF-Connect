@@ -97,7 +97,6 @@ function DocumentsPage({ setActivePage, currentUser }: DocumentsPageProps) {
       const cloudData = await cloudRes.json();
       if (!cloudRes.ok) throw new Error(cloudData.error?.message || "Cloudinary error");
 
-      // Save to ServiceNow Profile
       const snRes = await fetch("/api/x_1985733_cafsys/caf/profile/documents", {
         method: "POST",
         headers: {
