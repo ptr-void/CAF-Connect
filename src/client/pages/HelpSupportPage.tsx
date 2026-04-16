@@ -35,7 +35,7 @@ const faqItems = [
   {
     question: "How will I know if documents are missing?",
     answer:
-      "The system shows document status markers and also sends reminders through SMS or in-system notifications when action is needed.",
+      "The system shows document status markers and also provides updates through the in-system notifications center when action is needed.",
   },
   {
     question: "What if I cannot complete the process by myself?",
@@ -141,10 +141,10 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
 
                   <div className="rounded-2xl bg-slate-50 px-4 py-3">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      SMS Assistance
+                      Notifications Center
                     </p>
                     <p className="mt-2 text-sm text-slate-700">
-                      Receive reminders and request follow-up guidance
+                      Check for real-time alerts and case status update messages
                     </p>
                   </div>
 
@@ -176,7 +176,7 @@ function HelpSupportPage({ setActivePage }: HelpSupportPageProps) {
                     Review the document checklist before asking about requirements
                   </li>
                   <li className="rounded-2xl bg-slate-50 px-4 py-3">
-                    Keep the patient mobile number active for follow-up messages
+                    Ensure your account email is active for any critical alerts
                   </li>
                 </ul>
               </div>
