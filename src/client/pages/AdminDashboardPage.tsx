@@ -39,8 +39,9 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Modal State
+  // Modal States
   const [showAddUser, setShowAddUser] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newUserInfo, setNewUserInfo] = useState({ name: '', email: '', role: 'Site Coordinator', site: '' });
   const [isAdding, setIsAdding] = useState(false);
 
@@ -121,7 +122,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="flex min-h-screen">
-        <aside className="hidden w-72 flex-col border-r border-slate-200 bg-white xl:flex">
+        <aside className="hidden w-72 flex-col border-r border-slate-200 bg-white xl:flex sticky top-0 h-screen">
           <div className="border-b border-slate-200 px-6 py-8">
             <h1 className="text-xl font-black tracking-tight text-slate-800">ADMIN CONTROL</h1>
             <p className="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Portal Analytics</p>
@@ -205,11 +206,11 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                         <div className="px-4 py-1.5 bg-sky-50 rounded-full text-xs font-bold text-sky-700">Live Sync</div>
                       </div>
                       <div className="grid gap-4">
-                        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl">
+                        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl group cursor-pointer hover:bg-sky-50 transition">
                            <div className="font-bold text-slate-800">Missing Document Rate</div>
                            <div className="text-2xl font-black text-sky-600">{(stats.pendingDocRate || 0)}%</div>
                         </div>
-                        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl">
+                        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl group cursor-pointer hover:bg-emerald-50 transition">
                            <div className="font-bold text-slate-800">Operational Access Sites</div>
                            <div className="text-2xl font-black text-emerald-600">{stats.activeSites}</div>
                         </div>
@@ -219,16 +220,16 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                    <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden">
                       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-sky-500/20 to-transparent"></div>
                       <div className="relative z-10">
-                        <h3 className="text-2xl font-black">Admin Notice</h3>
+                        <h3 className="text-2xl font-black">Portal Notice</h3>
                         <p className="mt-4 text-slate-400 font-medium leading-relaxed">
-                          The SMS notification system has been decommissioned. All communication is now handled via the internal notification center and email.
+                          The system core is fully connected to the ServiceNow backend. All statistics, user roles, and site configurations are retrieved in real-time.
                         </p>
                         <div className="mt-8 p-5 bg-white/5 rounded-2xl border border-white/10">
-                           <p className="text-xs font-bold text-sky-400 uppercase tracking-widest">Action Required</p>
-                           <p className="mt-2 text-sm font-bold text-slate-100">Review new coordinator accounts weekly to ensure site assignments are accurate.</p>
+                           <p className="text-xs font-bold text-sky-400 uppercase tracking-widest">System Status</p>
+                           <p className="mt-2 text-sm font-bold text-slate-100">Database Synchronization: <span className="text-emerald-400">Stable</span></p>
                         </div>
                         <button onClick={() => setActiveTab('users')} className="mt-8 w-full py-4 bg-sky-500 rounded-2xl font-black text-sm hover:bg-sky-400 transition">
-                          Review Assignments
+                           Review Registered Staff
                         </button>
                       </div>
                    </div>
@@ -286,10 +287,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                               </td>
                               <td className="py-6 px-4">
                                  <button 
-                                    onClick={() => alert(`Opening record for ${user.name}`)}
-                                    className="px-4 py-2 opacity-0 group-hover:opacity-100  bg-white border-2 border-slate-200 rounded-xl font-bold text-xs hover:border-sky-500 hover:text-sky-700 transition"
+                                    onClick={() => setSelectedUser(user)}
+                                    className="cursor-pointer px-4 py-2 opacity-0 group-hover:opacity-100  bg-white border-2 border-slate-200 rounded-xl font-bold text-xs hover:border-sky-500 hover:text-sky-700 transition"
                                  >
-                                   Manage User
+                                   View Details
                                  </button>
                               </td>
                            </tr>
@@ -316,7 +317,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                            <span className={`px-4 py-1.5 rounded-2xl text-[10px] font-black uppercase tracking-tight ${getStatusStyle(site.status)}`}>
                              {site.status}
                            </span>
-                           <button className="text-xs font-black text-sky-600 underline">Site Config</button>
+                           <button className="cursor-pointer text-xs font-black text-sky-600 underline">Configure Site</button>
                         </div>
                      </div>
                   ))}
@@ -382,19 +383,73 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                     <button 
                       type="button"
                       onClick={() => setShowAddUser(false)}
-                      className="flex-1 py-4 font-black text-slate-400 hover:text-slate-600 transition"
+                      className="cursor-pointer flex-1 py-4 font-black text-slate-400 hover:text-slate-600 transition"
                     >
                       Cancel
                     </button>
                     <button 
                       disabled={isAdding}
                       type="submit"
-                      className="flex-[2] py-4 bg-sky-600 text-white font-black rounded-2xl hover:bg-sky-700 shadow-lg shadow-sky-200"
+                      className="cursor-pointer flex-[2] py-4 bg-sky-600 text-white font-black rounded-2xl hover:bg-sky-700 shadow-lg shadow-sky-200"
                     >
                       {isAdding ? "Registering..." : "Create Account"}
                     </button>
                  </div>
               </form>
+           </div>
+        </div>
+      )}
+
+      {selectedUser && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+           <div className="bg-white rounded-[2.5rem] w-full max-w-xl overflow-hidden shadow-2xl relative">
+              <button 
+                 onClick={() => setSelectedUser(null)}
+                 className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition"
+              >
+                 ✕
+              </button>
+              <div className="p-10">
+                 <div className="flex items-center gap-6 mb-8 pb-8 border-b border-slate-50">
+                    <div className="w-20 h-20 rounded-[2rem] bg-sky-600 text-white flex items-center justify-center text-4xl font-black">
+                       {selectedUser.name.charAt(0)}
+                    </div>
+                    <div>
+                       <h3 className="text-3xl font-black text-slate-900">{selectedUser.name}</h3>
+                       <p className="text-sky-600 font-bold">{selectedUser.role}</p>
+                    </div>
+                 </div>
+
+                 <div className="grid gap-6 md:grid-cols-2">
+                    <div className="space-y-1">
+                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact Email</p>
+                       <p className="font-bold text-slate-700">{selectedUser.email || "N/A"}</p>
+                    </div>
+                    <div className="space-y-1">
+                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Site Assignment</p>
+                       <p className="font-bold text-slate-700">{selectedUser.site}</p>
+                    </div>
+                    <div className="space-y-1">
+                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Account Status</p>
+                       <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase">
+                          {selectedUser.status}
+                       </span>
+                    </div>
+                    <div className="space-y-1">
+                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Last Activity</p>
+                       <p className="font-bold text-slate-500 italic">Connected Live</p>
+                    </div>
+                 </div>
+
+                 <div className="mt-10 flex gap-4">
+                    <button className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm hover:bg-slate-800 transition">
+                       Update Permissions
+                    </button>
+                    <button className="flex-1 py-4 border-2 border-rose-100 text-rose-500 rounded-2xl font-black text-sm hover:bg-rose-50 transition">
+                       Deactivate User
+                    </button>
+                 </div>
+              </div>
            </div>
         </div>
       )}
