@@ -397,12 +397,41 @@ Coordination Notes: ${coordNotes}
                       className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
                     >
                       <option value="">Select access site (optional, coordinator will assign)</option>
-                        <p><strong className="font-medium text-sky-700">Supported Cancers:</strong> {selectedSiteData.supported_cancers}</p>
+                      {sites.map(s => <option key={s.sys_id} value={s.site_name}>{s.site_name} - {s.region}</option>)}
+                    </select>
+
+                    {selectedSiteData && (
+                      <div className="mt-4 rounded-3xl bg-sky-50 p-6 ring-1 ring-sky-200 shadow-sm transition">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h4 className="font-semibold text-slate-800 text-lg">{selectedSiteData.site_name}</h4>
+                          <span className="bg-sky-100 text-sky-800 text-xs font-semibold px-2 py-1 rounded-full ring-1 ring-sky-200">{selectedSiteData.region}</span>
+                        </div>
+                        <div className="grid gap-x-6 gap-y-4 md:grid-cols-2 text-sm text-slate-700 mt-4">
+                          <div>
+                            <span className="block font-semibold uppercase tracking-wider text-xs text-sky-700 mb-1">Address</span>
+                            <span>{selectedSiteData.address || "N/A"}</span>
+                          </div>
+                          <div>
+                            <span className="block font-semibold uppercase tracking-wider text-xs text-sky-700 mb-1">Contact Details</span>
+                            <span>{selectedSiteData.contact_number || "N/A"}</span>
+                          </div>
+                          <div>
+                            <span className="block font-semibold uppercase tracking-wider text-xs text-sky-700 mb-1">Operating Hours</span>
+                            <span>{selectedSiteData.operating_hours || "N/A"}</span>
+                          </div>
+                          <div>
+                            <span className="block font-semibold uppercase tracking-wider text-xs text-sky-700 mb-1">Priority Diagnosis</span>
+                            <span>{selectedSiteData.supported_cancers || "All Types"}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
-
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>
+                    <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="Email for coordination updates" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                  </div>
 
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Additional Coordination Notes (Optional)</label>
