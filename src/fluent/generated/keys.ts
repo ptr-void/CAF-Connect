@@ -118,6 +118,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '002d5a1b45c344ff9db070c63fdc7a66'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'is_read'
@@ -127,6 +128,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '097999cecebd475f8174ff6e3cf87a6d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'user_email'
@@ -136,6 +138,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '0b947a5a36434ed2b6506bdabc45c329'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'address'
@@ -144,6 +147,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '0e4220adb728409a929239a693cb1d20'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'NULL'
@@ -160,6 +164,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: '1312ad668c3342ea971469cd39d997c0'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                         }
@@ -167,6 +172,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '1334a30db33540f5af55cf669a5dcbf7'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'NULL'
@@ -175,6 +181,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '133ad26773974b92ab19ff928dcc9789'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'site_name'
@@ -183,6 +190,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '15390c3704e24730ae39edcdd94e78bb'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'note'
@@ -191,6 +199,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '1973246b280346be9633eae545a43cef'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'access_site'
@@ -199,6 +208,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '1e3e6ba44a264936930593b1cdcad567'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'NULL'
@@ -208,6 +218,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '1ed764f02cfb4da09a890cedba07a7a9'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'note'
@@ -224,6 +235,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '2220d8121e4146e09d98147b3579a79e'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'assigned_site'
@@ -233,6 +245,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '243b58837d234b3c9ab918391a1742d7'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'NULL'
@@ -242,6 +255,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '24f70117fc3b4a169efa84e3a7b449ba'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'ai_eligibility_score'
@@ -251,6 +265,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '2669180c73ea465aaec732dfd576cbb9'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'created_date'
@@ -260,6 +275,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '2688e03dd59f46a99f985c9ea39f8046'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'approved_amount'
@@ -268,6 +284,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '290ccfe32ccb4ab2b0b32d233bbac8f4'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'phone_number'
@@ -277,6 +294,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '2f57bd205b4447ce9408a48a681fd38c'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'password'
@@ -286,6 +304,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '3c0220f9b40544ca9d903d7ceeec0825'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'site_name'
@@ -295,6 +314,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: '3d16d6e7a2634843a5aa53b655031050'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                         }
@@ -302,6 +322,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: '3da59a33186e4fbeb53c4224593a2838'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                         }
@@ -309,6 +330,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '3fc93d0938454936bbb9c1624e45212a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'email'
@@ -318,6 +340,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '419fac78f152450b969e6d7c80f94f04'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'contact_number'
@@ -326,6 +349,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '4603b8de6a8447d79fb4d8785880751d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'needs_manual_review'
@@ -335,6 +359,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '4638d080044a4707a1a877329257f8c7'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'requested_amount'
@@ -344,6 +369,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: '46e9d266788449bbb75d3a99feb428ee'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                         }
@@ -351,6 +377,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '4715722f2e304f6ca2ccaef543888406'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'status'
@@ -360,6 +387,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '4947c9d4f9ad4adeb53466115ee558ce'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_abstract'
@@ -369,6 +397,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '49c4f1dc4a4f45e49f48abe3a7eb6685'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'access_site'
@@ -385,6 +414,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '4aa7faeeaed74fe08f964fcd914312f8'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'status'
@@ -393,6 +423,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '4b8d16def3a1489aa7f54a0f7cf344b6'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'is_active'
@@ -401,6 +432,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '4cffaed0df974e73b263f29ce3df47ab'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'supported_cancers'
@@ -409,6 +441,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '4d502f316ba947e695cb98cbff8b5e5b'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'account_type'
@@ -418,6 +451,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '4ddcfd43486b4273a812c1381a0a43eb'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'name'
@@ -427,6 +461,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '5101b21448604798af6c93e47872670a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'remaining_funds'
@@ -436,6 +471,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '515a7f5efa784a96a900803f06d8a33f'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'full_name'
@@ -445,6 +481,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '51abdeb3f1764a879f88e84bb95d9db5'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'patient_name'
@@ -461,6 +498,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: '52e3405133884c398c805d17995e906b'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                         }
@@ -468,6 +506,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '583538335cb6433bab8ee10f641a09d9'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'status'
@@ -476,6 +515,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '5882ade7688b4cf5867a33e0a818a389'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'user_email'
@@ -484,6 +524,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: '5dc8e1ae19e0416aa67c89bda0b8ef9d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                         }
@@ -491,6 +532,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '5e0303d615434740bd1414867c396844'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'document_url'
@@ -507,6 +549,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: '652df7183db44b018df050cb9c2f9479'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                         }
@@ -514,6 +557,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: '68a51cb3bdd845c19d2e3961bc450265'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                         }
@@ -521,6 +565,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '6a75b2602ef64544bd55916b06b91b07'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'needs_manual_review'
@@ -529,6 +574,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: '6b295d8f6c1a4483877267ebfa7eb6fd'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                         }
@@ -536,6 +582,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '6bc6ea7c80b74a959c9f55b4ad6545dc'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'remaining_funds'
@@ -544,6 +591,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '6e4b2ca7b93e4728be41f3a5a5fe5989'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'user_email'
@@ -560,6 +608,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '78a69604382b4be08e57cb93c74f55a8'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'NULL'
@@ -576,6 +625,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '7e122c2ff09f47859fe38aba083f9c69'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'document_url'
@@ -585,6 +635,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '7f29480e8ead48769fc3f4780d3eee47'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'ai_reasoning'
@@ -594,6 +645,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '8571e69527004dab88f2205c7e7e6097'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'selected_site'
@@ -602,6 +654,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '863e4db280064e73933b9e9c86f37c5a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'region'
@@ -611,6 +664,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '8716007dba644419acbde066a784843d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'NULL'
@@ -619,6 +673,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '8756133ce81a4ab3a8842699895ab7a4'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_condition'
@@ -627,6 +682,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '887eb3d05e1044b091647914f92db4b7'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'title'
@@ -636,6 +692,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '88f11ad971734585a7819f38a538c5a1'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'is_read'
@@ -644,6 +701,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '8a383b4a4c2549b683b12b588974ad10'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'NULL'
@@ -653,6 +711,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '911e57dc162f4f44be3682797d86cdf0'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'region'
@@ -661,6 +720,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '94836ce3655a4fc78f1a5aad06fa21e9'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'document_name'
@@ -669,6 +729,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '97988ff939984505affba8c270ccced4'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'password'
@@ -677,6 +738,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: '97f5ce21ed7c4e9e9578d3ce2692a3c3'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'message'
@@ -686,6 +748,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '9d3689478e234615844e0e3fc1965d2a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'patient_name'
@@ -694,6 +757,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '9decba3dc1f143388624a1ea7d699464'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'title'
@@ -702,6 +766,7 @@ declare global {
                     {
                         table: 'sys_user_role'
                         id: '9f1db0a07d8243b9a284f2ff5102d366'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys.applicant'
                         }
@@ -709,6 +774,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: '9f3e084decb54c949453f9e1f03db01b'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'ai_reasoning'
@@ -717,6 +783,7 @@ declare global {
                     {
                         table: 'sys_user_role'
                         id: 'a0f71df62a0e4e70bae5654acfee655c'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys.coordinator'
                         }
@@ -724,6 +791,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'a2097407b69e44858705b5b69cc9825f'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'file_url'
@@ -732,6 +800,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'a36520203e4e42ab8ded872e3976fb09'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'address'
@@ -741,6 +810,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'a4f31d456c5044a7a6a3acf2bba8e217'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'NULL'
@@ -749,6 +819,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'a6c15dfc8c724044b437ea313cf9cbf5'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'message'
@@ -758,6 +829,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'a6f4bb3c87f542438789f55790719501'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'NULL'
@@ -766,6 +838,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'a7e13c5c5dd14876afbf8a2d2f321daf'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'contact_number'
@@ -775,6 +848,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'a90ad0bd89c9412f8351e364ed62337a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'type'
@@ -784,6 +858,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: 'ac5f266e59ea47aa978d437bd8246a55'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                         }
@@ -791,6 +866,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'adbded8efeed49289ecdf8b07571c017'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'email'
@@ -800,6 +876,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'aea3bb3f932b4a8d833baa28ca471f36'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'is_active'
@@ -816,6 +893,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'b1399025c9b2421f8e446ca2727a18b5'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'approved_amount'
@@ -825,6 +903,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'b4171a86effa48a3841bd23d838fe306'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'is_active'
@@ -833,6 +912,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'b50a87144f254f23a0c98b9369ae0626'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'ai_eligibility_score'
@@ -848,6 +928,7 @@ declare global {
                     {
                         table: 'sys_number'
                         id: 'b8621b3a8ee549ac8a4ada6674cb864b'
+                        deleted: true
                         key: {
                             category: 'x_1985733_cafsys_application'
                             prefix: 'CAF'
@@ -856,6 +937,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'b908de56fc904842bb33741159587f4f'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'account_type'
@@ -864,6 +946,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: 'b9956f46c48546e4809effa40f2121cb'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                         }
@@ -871,6 +954,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'bb985e056cb64b82af94a8c047e7772d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'requested_amount'
@@ -886,6 +970,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'bcdc0537314045489b33c56086fc557a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'supported_cancers'
@@ -895,6 +980,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'bd5d144c01644d56988d8e575260e35a'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'is_active'
@@ -904,6 +990,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'bf9ce870d9b246e59c4cb292fdd514ae'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'full_name'
@@ -912,6 +999,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'c027f132044649e0ad4320359aead58f'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'timestamp'
@@ -921,6 +1009,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'c0864f123b6c4226af53923120de1344'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'email'
@@ -929,6 +1018,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'c2fa7ad76449402ca7b98f9b8365cf94'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'title'
@@ -937,6 +1027,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'c3051db0763a4549b72f2e381d02333d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'NULL'
@@ -946,6 +1037,7 @@ declare global {
                     {
                         table: 'ua_table_licensing_config'
                         id: 'c4251704d96847949ba7fd12c025adf1'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                         }
@@ -960,6 +1052,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'c5a5fd53ae104f9b9d58820c5fe91481'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'file_url'
@@ -969,6 +1062,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'c6af37fcf3f94f95b1d0926a2821f65d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'message'
@@ -977,6 +1071,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'c791bc680c614c42b68337b946997331'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_abstract'
@@ -985,6 +1080,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'c7a94f91b1874a50bffec34314beb77b'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'category'
@@ -994,6 +1090,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'c8c29ba9cb824df8a16d67ec309e96ae'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'operating_hours'
@@ -1002,6 +1099,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'ca0d4d169f1e4beeb93b7d09cbfc6e47'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'timestamp'
@@ -1010,6 +1108,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'ca465d8fdd5148ae8f7af06bd00a3abf'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'NULL'
@@ -1018,6 +1117,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'cb9c31b075c5452687c3f29481c83fb7'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'title'
@@ -1034,6 +1134,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'cd126d03e7d648cf8aec0aa9906936cf'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'selected_site'
@@ -1043,6 +1144,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'cdf4d0ca277949ee9b9d0c5a8ba042f8'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'assigned_site'
@@ -1051,6 +1153,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'ce66db6c9e3648cbb284885c563ed227'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'user_email'
@@ -1066,6 +1169,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'cf50d256d7d341ea8c3a753ed9d97089'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'NULL'
@@ -1074,6 +1178,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'd0ca0f1b93f44bfeb117abc06f3f390c'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'medical_condition'
@@ -1083,6 +1188,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'd0f9d78f2ef142329086bbb35bb67f4d'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'type'
@@ -1091,6 +1197,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'd4507abddb184e1ea978b8871bb0e1bf'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'phone_number'
@@ -1099,6 +1206,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'd5c945595fb542d090144ab871bf8a83'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'status'
@@ -1108,6 +1216,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'd7f8fa45174240428bf32ea6ec41d4e9'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'email'
@@ -1116,6 +1225,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'e22e2ddac6114007a5ab037de950782c'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'created_date'
@@ -1124,6 +1234,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'e237ce930720404b84848a8fdea6f771'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_notification'
                             element: 'message'
@@ -1132,6 +1243,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: 'e4ac0974581e4361a685086080b3cb0c'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                         }
@@ -1139,6 +1251,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'e5b765b30321441a8a8268d6b336e398'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_patient_doc'
                             element: 'document_name'
@@ -1148,6 +1261,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'e70d9ac105c54a5daf68bc5ac38f1177'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                             element: 'NULL'
@@ -1157,6 +1271,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'e85809fcd88d4c6493da5044f8c1dcfb'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_site'
                             element: 'operating_hours'
@@ -1166,6 +1281,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'ea11ab8f749749ce86d0480f9474ffb4'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'application'
@@ -1174,6 +1290,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'ead8c42266774f53a26e3e384443ea84'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_application'
                             element: 'NULL'
@@ -1182,6 +1299,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'ed347327f5e544228a1e6f7cf5b63586'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'category'
@@ -1197,6 +1315,7 @@ declare global {
                     {
                         table: 'sys_documentation'
                         id: 'f616b8106bf6430b8499ffe9f1668566'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_case_log'
                             element: 'application'
@@ -1206,6 +1325,7 @@ declare global {
                     {
                         table: 'sys_db_object'
                         id: 'f7ad90aff72846048104ef68347eb381'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_portal_user'
                         }
@@ -1220,6 +1340,7 @@ declare global {
                     {
                         table: 'sys_dictionary'
                         id: 'fda1caabec5f44048ac6b7e1deab4355'
+                        deleted: true
                         key: {
                             name: 'x_1985733_cafsys_doc_req'
                             element: 'name'
