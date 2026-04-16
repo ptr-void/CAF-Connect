@@ -58,6 +58,9 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [mobileNumber, setMobileNumber] = useState("");
   const [coordNotes, setCoordNotes] = useState("");
 
+  const [aiResult, setAiResult] = useState({ outcome: "", reasoning: "" });
+  const [isLoadingAi, setIsLoadingAi] = useState(false);
+
   const [documentUrl, setDocumentUrl] = useState("");
   const [uploadingDoc, setUploadingDoc] = useState(false);
 
@@ -135,6 +138,45 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
       alert("Failed to upload document: " + err.message);
     } finally {
       setUploadingDoc(false);
+    }
+  };
+
+  const handleReviewSummaryStep = async () => {
+    setCurrentStep(4);
+    setIsLoadingAi(true);
+
+    try {
+      const res = await fetch("/api/x_1985733_cafsys/caf/groq/evaluate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-UserToken": (window as any).g_ck || "",
+        },
+        body: JSON.stringify({
+          patient_name: patientName,
+          age: birthDate,
+          region: "Auto",
+          contact: mobileNumber || "N/A",
+          type: currentUser?.account_type || "Patient",
+          diagnosis: diagnosis,
+          facility: selectedSite || "Auto",
+          medical_abstract: `Birth Date: ${birthDate}, Sex: ${sex}, Hospital: ${hospital}, Notes: ${treatmentNotes}`
+        })
+      });
+
+      const data = await res.json();
+      const payload = data.result || data;
+
+      if (payload.outcome) {
+        setAiResult(payload);
+      } else {
+        setAiResult({ outcome: "Needs Manual Review", reasoning: "Could not automatically determine eligibility via AI. Proceed with submission for coordinator review." });
+      }
+    } catch (err) {
+      console.error(err);
+      setAiResult({ outcome: "Error", reasoning: "Could not reach AI eligibility service." });
+    } finally {
+      setIsLoadingAi(false);
     }
   };
 
@@ -346,20 +388,15 @@ Coordination Notes: ${coordNotes}
                 <p className="text-sm font-semibold text-sky-700">Step 3</p>
                 <h2 className="mt-2 text-2xl font-bold text-slate-800">Access Site & Contact</h2>
                 <p className="mt-2 text-sm text-slate-500">Select the most appropriate access site and confirm coordination details.</p>
-                <div className="mt-6 grid gap-5 md:grid-cols-2">
-                  <div className="md:col-span-2">
+                <div className="mt-6 space-y-5">
+                  <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Selected Access Site</label>
-            <select value={selectedSite} onChange={(e) => setSelectedSite(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                    <select
+                      value={selectedSite}
+                      onChange={(e) => setSelectedSite(e.target.value)}
+                      className="cursor-pointer w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500"
+                    >
                       <option value="">Select access site (optional, coordinator will assign)</option>
-                      {sites.map(s => <option key={s.sys_id} value={s.site_name}>{s.site_name}</option>)}
-                    </select>
-                  </div>
-                  {selectedSite && selectedSiteData && (
-                    <div className="md:col-span-2 rounded-2xl bg-sky-50 p-5 ring-1 ring-sky-200">
-                      <h4 className="font-semibold text-sky-800 mb-3">Facility Information</h4>
-                      <div className="space-y-2 text-sm text-sky-900">
-                        <p><strong className="font-medium text-sky-700">Location:</strong> {selectedSiteData.address}</p>
-                        <p><strong className="font-medium text-sky-700">Availability:</strong> {selectedSiteData.operating_hours}</p>
                         <p><strong className="font-medium text-sky-700">Supported Cancers:</strong> {selectedSiteData.supported_cancers}</p>
                       </div>
                     </div>
@@ -385,7 +422,7 @@ Coordination Notes: ${coordNotes}
                 </div>
                 <div className="mt-8 flex items-center justify-between">
                   <button onClick={() => setCurrentStep(2)} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400">Back</button>
-                  <button onClick={() => setCurrentStep(4)} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700">Review Summary</button>
+                  <button onClick={handleReviewSummaryStep} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700">Review Summary</button>
                 </div>
               </div>
             )}
@@ -398,30 +435,55 @@ Coordination Notes: ${coordNotes}
                 <p className="mt-2 text-sm text-slate-500">Review the information below before final submission to the selected access site.</p>
 
                 <div className="mt-6 grid gap-5">
-                  <div className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
-                    <h3 className="text-lg font-semibold text-slate-800">Applicant Summary</h3>
+                  {isLoadingAi ? (
+                    <div className="rounded-3xl bg-white p-12 ring-1 ring-slate-200 flex flex-col items-center justify-center space-y-5 text-center">
+                      <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-sky-600"></div>
+                      <p className="text-sm font-semibold text-sky-700">Analyzing criteria with Llama 3.3 70B...</p>
+                      <p className="text-xs text-slate-500 mt-2">Checking pre-eligibility requirements without storing medical data.</p>
+                    </div>
+                  ) : (
+                    aiResult.outcome && (
+                      <div className={`rounded-3xl p-6 ring-1 shadow-sm ${aiResult.outcome.includes('Not') || aiResult.outcome.includes('Review') ? 'bg-amber-50 ring-amber-200' : 'bg-emerald-50 ring-emerald-200'}`}>
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                          <div>
+                            <p className={`text-sm font-semibold ${aiResult.outcome.includes('Not') || aiResult.outcome.includes('Review') ? 'text-amber-800' : 'text-emerald-800'}`}>Screening Outcome</p>
+                            <h3 className={`mt-2 text-3xl font-bold ${aiResult.outcome.includes('Not') || aiResult.outcome.includes('Review') ? 'text-amber-700' : 'text-emerald-700'}`}>{aiResult.outcome || "Possibly Eligible"}</h3>
+                            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-700">
+                              {aiResult.reasoning || "The patient may qualify for CAF support. All provided data is subject to formal verification by an assigned social worker."}
+                            </p>
+                          </div>
+      
+                          <div className={`cursor-pointer rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 flex min-w-56 shrink-0 flex-col ${aiResult.outcome.includes('Not') || aiResult.outcome.includes('Review') ? 'ring-amber-200' : 'ring-emerald-200'}`}>
+                            <p className="text-sm font-semibold text-slate-700">Recommended Action</p>
+                            <p className="mt-2 text-sm text-slate-600 font-medium">
+                              {aiResult.outcome.includes('Not') ? "Double-check guidelines!" : "Finalize submission below."}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+
+                  <div className="rounded-3xl bg-white p-6 ring-1 ring-slate-200 shadow-sm mt-3">
+                    <h3 className="text-lg font-semibold text-slate-800">Application Snapshot</h3>
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Patient Name</p>
                         <p className="mt-2 font-semibold text-slate-800">{patientName || "—"}</p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Diagnosis</p>
                         <p className="mt-2 font-semibold text-slate-800">{diagnosis || "—"}</p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Requested Amount</p>
-                        <p className="mt-2 font-semibold text-slate-800">{requestedAmount ? "₱" + parseFloat(requestedAmount).toLocaleString() : "—"}</p>
-                      </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Access Site</p>
-                        <p className="mt-2 font-semibold text-slate-800">{selectedSite || "Pending coordinator assignment"}</p>
+                        <p className="mt-2 font-semibold text-slate-800">{selectedSite || "Pending assignment"}</p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Contact Email</p>
                         <p className="mt-2 font-semibold text-slate-800">{contactEmail || "—"}</p>
                       </div>
-                      <div className="rounded-2xl bg-white p-4">
+                      <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100 md:col-span-2">
                         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Requested Amount</p>
                         <p className="mt-2 font-semibold text-slate-800">{requestedAmount ? `₱${Number(requestedAmount).toLocaleString()}` : "—"}</p>
                       </div>

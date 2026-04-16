@@ -548,7 +548,7 @@ export const cafApi = RestApi({
                     while (userGr.next()) {
                         users.push({
                             name: userGr.getValue('full_name'),
-                            email: userGr.getValue('email'),
+                            email: userGr.getValue('email') || userGr.getValue('u_email') || userGr.getValue('email_address'),
                             role: userGr.getValue('account_type'),
                             site: userGr.getValue('assigned_site') || 'System-wide',
                             status: 'Active'
