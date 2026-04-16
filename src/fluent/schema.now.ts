@@ -1,126 +1,91 @@
-import { Table, StringColumn, Role, BooleanColumn, DecimalColumn } from '@servicenow/sdk/core';
+import { Table, StringColumn, ReferenceColumn, BooleanColumn, IntegerColumn } from '@servicenow/sdk/core';
 
 
-export const applicantRole = Role({
-    name: 'x_1985733_cafsys.applicant',
-    description: 'Patient or relative applying for CAF',
+export const x_1985733_cafsys_patient_doc = Table({
+    name: 'x_1985733_cafsys_patient_doc',
+    label: 'Patient Document',
+    schema: {
+        document_name: StringColumn({ label: 'Document Name', maxLength: 100 }),
+        file_url: StringColumn({ label: 'File URL', maxLength: 500 }),
+        status: StringColumn({ label: 'Status', maxLength: 50, defaultValue: 'Uploaded' }),
+        user_email: StringColumn({ label: 'User Email', maxLength: 100 }),
+    },
 });
 
-export const coordinatorRole = Role({
-    name: 'x_1985733_cafsys.coordinator',
-    description: 'Site coordinator who reviews applications',
+
+export const x_1985733_cafsys_doc_req = Table({
+    name: 'x_1985733_cafsys_doc_req',
+    label: 'Document Requirement',
+    schema: {
+        name: StringColumn({ label: 'Requirement Name', maxLength: 100 }),
+        category: StringColumn({ label: 'Category', maxLength: 100 }),
+        note: StringColumn({ label: 'Guidance Note', maxLength: 1000 }),
+        access_site: StringColumn({ label: 'Access Site', maxLength: 100 }),
+        is_active: BooleanColumn({ label: 'Active', defaultValue: true }),
+    },
+});
+
+
+export const x_1985733_cafsys_case_log = Table({
+    name: 'x_1985733_cafsys_case_log',
+    label: 'Case Activity Log',
+    schema: {
+        application: ReferenceColumn({
+            label: 'Application',
+            referenceTable: 'x_1985733_cafsys_application',
+        }),
+        title: StringColumn({ label: 'Activity Title', maxLength: 100 }),
+        message: StringColumn({ label: 'Details', maxLength: 500 }),
+        type: StringColumn({ label: 'Log Type', maxLength: 50, defaultValue: 'status' }),
+    },
 });
 
 
 export const x_1985733_cafsys_application = Table({
     name: 'x_1985733_cafsys_application',
-    extends: 'task', 
-    label: 'CAF Application',
-    display: 'patient_name',
-    auto_number: {
-        prefix: 'CAF',
-        number: 1000,
-        number_of_digits: 6,
-    },
+    label: 'Patient Application',
     schema: {
-        patient_name: StringColumn({ label: 'Patient Name', mandatory: true, maxLength: 100 }),
-        medical_condition: StringColumn({ label: 'Medical Condition', maxLength: 500 }),
+        number: StringColumn({ label: 'Case Number', maxLength: 20 }),
+        patient_name: StringColumn({ label: 'Patient Name', maxLength: 100 }),
         email: StringColumn({ label: 'Email', maxLength: 100 }),
-        phone_number: StringColumn({ label: 'Phone Number', maxLength: 20 }),
-        selected_site: StringColumn({ label: 'Selected Access Site', maxLength: 100 }),
-        
-        
-        medical_abstract: StringColumn({ label: 'Medical Abstract (Raw text)', maxLength: 4000 }),
-        ai_eligibility_score: StringColumn({ label: 'AI Eligibility Result', maxLength: 100 }),
-        ai_reasoning: StringColumn({ label: 'AI Reasoning', maxLength: 4000 }),
-        
-        needs_manual_review: BooleanColumn({ label: 'Needs Manual Review' }),
-        requested_amount: DecimalColumn({ label: 'Requested Amount' }),
-        approved_amount: DecimalColumn({ label: 'Approved Amount' }),
-        document_url: StringColumn({ label: 'Document URL', maxLength: 1000 })
-    }
+        phone_number: StringColumn({ label: 'Phone', maxLength: 20 }),
+        diagnosis: StringColumn({ label: 'Diagnosis', maxLength: 200 }),
+        selected_site: StringColumn({ label: 'Selected Site', maxLength: 100 }),
+        state: IntegerColumn({ label: 'State', defaultValue: 1 }),
+        requested_amount: StringColumn({ label: 'Requested Amount', maxLength: 50 }),
+        approved_amount: StringColumn({ label: 'Approved Amount', maxLength: 50 }),
+        medical_abstract: StringColumn({ label: 'Medical Abstract Text', maxLength: 4000 }),
+        ai_eligibility_score: IntegerColumn({ label: 'AI Score' }),
+        ai_reasoning: StringColumn({ label: 'AI Reasoning', maxLength: 1000 }),
+        needs_manual_review: BooleanColumn({ label: 'Needs Review', defaultValue: false }),
+    },
+});
+
+
+export const x_1985733_cafsys_site = Table({
+    name: 'x_1985733_cafsys_site',
+    label: 'Access Site',
+    schema: {
+        site_name: StringColumn({ label: 'Site Name', maxLength: 100 }),
+        region: StringColumn({ label: 'Region', maxLength: 100 }),
+        total_funds: StringColumn({ label: 'Total Allocated Funds', maxLength: 50 }),
+        remaining_funds: StringColumn({ label: 'Remaining Balance', maxLength: 50 }),
+        is_active: BooleanColumn({ label: 'Active', defaultValue: true }),
+        address: StringColumn({ label: 'Full Address', maxLength: 500 }),
+        contact_number: StringColumn({ label: 'Contact', maxLength: 50 }),
+        supported_cancers: StringColumn({ label: 'Supported Cancers', maxLength: 1000 }),
+    },
 });
 
 
 export const x_1985733_cafsys_portal_user = Table({
     name: 'x_1985733_cafsys_portal_user',
     label: 'CAF Portal User',
-    display: 'full_name',
     schema: {
-        full_name: StringColumn({ label: 'Full Name', mandatory: true, maxLength: 100 }),
-        email: StringColumn({ label: 'Email', mandatory: true, maxLength: 100 }),
-        password: StringColumn({ label: 'Password', mandatory: true, maxLength: 100 }),
+        full_name: StringColumn({ label: 'Full Name', maxLength: 100 }),
+        email: StringColumn({ label: 'Email', maxLength: 100 }),
+        password: StringColumn({ label: 'Password', maxLength: 100 }),
         account_type: StringColumn({ label: 'Account Type', maxLength: 50 }),
-        assigned_site: StringColumn({ label: 'Assigned Site', maxLength: 200 })
-    }
-});
-
-
-export const x_1985733_cafsys_site = Table({
-    name: 'x_1985733_cafsys_site',
-    label: 'CAF Access Site',
-    display: 'site_name',
-    schema: {
-        site_name: StringColumn({ label: 'Site Name', mandatory: true, maxLength: 200 }),
-        region: StringColumn({ label: 'Region', maxLength: 100 }),
-        address: StringColumn({ label: 'Address', maxLength: 500 }),
-        contact_number: StringColumn({ label: 'Contact Number', maxLength: 50 }),
-        operating_hours: StringColumn({ label: 'Operating Hours', maxLength: 100 }),
-        is_active: BooleanColumn({ label: 'Active', defaultValue: true }),
-        remaining_funds: DecimalColumn({ label: 'Remaining Funds' }),
-        status: StringColumn({ label: 'Status', maxLength: 100 }),
-        supported_cancers: StringColumn({ label: 'Supported Cancers', maxLength: 1000 })
-    }
-});
-
-
-export const x_1985733_cafsys_notification = Table({
-    name: 'x_1985733_cafsys_notification',
-    label: 'CAF Notification',
-    display: 'title',
-    schema: {
-        title: StringColumn({ label: 'Title', mandatory: true, maxLength: 200 }),
-        message: StringColumn({ label: 'Message', mandatory: true, maxLength: 1000 }),
-        user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
-        is_read: BooleanColumn({ label: 'Is Read', defaultValue: false }),
-        created_date: StringColumn({ label: 'Created Date', maxLength: 50 }) 
-    }
-});
-
-export const x_1985733_cafsys_doc_req = Table({
-    name: 'x_1985733_cafsys_doc_req',
-    label: 'CAF Document Requirement',
-    display: 'name',
-    schema: {
-        name: StringColumn({ label: 'Document Name', mandatory: true, maxLength: 200 }),
-        category: StringColumn({ label: 'Category', maxLength: 100 }),
-        note: StringColumn({ label: 'Guidance Note', maxLength: 1000 }),
-        is_active: BooleanColumn({ label: 'Is Active', defaultValue: true })
-    }
-});
-
-
-export const x_1985733_cafsys_patient_doc = Table({
-    name: 'x_1985733_cafsys_patient_doc',
-    label: 'CAF Patient Document',
-    display: 'document_name',
-    schema: {
-        user_email: StringColumn({ label: 'User Email', mandatory: true, maxLength: 100 }),
-        document_name: StringColumn({ label: 'Document Type', mandatory: true, maxLength: 200 }),
-        file_url: StringColumn({ label: 'File URL (Cloudinary)', mandatory: true, maxLength: 1000 }),
-        status: StringColumn({ label: 'Status', maxLength: 50, defaultValue: 'Uploaded' })
-    }
-});
-
-export const x_1985733_cafsys_case_log = Table({
-    name: 'x_1985733_cafsys_case_log',
-    label: 'CAF Case Activity Log',
-    display: 'title',
-    schema: {
-        application: StringColumn({ label: 'Application ID', mandatory: true, maxLength: 40 }),
-        title: StringColumn({ label: 'Activity Title', mandatory: true, maxLength: 200 }),
-        message: StringColumn({ label: 'Activity Message', maxLength: 1000 }),
-        type: StringColumn({ label: 'Activity Type', maxLength: 50, defaultValue: 'info' }),
-        timestamp: StringColumn({ label: 'Activity Timestamp', maxLength: 100 })
-    }
+        assigned_site: StringColumn({ label: 'Assigned Site', maxLength: 100 }),
+    },
 });
