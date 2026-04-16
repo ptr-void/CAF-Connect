@@ -547,7 +547,7 @@ export const cafApi = RestApi({
                     userGr.query();
                     while (userGr.next()) {
                         users.push({
-                            id: userGr.getUniqueValue(),
+                            user_id: userGr.getUniqueValue(),
                             name: userGr.getValue('full_name'),
                             email: userGr.getValue('email') || userGr.getValue('u_email') || userGr.getValue('email_address'),
                             role: userGr.getValue('account_type'),
