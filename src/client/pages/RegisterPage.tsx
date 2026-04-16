@@ -42,7 +42,7 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
       return;
     }
     setErrors({});
-    
+
     setLoading(true);
     try {
       const res = await fetch("/api/x_1985733_cafsys/caf/register", {
@@ -128,7 +128,7 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                       type="text"
                       placeholder="Enter full name"
                       value={fullName}
-                      onChange={(e) => { setFullName(e.target.value); setErrors({...errors, fullName: ""}); }}
+                      onChange={(e) => { setFullName(e.target.value); setErrors({ ...errors, fullName: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.fullName ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-sky-500`}
                       style={errors.fullName ? { borderColor: "red" } : {}}
                     />
@@ -141,7 +141,7 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                       type="email"
                       placeholder="Enter email address"
                       value={email}
-                      onChange={(e) => { setEmail(e.target.value); setErrors({...errors, email: ""}); }}
+                      onChange={(e) => { setEmail(e.target.value); setErrors({ ...errors, email: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.email ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-sky-500`}
                       style={errors.email ? { borderColor: "red" } : {}}
                     />
@@ -154,7 +154,7 @@ function RegisterPage({ setActivePage, setIsAuthenticated, setCurrentUser }: Reg
                       type="password"
                       placeholder="Create password (min. 6 characters)"
                       value={password}
-                      onChange={(e) => { setPassword(e.target.value); setErrors({...errors, password: ""}); }}
+                      onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.password ? 'bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-sky-500`}
                       style={errors.password ? { borderColor: "red" } : {}}
                     />
