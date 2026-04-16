@@ -225,6 +225,7 @@ export const cafApi = RestApi({
                     newApp.setValue('ai_eligibility_score', body.ai_eligibility_score || '');
                     newApp.setValue('ai_reasoning', body.ai_reasoning || '');
                     newApp.setValue('needs_manual_review', body.needs_manual_review || false);
+                    newApp.setValue('requested_amount', body.requested_amount || 0);
                     newApp.setValue('state', '1'); 
                     
                     var sysId = newApp.insert();
