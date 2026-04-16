@@ -36,7 +36,8 @@ export const x_1985733_cafsys_application = Table({
         
         needs_manual_review: BooleanColumn({ label: 'Needs Manual Review' }),
         requested_amount: DecimalColumn({ label: 'Requested Amount' }),
-        approved_amount: DecimalColumn({ label: 'Approved Amount' })
+        approved_amount: DecimalColumn({ label: 'Approved Amount' }),
+        document_url: StringColumn({ label: 'Document URL', maxLength: 1000 })
     }
 });
 
@@ -64,7 +65,10 @@ export const x_1985733_cafsys_site = Table({
         address: StringColumn({ label: 'Address', maxLength: 500 }),
         contact_number: StringColumn({ label: 'Contact Number', maxLength: 50 }),
         operating_hours: StringColumn({ label: 'Operating Hours', maxLength: 100 }),
-        is_active: BooleanColumn({ label: 'Active', defaultValue: true })
+        is_active: BooleanColumn({ label: 'Active', defaultValue: true }),
+        remaining_funds: DecimalColumn({ label: 'Remaining Funds' }),
+        status: StringColumn({ label: 'Status', maxLength: 100 }),
+        supported_cancers: StringColumn({ label: 'Supported Cancers', maxLength: 1000 })
     }
 });
 
