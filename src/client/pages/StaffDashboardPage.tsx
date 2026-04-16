@@ -29,14 +29,14 @@ function mapStateToLabel(state: string) {
 
 function getStatusBadge(state: string) {
   const label = mapStateToLabel(state);
-  const map: Record<string, string> = {
+  const styles: Record<string, string> = {
     "Under Review": "bg-sky-100 text-sky-700",
     "Pending Review": "bg-amber-100 text-amber-700",
     "Approved": "bg-emerald-100 text-emerald-700",
     "Missing Documents": "bg-rose-100 text-rose-700",
     "Referred": "bg-violet-100 text-violet-700",
   };
-  return { label, cls: map[label] || "bg-slate-100 text-slate-600" };
+  return { label, cls: styles[label] || "bg-slate-100 text-slate-600" };
 }
 
 function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
@@ -48,7 +48,6 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
   const [activeTab, setActiveTab] = useState("overview");
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Case detail modal
   const [selectedCase, setSelectedCase] = useState<any>(null);
   const [updateNote, setUpdateNote] = useState("");
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
@@ -128,305 +127,265 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
   const totalMissing = records.filter(r => r.state === "4").length;
   const totalApproved = records.filter(r => r.state === "3" || r.state === "Approved").length;
 
-  const tabs = [
-    { id: "overview", label: "Overview", icon: "📊" },
-    { id: "records", label: "Records", icon: "📋" },
-    { id: "verification", label: "Verification", icon: "✅" },
+  const tabItems = [
+    { id: "overview", label: "Overview" },
+    { id: "records", label: "Patient Records" },
+    { id: "verification", label: "Verification Queue" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/30">
-      <div className="flex min-h-screen">
+    <div className="min-h-screen bg-slate-50 px-6 py-10">
+      <div className="mx-auto max-w-7xl">
 
-        {/* ── Sidebar ── */}
-        <aside className="hidden w-64 flex-col bg-slate-900 xl:flex sticky top-0 h-screen">
-          <div className="px-6 py-6">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center">
-                <span className="text-white text-sm font-black">S</span>
-              </div>
-              <div>
-                <h1 className="text-sm font-black text-white tracking-tight">Staff Portal</h1>
-                <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">Case Manager</p>
-              </div>
-            </div>
-            {currentUser?.assigned_site && (
-              <div className="mt-4 flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-                <p className="text-[10px] font-bold text-sky-300 uppercase truncate">{currentUser.assigned_site}</p>
-              </div>
-            )}
+        {/* Header */}
+        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-sm font-semibold text-emerald-700">Staff Dashboard</p>
+            <h1 className="mt-2 text-3xl font-bold text-slate-800">Case Management</h1>
+            <p className="mt-2 text-slate-600">
+              Processing intake for <span className="font-semibold text-sky-700">{currentUser?.assigned_site || "—"}</span>
+            </p>
           </div>
-
-          <nav className="flex-1 px-3 mt-2">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`cursor-pointer w-full flex items-center gap-3 rounded-xl px-4 py-3 mb-1 text-left text-sm font-semibold transition-all ${
-                  activeTab === tab.id
-                    ? 'bg-white/10 text-white'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
-                }`}
-              >
-                <span className="text-base">{tab.icon}</span>
-                {tab.label}
-                {activeTab === tab.id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400"></div>}
-              </button>
-            ))}
-          </nav>
-
-          <div className="p-3 space-y-2">
+          <div className="flex flex-wrap gap-3">
             {currentUser?.account_type === 'Administrator' && (
               <button
                 onClick={() => setActivePage("admin")}
-                className="cursor-pointer w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-400 hover:text-slate-200 hover:bg-white/5 transition"
+                className="cursor-pointer rounded-2xl bg-slate-900 px-5 py-2 text-sm font-semibold text-white hover:bg-slate-800"
               >
-                <span className="text-base">⚙️</span> Admin Panel
+                Admin Controls
               </button>
             )}
             <button
               onClick={() => setActivePage("landing")}
-              className="cursor-pointer w-full rounded-xl bg-white/10 px-4 py-3 text-sm font-bold text-white hover:bg-white/20 transition text-center"
+              className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
-              ← Exit Dashboard
+              Exit Dashboard
             </button>
           </div>
-        </aside>
+        </div>
 
-        {/* ── Main ── */}
-        <main className="flex-1 overflow-y-auto">
+        {/* Tab Navigation */}
+        <div className="mb-6 flex gap-2">
+          {tabItems.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`cursor-pointer rounded-2xl px-5 py-2.5 text-sm font-semibold transition ${
+                activeTab === tab.id
+                  ? "bg-emerald-600 text-white"
+                  : "bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-emerald-300 hover:text-emerald-700"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-          {/* Header */}
-          <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-lg border-b border-slate-100">
-            <div className="px-8 py-5 flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-black text-slate-900">
-                  {activeTab === 'overview' ? 'Site Overview' : activeTab === 'records' ? 'Patient Records' : 'Document Verification'}
-                </h2>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">
-                  Processing intake for <span className="text-sky-600 font-bold">{currentUser?.assigned_site || "—"}</span>
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                {currentUser?.account_type === 'Administrator' && (
-                  <button
-                    onClick={() => setActivePage("admin")}
-                    className="cursor-pointer px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:border-sky-400 hover:text-sky-700 transition"
-                  >
-                    Admin Controls
+        {/* ══ OVERVIEW TAB ══ */}
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
+
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {[
+                { title: "New Applications", value: loading ? "..." : totalNew, sub: "Under review / new", color: "text-sky-700" },
+                { title: "Pending Review", value: loading ? "..." : totalPending, sub: "Needs coordinator action", color: "text-amber-700" },
+                { title: "Missing Documents", value: loading ? "..." : totalMissing, sub: "Waiting for patient upload", color: "text-rose-700" },
+                { title: "Approved Cases", value: loading ? "..." : totalApproved, sub: "Ready for release workflow", color: "text-emerald-700" },
+              ].map(card => (
+                <div key={card.title} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                  <p className="text-sm font-semibold text-slate-500">{card.title}</p>
+                  <p className={`mt-3 text-3xl font-bold ${card.color}`}>{card.value}</p>
+                  <p className="mt-2 text-sm text-slate-500">{card.sub}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid gap-6 xl:grid-cols-[1.4fr_0.6fr]">
+              {/* Operational Summary */}
+              <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-slate-800">Operational Summary</h3>
+                  <button onClick={() => setActiveTab("records")} className="cursor-pointer text-sm font-semibold text-sky-700 hover:text-sky-800">
+                    View Detailed Records →
                   </button>
+                </div>
+
+                <div className="grid gap-5 md:grid-cols-2">
+                  <div className="rounded-3xl bg-sky-50 p-6 ring-1 ring-sky-100">
+                    <p className="text-sm font-semibold text-sky-700">Active Intake Queue</p>
+                    <p className="mt-3 text-4xl font-bold text-slate-800">{totalNew + totalPending}</p>
+                    <p className="mt-2 text-sm text-slate-500">Action required on these cases</p>
+                  </div>
+                  <div className="rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-100">
+                    <p className="text-sm font-semibold text-emerald-700">Site Approval Rate</p>
+                    <p className="mt-3 text-4xl font-bold text-slate-800">
+                      {records.length > 0 ? Math.round((totalApproved / records.length) * 100) : 0}%
+                    </p>
+                    <p className="mt-2 text-sm text-slate-500">Performance across all site cases</p>
+                  </div>
+                </div>
+
+                {/* Batch Approve */}
+                <div className="mt-6 rounded-3xl bg-slate-900 p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="font-bold">Ready for batch approval?</p>
+                    <p className="mt-1 text-sm text-slate-300">Auto-approve all pending cases for {currentUser?.assigned_site}.</p>
+                  </div>
+                  <button
+                    disabled={isProcessing}
+                    onClick={handleBatchApprove}
+                    className="cursor-pointer rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-semibold hover:bg-emerald-400 transition disabled:opacity-50 whitespace-nowrap"
+                  >
+                    {isProcessing ? "Processing..." : "Approve All"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Status Breakdown */}
+              <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+                <h3 className="text-xl font-bold text-slate-800 mb-6">Status Breakdown</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: "Under Review", count: totalNew, dotColor: "bg-sky-500" },
+                    { label: "Pending Review", count: totalPending, dotColor: "bg-amber-500" },
+                    { label: "Missing Docs", count: totalMissing, dotColor: "bg-rose-500" },
+                    { label: "Approved", count: totalApproved, dotColor: "bg-emerald-500" },
+                  ].map(item => (
+                    <div key={item.label} className="flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3">
+                      <div className={`h-2.5 w-2.5 rounded-full ${item.dotColor}`}></div>
+                      <span className="flex-1 text-sm font-medium text-slate-600">{item.label}</span>
+                      <span className="text-sm font-bold text-slate-800">{item.count}</span>
+                    </div>
+                  ))}
+                </div>
+                {records.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-slate-400">Total Cases</span>
+                    <span className="text-xl font-bold text-slate-800">{records.length}</span>
+                  </div>
                 )}
               </div>
             </div>
           </div>
+        )}
 
-          <div className="p-6 lg:p-8">
-
-            {/* ══ OVERVIEW ══ */}
-            {activeTab === 'overview' && (
-              <div className="space-y-6">
-
-                {/* Stat cards */}
-                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                  {[
-                    { label: "New Cases", value: totalNew, color: "sky", icon: "📥" },
-                    { label: "Pending Review", value: totalPending, color: "amber", icon: "⏳" },
-                    { label: "Missing Docs", value: totalMissing, color: "rose", icon: "📎" },
-                    { label: "Approved", value: totalApproved, color: "emerald", icon: "✅" },
-                  ].map(card => (
-                    <div key={card.label} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{card.label}</span>
-                        <span className="text-lg">{card.icon}</span>
-                      </div>
-                      <p className={`text-3xl font-black text-${card.color}-600 tracking-tight`}>
-                        {loading ? "..." : card.value}
-                      </p>
-                    </div>
-                  ))}
+        {/* ══ RECORDS / VERIFICATION TAB ══ */}
+        {(activeTab === 'records' || activeTab === 'verification') && (
+          <div className="space-y-6">
+            <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+              <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-emerald-700">
+                    {activeTab === 'verification' ? 'Fulfillment Queue' : 'Active Registry'}
+                  </p>
+                  <h3 className="mt-1 text-2xl font-bold text-slate-800">
+                    {activeTab === 'verification' ? 'Pending Documents' : 'Site Database'}
+                  </h3>
                 </div>
-
-                {/* Two-column */}
-                <div className="grid gap-6 xl:grid-cols-5">
-
-                  {/* Summary */}
-                  <div className="xl:col-span-3 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between">
-                      <h3 className="text-sm font-black text-slate-800">Site Performance</h3>
-                      <button onClick={() => setActiveTab("records")} className="cursor-pointer text-xs font-bold text-sky-600 hover:text-sky-700 transition">
-                        View All Records →
-                      </button>
-                    </div>
-                    <div className="p-6 grid gap-4 md:grid-cols-2">
-                      <div className="bg-sky-50 rounded-xl p-5 border border-sky-100">
-                        <p className="text-[10px] font-bold text-sky-700 uppercase tracking-wider">Active Queue</p>
-                        <p className="text-4xl font-black text-slate-900 mt-2">{totalNew + totalPending}</p>
-                        <p className="text-xs text-slate-400 mt-1">Cases needing action</p>
-                      </div>
-                      <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-                        <p className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Approval Rate</p>
-                        <p className="text-4xl font-black text-slate-900 mt-2">
-                          {records.length > 0 ? Math.round((totalApproved / records.length) * 100) : 0}%
-                        </p>
-                        <p className="text-xs text-slate-400 mt-1">Site performance</p>
-                      </div>
-                    </div>
-
-                    {/* Batch Approve */}
-                    <div className="mx-6 mb-6 p-5 bg-slate-900 rounded-xl text-white flex items-center justify-between gap-4">
-                      <div>
-                        <h4 className="text-sm font-black">Batch Approval</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">Auto-approve all pending cases</p>
-                      </div>
-                      <button
-                        disabled={isProcessing}
-                        onClick={handleBatchApprove}
-                        className="cursor-pointer px-5 py-2.5 bg-emerald-500 rounded-xl text-sm font-bold hover:bg-emerald-400 transition disabled:opacity-50 whitespace-nowrap"
-                      >
-                        {isProcessing ? "Processing..." : "Approve All"}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Quick Info */}
-                  <div className="xl:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div className="px-6 py-4 border-b border-slate-50">
-                      <h3 className="text-sm font-black text-slate-800">Status Breakdown</h3>
-                    </div>
-                    <div className="p-6 space-y-3">
-                      {[
-                        { label: "Under Review", count: totalNew, cls: "bg-sky-500" },
-                        { label: "Pending Review", count: totalPending, cls: "bg-amber-500" },
-                        { label: "Missing Docs", count: totalMissing, cls: "bg-rose-500" },
-                        { label: "Approved", count: totalApproved, cls: "bg-emerald-500" },
-                      ].map(item => (
-                        <div key={item.label} className="flex items-center gap-3">
-                          <div className={`w-2 h-2 rounded-full ${item.cls} shrink-0`}></div>
-                          <span className="text-sm text-slate-600 flex-1">{item.label}</span>
-                          <span className="text-sm font-black text-slate-800">{item.count}</span>
-                        </div>
-                      ))}
-                      {records.length > 0 && (
-                        <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-400 uppercase">Total Cases</span>
-                          <span className="text-lg font-black text-slate-900">{records.length}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <input
+                    type="text"
+                    placeholder="Search patient name or ID..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    className="rounded-2xl border border-slate-300 bg-slate-50 px-4 py-2.5 text-sm outline-none focus:border-sky-500 w-full md:w-64"
+                  />
+                  <select
+                    value={statusFilter}
+                    onChange={e => setStatusFilter(e.target.value)}
+                    className="rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-sky-500"
+                  >
+                    <option value="All">All Status</option>
+                    <option>Under Review</option>
+                    <option>Pending Review</option>
+                    <option>Missing Documents</option>
+                    <option>Approved</option>
+                  </select>
                 </div>
               </div>
-            )}
 
-            {/* ══ RECORDS / VERIFICATION ══ */}
-            {(activeTab === 'records' || activeTab === 'verification') && (
-              <div className="space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <input
-                      type="text"
-                      placeholder="Search patient name or ID..."
-                      value={search}
-                      onChange={e => setSearch(e.target.value)}
-                      className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition w-full sm:w-64"
-                    />
-                    <select
-                      value={statusFilter}
-                      onChange={e => setStatusFilter(e.target.value)}
-                      className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400 transition"
-                    >
-                      <option value="All">All Status</option>
-                      <option>Under Review</option>
-                      <option>Pending Review</option>
-                      <option>Missing Documents</option>
-                      <option>Approved</option>
-                    </select>
-                  </div>
-                  {activeTab === 'verification' && (
-                    <span className="text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1.5 rounded-full">Showing Missing Documents only</span>
-                  )}
-                </div>
-
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                  <table className="w-full text-left">
-                    <thead>
-                      <tr className="bg-slate-50 text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                        <th className="py-3 px-5">Patient</th>
-                        <th className="py-3 px-5">Tracking ID</th>
-                        <th className="py-3 px-5">Diagnosis</th>
-                        <th className="py-3 px-5">Status</th>
-                        <th className="py-3 px-5 text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-50">
-                      {loading ? (
-                        <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">Loading records...</td></tr>
-                      ) : filtered.filter(r => activeTab === 'records' || r.state === '4' || r.state === 'Missing Documents').length === 0 ? (
-                        <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">No records match current filters.</td></tr>
-                      ) : filtered
-                          .filter(r => activeTab === 'records' || r.state === '4' || r.state === 'Missing Documents')
-                          .map(record => {
-                            const badge = getStatusBadge(record.state);
-                            return (
-                              <tr key={record.sys_id} className="group hover:bg-sky-50/30 transition">
-                                <td className="py-3.5 px-5">
-                                  <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-sm shrink-0">
-                                      {record.patient_name?.charAt(0) || "P"}
-                                    </div>
-                                    <span className="font-bold text-sm text-slate-800">{record.patient_name}</span>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="border-b border-slate-100 text-xs font-semibold uppercase text-slate-400 tracking-wider">
+                      <th className="pb-3 px-4">Patient</th>
+                      <th className="pb-3 px-4">Tracking ID</th>
+                      <th className="pb-3 px-4">Medical Condition</th>
+                      <th className="pb-3 px-4">Status</th>
+                      <th className="pb-3 px-4 text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {loading ? (
+                      <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">Loading records...</td></tr>
+                    ) : filtered.filter(r => activeTab === 'records' || r.state === '4' || r.state === 'Missing Documents').length === 0 ? (
+                      <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">No records match current filters.</td></tr>
+                    ) : filtered
+                        .filter(r => activeTab === 'records' || r.state === '4' || r.state === 'Missing Documents')
+                        .map(record => {
+                          const badge = getStatusBadge(record.state);
+                          return (
+                            <tr key={record.sys_id} className="group hover:bg-slate-50 transition">
+                              <td className="py-4 px-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-500">
+                                    {record.patient_name?.charAt(0) || "P"}
                                   </div>
-                                </td>
-                                <td className="py-3.5 px-5 text-sm text-slate-400 font-mono">{record.number}</td>
-                                <td className="py-3.5 px-5 text-sm text-slate-500">{record.medical_condition || "—"}</td>
-                                <td className="py-3.5 px-5">
-                                  <span className={`text-[10px] font-bold uppercase px-2.5 py-1 rounded-full ${badge.cls}`}>
-                                    {badge.label}
-                                  </span>
-                                </td>
-                                <td className="py-3.5 px-5 text-right">
-                                  <button
-                                    onClick={() => handleViewCase(record.sys_id)}
-                                    className="cursor-pointer px-3 py-1.5 text-xs font-bold text-white bg-slate-800 rounded-lg hover:bg-slate-700 transition opacity-0 group-hover:opacity-100"
-                                  >
-                                    Review
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                    </tbody>
-                  </table>
-                </div>
+                                  <span className="font-semibold text-slate-800">{record.patient_name}</span>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4 text-sm text-slate-400">{record.number}</td>
+                              <td className="py-4 px-4 text-sm text-slate-500">{record.medical_condition || "Intake Assessment"}</td>
+                              <td className="py-4 px-4">
+                                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${badge.cls}`}>
+                                  {badge.label}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4 text-right">
+                                <button
+                                  onClick={() => handleViewCase(record.sys_id)}
+                                  className="cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600 hover:border-sky-400 hover:text-sky-700 transition"
+                                >
+                                  View Case
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                  </tbody>
+                </table>
               </div>
-            )}
+            </div>
           </div>
-        </main>
+        )}
       </div>
 
       {/* ── Case Detail Modal ── */}
       {selectedCase && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
+          <div className="rounded-3xl bg-white w-full max-w-3xl max-h-[85vh] shadow-xl ring-1 ring-slate-200 flex flex-col overflow-hidden">
 
-            {/* Modal Header */}
-            <div className="bg-slate-900 px-6 py-5 text-white flex items-center justify-between shrink-0">
+            {/* Header */}
+            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between shrink-0">
               <div>
-                <h3 className="text-lg font-black">Case: {selectedCase.number}</h3>
-                <p className="text-xs text-slate-400 mt-0.5">{selectedCase.patient_name}</p>
+                <p className="text-sm font-semibold text-sky-700">Case Detail</p>
+                <h3 className="mt-1 text-xl font-bold text-slate-800">{selectedCase.number} — {selectedCase.patient_name}</h3>
               </div>
-              <button onClick={() => { setSelectedCase(null); setUpdateNote(""); }} className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 text-white hover:bg-white/20 transition text-sm">✕</button>
+              <button onClick={() => { setSelectedCase(null); setUpdateNote(""); }} className="cursor-pointer flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
 
-            {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto p-6">
-              <div className="grid gap-6 lg:grid-cols-[1fr_240px]">
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto p-8">
+              <div className="grid gap-8 lg:grid-cols-[1fr_240px]">
 
-                {/* Left: Patient info */}
-                <div className="space-y-5">
+                {/* Left */}
+                <div className="space-y-6">
                   <div>
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Patient Information</h4>
+                    <p className="text-sm font-semibold text-sky-700 mb-3">Patient Information</p>
                     <div className="grid gap-3 sm:grid-cols-2">
                       {[
                         { label: "Full Name", value: selectedCase.patient_name },
@@ -434,86 +393,87 @@ function StaffDashboardPage({ setActivePage }: StaffDashboardPageProps) {
                         { label: "Email", value: selectedCase.email },
                         { label: "Phone", value: selectedCase.phone_number },
                       ].map(field => (
-                        <div key={field.label} className="bg-slate-50 rounded-xl p-3">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase">{field.label}</p>
-                          <p className="text-sm font-semibold text-slate-800 mt-1">{field.value || "—"}</p>
+                        <div key={field.label} className="rounded-2xl bg-slate-50 p-4">
+                          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{field.label}</p>
+                          <p className="mt-1 text-sm font-semibold text-slate-800">{field.value || "—"}</p>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Medical Abstract</h4>
-                    <div className="bg-sky-50 rounded-xl p-4 border border-sky-100">
-                      <p className="text-sm text-slate-700 leading-relaxed italic">
+                    <p className="text-sm font-semibold text-sky-700 mb-3">Medical Abstract</p>
+                    <div className="rounded-3xl bg-sky-50 p-5 ring-1 ring-sky-100">
+                      <p className="text-sm text-slate-700 leading-7 italic">
                         "{selectedCase.medical_abstract || "No abstract provided."}"
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Documents</h4>
-                    <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">📄</span>
-                        <div>
-                          <p className="text-sm font-semibold text-slate-800">Case File</p>
-                          <p className="text-xs text-slate-400">{selectedCase.document_url ? "Attached" : "No file"}</p>
-                        </div>
+                    <p className="text-sm font-semibold text-sky-700 mb-3">Attached Documents</p>
+                    <div className="flex items-center justify-between rounded-2xl ring-1 ring-slate-200 p-4">
+                      <div>
+                        <p className="text-sm font-semibold text-slate-700">Consolidated Case File</p>
+                        <p className="text-xs text-slate-400 mt-0.5">{selectedCase.document_url ? "File attached" : "No file uploaded"}</p>
                       </div>
                       {selectedCase.document_url && (
-                        <a href={selectedCase.document_url} target="_blank" className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold">Open</a>
+                        <a href={selectedCase.document_url} target="_blank" className="rounded-xl bg-slate-900 px-4 py-1.5 text-xs font-semibold text-white">Open File</a>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Staff Note</h4>
+                    <p className="text-sm font-semibold text-sky-700 mb-3">Staff Notes</p>
                     <textarea
                       value={updateNote}
                       onChange={e => setUpdateNote(e.target.value)}
                       placeholder="Add a note before updating status..."
-                      className="w-full h-24 p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition resize-none"
+                      className="w-full rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm outline-none focus:border-sky-500 h-24 resize-none"
                     ></textarea>
                   </div>
                 </div>
 
                 {/* Right: Actions */}
-                <div className="space-y-3">
-                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Update Status</h4>
-                  <button
-                    onClick={() => handleUpdateStatus("3")}
-                    disabled={isUpdatingStatus}
-                    className="cursor-pointer w-full py-3 bg-emerald-500 text-white text-sm font-bold rounded-xl hover:bg-emerald-600 transition disabled:opacity-50"
-                  >
-                    ✓ Approve
-                  </button>
-                  <button
-                    onClick={() => handleUpdateStatus("4")}
-                    disabled={isUpdatingStatus}
-                    className="cursor-pointer w-full py-3 border border-rose-200 text-rose-500 text-sm font-bold rounded-xl hover:bg-rose-50 transition disabled:opacity-50"
-                  >
-                    Missing Docs
-                  </button>
-                  <button
-                    onClick={() => handleUpdateStatus("Referred")}
-                    disabled={isUpdatingStatus}
-                    className="cursor-pointer w-full py-3 border border-slate-200 text-slate-400 text-sm font-bold rounded-xl hover:bg-slate-50 transition disabled:opacity-50"
-                  >
-                    Refer Case
-                  </button>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm font-semibold text-slate-500 mb-3">Update Status</p>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => handleUpdateStatus("3")}
+                        disabled={isUpdatingStatus}
+                        className="cursor-pointer w-full rounded-2xl bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition disabled:opacity-50"
+                      >
+                        Approve Case
+                      </button>
+                      <button
+                        onClick={() => handleUpdateStatus("4")}
+                        disabled={isUpdatingStatus}
+                        className="cursor-pointer w-full rounded-2xl border border-rose-200 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 transition disabled:opacity-50"
+                      >
+                        Missing Documents
+                      </button>
+                      <button
+                        onClick={() => handleUpdateStatus("Referred")}
+                        disabled={isUpdatingStatus}
+                        className="cursor-pointer w-full rounded-2xl border border-slate-200 py-3 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition disabled:opacity-50"
+                      >
+                        Refer Case
+                      </button>
+                    </div>
+                  </div>
 
-                  <div className="pt-3 mt-3 border-t border-slate-100">
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Current</h4>
+                  <div className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Current Status</p>
                     {(() => {
                       const b = getStatusBadge(selectedCase.state);
-                      return <span className={`text-[10px] font-bold uppercase px-2.5 py-1 rounded-full ${b.cls}`}>{b.label}</span>;
+                      return <span className={`mt-2 inline-block rounded-full px-3 py-1 text-xs font-semibold ${b.cls}`}>{b.label}</span>;
                     })()}
                   </div>
 
-                  <div className="pt-3 mt-3 border-t border-slate-100">
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Requested Amount</h4>
-                    <p className="text-lg font-black text-slate-800">₱{Number(selectedCase.requested_amount || 0).toLocaleString()}</p>
+                  <div className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Requested Amount</p>
+                    <p className="mt-1 text-lg font-bold text-slate-800">₱{Number(selectedCase.requested_amount || 0).toLocaleString()}</p>
                   </div>
                 </div>
               </div>
