@@ -193,9 +193,10 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       placeholder="Enter full name"
                       value={formData.patient_name}
                       onChange={(e) => { setFormData({...formData, patient_name: e.target.value}); setErrors({...errors, patientName: ""}); }}
-                      className={`cursor-pointer w-full rounded-2xl border ${errors.patientName ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.patientName ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      style={errors.patientName ? { borderColor: "red" } : {}}
                     />
-                    {errors.patientName && <p className="mt-1 text-xs text-red-500">{errors.patientName}</p>}
+                    {errors.patientName && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.patientName}</p>}
                   </div>
 
                   <div>
@@ -207,9 +208,10 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       placeholder="Enter age"
                       value={formData.age}
                       onChange={(e) => { setFormData({...formData, age: e.target.value}); setErrors({...errors, age: ""}); }}
-                      className={`cursor-pointer w-full rounded-2xl border ${errors.age ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.age ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      style={errors.age ? { borderColor: "red" } : {}}
                     />
-                    {errors.age && <p className="mt-1 text-xs text-red-500">{errors.age}</p>}
+                    {errors.age && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.age}</p>}
                   </div>
 
                   <div>
@@ -219,14 +221,15 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                     <select 
                       value={formData.region}
                       onChange={(e) => { setFormData({...formData, region: e.target.value}); setErrors({...errors, region: ""}); }}
-                      className={`cursor-pointer w-full rounded-2xl border ${errors.region ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}>
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.region ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      style={errors.region ? { borderColor: "red" } : {}}>
                       <option>Select location</option>
                       <option>National Capital Region</option>
                       <option>Region VII - Central Visayas</option>
                       <option>Region XI - Davao Region</option>
                       <option>Region V - Bicol Region</option>
                     </select>
-                    {errors.region && <p className="mt-1 text-xs text-red-500">{errors.region}</p>}
+                    {errors.region && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.region}</p>}
                   </div>
 
                   <div>
@@ -238,9 +241,10 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       placeholder="09XXXXXXXXX"
                       value={formData.contact}
                       onChange={(e) => { setFormData({...formData, contact: e.target.value}); setErrors({...errors, contact: ""}); }}
-                      className={`cursor-pointer w-full rounded-2xl border ${errors.contact ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.contact ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      style={errors.contact ? { borderColor: "red" } : {}}
                     />
-                    {errors.contact && <p className="mt-1 text-xs text-red-500">{errors.contact}</p>}
+                    {errors.contact && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.contact}</p>}
                   </div>
 
                   <div className="md:col-span-2">
@@ -295,9 +299,10 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       placeholder="Enter diagnosis"
                       value={formData.diagnosis}
                       onChange={(e) => { setFormData({...formData, diagnosis: e.target.value}); setErrors({...errors, diagnosis: ""}); }}
-                      className={`cursor-pointer w-full rounded-2xl border ${errors.diagnosis ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.diagnosis ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      style={errors.diagnosis ? { borderColor: "red" } : {}}
                     />
-                    {errors.diagnosis && <p className="mt-1 text-xs text-red-500">{errors.diagnosis}</p>}
+                    {errors.diagnosis && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.diagnosis}</p>}
                   </div>
 
                   <div>
@@ -309,9 +314,10 @@ function EligibilityPage({ setActivePage }: EligibilityPageProps) {
                       placeholder="Enter hospital / treatment center"
                       value={formData.facility}
                       onChange={(e) => { setFormData({...formData, facility: e.target.value}); setErrors({...errors, facility: ""}); }}
-                      className={`cursor-pointer w-full rounded-2xl border ${errors.facility ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      className={`cursor-pointer w-full rounded-2xl border ${errors.facility ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
+                      style={errors.facility ? { borderColor: "red" } : {}}
                     />
-                    {errors.facility && <p className="mt-1 text-xs text-red-500">{errors.facility}</p>}
+                    {errors.facility && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.facility}</p>}
                   </div>
 
                   <div>
