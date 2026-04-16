@@ -27,6 +27,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 
   const [showAddUser, setShowAddUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUserRole, setSelectedUserRole] = useState("Site Coordinator");
+  const [isUpdatingUser, setIsUpdatingUser] = useState(false);
   const [newUserInfo, setNewUserInfo] = useState({ name: '', email: '', role: 'Site Coordinator', site: '' });
   const [isAdding, setIsAdding] = useState(false);
   const [userFilter, setUserFilter] = useState("");
@@ -63,6 +65,31 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(() => { alert("User added successfully!"); setShowAddUser(false); setNewUserInfo({ name: '', email: '', role: 'Site Coordinator', site: '' }); fetchDashboardData(); })
       .catch(err => alert("Error: " + err.message))
       .finally(() => setIsAdding(false));
+  };
+
+  const handleUpdateRole = () => {
+    setIsUpdatingUser(true);
+    fetch("/api/x_1985733_cafsys/caf/admin/update_user", {
+      method: "POST",
+      headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
+      body: JSON.stringify({ email: selectedUser.email, role: selectedUserRole })
+    })
+      .then(res => res.json())
+      .then(() => { fetchDashboardData(); setSelectedUser(null); })
+      .finally(() => setIsUpdatingUser(false));
+  };
+
+  const handleToggleDeactivate = () => {
+    setIsUpdatingUser(true);
+    const newStatus = selectedUser.status === 'Active' ? false : true;
+    fetch("/api/x_1985733_cafsys/caf/admin/update_user", {
+      method: "POST",
+      headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
+      body: JSON.stringify({ email: selectedUser.email, is_active: newStatus })
+    })
+      .then(res => res.json())
+      .then(() => { fetchDashboardData(); setSelectedUser(null); })
+      .finally(() => setIsUpdatingUser(false));
   };
 
   const filteredUsers = userRows.filter(u =>
@@ -243,7 +270,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                         <td className="py-4 px-4 text-sm text-slate-500">{user.site}</td>
                         <td className="py-4 px-4 text-right">
                           <button
-                            onClick={() => setSelectedUser(user)}
+                            onClick={() => { setSelectedUser(user); setSelectedUserRole(user.role); }}
                             className="cursor-pointer font-semibold text-sky-600 hover:text-sky-800 transition"
                           >
                             Manage
@@ -386,29 +413,33 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   <p className="mt-1 text-sm font-semibold text-emerald-600">{selectedUser.status}</p>
                 </div>
                 <div className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Access Level</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-700">Full Portal</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Assign Role</p>
+                  <select 
+                    value={selectedUserRole} 
+                    onChange={e => setSelectedUserRole(e.target.value)}
+                    className="mt-1 w-full bg-transparent text-sm font-semibold text-slate-700 outline-none cursor-pointer"
+                  >
+                    <option value="Administrator">Administrator</option>
+                    <option value="Site Coordinator">Site Coordinator</option>
+                    <option value="Staff">Staff</option>
+                  </select>
                 </div>
               </div>
 
               <div className="flex gap-3">
                 <button
-                  onClick={() => {
-                    alert(`Permissions updated for ${selectedUser.name}.`);
-                    setSelectedUser(null);
-                  }}
-                  className="cursor-pointer flex-1 rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition"
+                  disabled={isUpdatingUser}
+                  onClick={handleUpdateRole}
+                  className="cursor-pointer flex-1 rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition disabled:opacity-50"
                 >
-                  Update Permissions
+                  {isUpdatingUser ? "Updating..." : "Update Permission"}
                 </button>
                 <button
-                  onClick={() => {
-                    alert(`${selectedUser.name} deactivated.`);
-                    setSelectedUser(null);
-                  }}
-                  className="cursor-pointer flex-1 rounded-2xl border border-rose-200 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 transition"
+                  disabled={isUpdatingUser}
+                  onClick={handleToggleDeactivate}
+                  className={`cursor-pointer flex-1 rounded-2xl border py-3 text-sm font-semibold transition disabled:opacity-50 ${selectedUser.status === 'Active' ? 'border-amber-200 text-amber-600 hover:bg-amber-50' : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50'}`}
                 >
-                  Deactivate User
+                  {selectedUser.status === 'Active' ? "Deactivate User" : "Reactivate User"}
                 </button>
               </div>
             </div>
