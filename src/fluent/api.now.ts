@@ -810,7 +810,7 @@ export const cafApi = RestApi({
 
                     if (action === 'update_role') {
                         var gr = new GlideRecord('x_1985733_cafsys_portal_user');
-                        if (gr.get(body.id)) {
+                        if (gr.get(body.user_id)) {
                             var oldRole = gr.getValue('account_type');
                             gr.setValue('account_type', body.role);
                             gr.update();
@@ -818,11 +818,11 @@ export const cafApi = RestApi({
                             response.setBody({ message: 'Role updated from ' + oldRole + ' to ' + body.role, debug: debugInfo });
                         } else {
                             response.setStatus(200);
-                            response.setBody({ error: 'User not found by id: ' + body.id, debug: debugInfo });
+                            response.setBody({ error: 'User not found by id: ' + body.user_id, debug: debugInfo });
                         }
                     } else if (action === 'toggle_active') {
                         var gr2 = new GlideRecord('x_1985733_cafsys_portal_user');
-                        if (gr2.get(body.id)) {
+                        if (gr2.get(body.user_id)) {
                             var newVal = body.is_active ? '1' : '0';
                             gr2.setValue('is_active', newVal);
                             gr2.update();
@@ -830,7 +830,7 @@ export const cafApi = RestApi({
                             response.setBody({ message: 'Active set to ' + newVal, debug: debugInfo });
                         } else {
                             response.setStatus(200);
-                            response.setBody({ error: 'User not found by id: ' + body.id, debug: debugInfo });
+                            response.setBody({ error: 'User not found by id: ' + body.user_id, debug: debugInfo });
                         }
                     } else {
                         var newGr = new GlideRecord('x_1985733_cafsys_portal_user');
