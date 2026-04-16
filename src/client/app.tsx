@@ -100,7 +100,7 @@ function App() {
       case "eligibility":
         return <EligibilityPage setActivePage={setActivePage} />;
       case "documents":
-        return <DocumentsPage setActivePage={setActivePage} />;
+        return <DocumentsPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "application":
         return <ApplicationPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "tracker":
