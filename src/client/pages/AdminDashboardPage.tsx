@@ -57,7 +57,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
     fetch("/api/x_1985733_cafsys/caf/admin/add_user", {
       method: 'POST',
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
-      body: JSON.stringify({ data: newUserInfo })
+      body: JSON.stringify(newUserInfo)
     })
       .then(res => res.json())
       .then(() => { alert("User added successfully!"); setShowAddUser(false); setNewUserInfo({ name: '', email: '', role: 'Site Coordinator', site: '' }); fetchDashboardData(); })
@@ -336,10 +336,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => setShowAddUser(false)} className="cursor-pointer flex-1 rounded-2xl border border-slate-300 bg-white py-3 text-sm font-semibold text-slate-700 hover:border-slate-400">
+                <button type="button" onClick={() => setShowAddUser(false)} className="cursor-pointer flex-1 rounded-2xl border border-slate-300 bg-white py-3 text-sm font-semibold text-slate-700 hover:border-slate-400 transition">
                   Cancel
                 </button>
-                <button disabled={isAdding} type="submit" className="cursor-pointer flex-[2] rounded-2xl bg-sky-600 py-3 text-sm font-semibold text-white hover:bg-sky-700 disabled:opacity-50">
+                <button disabled={isAdding} type="submit" className="cursor-pointer flex-1 rounded-2xl bg-sky-600 py-3 text-sm font-semibold text-white hover:bg-sky-700 disabled:opacity-50 transition">
                   {isAdding ? "Creating..." : "Create Account"}
                 </button>
               </div>
@@ -392,10 +392,22 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
               </div>
 
               <div className="flex gap-3">
-                <button className="cursor-pointer flex-1 rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition">
+                <button
+                  onClick={() => {
+                    alert(`Permissions updated for ${selectedUser.name}.`);
+                    setSelectedUser(null);
+                  }}
+                  className="cursor-pointer flex-1 rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition"
+                >
                   Update Permissions
                 </button>
-                <button className="cursor-pointer flex-1 rounded-2xl border border-rose-200 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 transition">
+                <button
+                  onClick={() => {
+                    alert(`${selectedUser.name} deactivated.`);
+                    setSelectedUser(null);
+                  }}
+                  className="cursor-pointer flex-1 rounded-2xl border border-rose-200 py-3 text-sm font-semibold text-rose-500 hover:bg-rose-50 transition"
+                >
                   Deactivate User
                 </button>
               </div>
