@@ -55,11 +55,22 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
       const payload = data.result || data; 
       
       if (res.ok && payload.user_name) {
-        const userData = { name: payload.name, email: payload.email, user_name: payload.user_name };
-        if (setCurrentUser) setCurrentUser(userData);
+        const userData = { 
+          name: payload.name, 
+          email: payload.email, 
+          user_name: payload.user_name,
+          account_type: payload.account_type,
+          assigned_site: payload.assigned_site
+        };
+        if (setCurrentUser) setCurrentUser(userData as any);
         if (setIsAuthenticated) setIsAuthenticated(true);
         localStorage.setItem("caf_portal_user", JSON.stringify(userData));
-        setActivePage("tracker");
+        
+        if (userData.account_type === 'Coordinator') {
+          setActivePage("staff");
+        } else {
+          setActivePage("tracker");
+        }
       } else {
         let errorMsg = "Login failed. Please try again.";
         if (typeof data.error === "string") {

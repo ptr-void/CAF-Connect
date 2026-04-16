@@ -48,7 +48,9 @@ export const cafApi = RestApi({
                         user_name: user.getValue('email'), 
                         name: user.getValue('full_name'),
                         email: user.getValue('email'),
-                        sys_id: user.getUniqueValue()
+                        sys_id: user.getUniqueValue(),
+                        account_type: user.getValue('account_type'),
+                        assigned_site: user.getValue('assigned_site')
                     });
                 } catch(ex) {
                     response.setStatus(500);
@@ -93,6 +95,11 @@ export const cafApi = RestApi({
                     newUser.setValue('email', email);
                     newUser.setValue('password', password); 
                     newUser.setValue('account_type', accountType);
+                    
+                    if (body.assigned_site) {
+                        newUser.setValue('assigned_site', body.assigned_site);
+                    }
+                    
                     var sysId = newUser.insert();
 
                     if (!sysId) {
@@ -181,6 +188,48 @@ export const cafApi = RestApi({
 
                     var apps = new GlideRecord('x_1985733_cafsys_application');
                     apps.addQuery('email', email);
+                    apps.orderByDesc('sys_created_on');
+                    apps.query();
+
+                    var results = [];
+                    while (apps.next()) {
+                        results.push({
+                            sys_id: apps.getUniqueValue(),
+                            number: apps.getValue('number'),
+                            patient_name: apps.getValue('patient_name'),
+                            medical_condition: apps.getValue('medical_condition'),
+                            selected_site: apps.getValue('selected_site'),
+                            state: apps.getValue('state') || 'Pending',
+                            sys_created_on: apps.getValue('sys_created_on')
+                        });
+                    }
+
+                    response.setStatus(200);
+                    response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_staff_applications_get'],
+            name: 'get_staff_applications',
+            method: 'GET',
+            path: '/staff/applications',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var site = request.queryParams.site;
+                    if (!site) {
+                        response.setStatus(400);
+                        response.setBody({ error: 'Site parameter is required.' });
+                        return;
+                    }
+
+                    var apps = new GlideRecord('x_1985733_cafsys_application');
+                    apps.addQuery('selected_site', site);
                     apps.orderByDesc('sys_created_on');
                     apps.query();
 

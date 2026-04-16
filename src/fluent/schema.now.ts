@@ -50,7 +50,8 @@ export const x_1985733_cafsys_portal_user = Table({
         full_name: StringColumn({ label: 'Full Name', mandatory: true, maxLength: 100 }),
         email: StringColumn({ label: 'Email', mandatory: true, maxLength: 100 }),
         password: StringColumn({ label: 'Password', mandatory: true, maxLength: 100 }),
-        account_type: StringColumn({ label: 'Account Type', maxLength: 50 })
+        account_type: StringColumn({ label: 'Account Type', maxLength: 50 }),
+        assigned_site: StringColumn({ label: 'Assigned Site', maxLength: 200 })
     }
 });
 
