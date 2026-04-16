@@ -24,14 +24,20 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
   const handleSignIn = async () => {
     setError("");
-    if (!email || !password) {
-      setError("Please enter your email and password.");
+    const newErrors: Record<string, string> = {};
+    if (!email) newErrors.email = "Email Address is required";
+    if (!password) newErrors.password = "Password is required";
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+    setErrors({});
     setLoading(true);
     try {
       const res = await fetch("/api/x_1985733_cafsys/caf/login", {
@@ -113,26 +119,28 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
 
                 <div className="mt-6 space-y-4">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Email Address</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Email Address <span style={{ color: "red" }}>*</span></label>
                     <input
                       type="email"
                       placeholder="Enter your email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500"
+                      onChange={(e) => { setEmail(e.target.value); setErrors({...errors, email: ""}); }}
+                      className={`w-full rounded-2xl border ${errors.email ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
                     />
+                    {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Password</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Password <span style={{ color: "red" }}>*</span></label>
                     <input
                       type="password"
                       placeholder="Enter your password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => { setPassword(e.target.value); setErrors({...errors, password: ""}); }}
                       onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
-                      className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-emerald-500"
+                      className={`w-full rounded-2xl border ${errors.password ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-white px-4 py-3 outline-none transition focus:border-emerald-500`}
                     />
+                    {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
                   </div>
 
                   {error && (
