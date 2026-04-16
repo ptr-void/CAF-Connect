@@ -18,20 +18,6 @@ type AdminDashboardPageProps = {
   setActivePage: (page: PageKey) => void;
 };
 
-function getStatusStyle(status: string) {
-  const s = status || "";
-  if (s.includes("Active") || s.includes("Operational")) {
-    return "bg-emerald-100 text-emerald-700";
-  }
-  if (s.includes("Inactive")) {
-    return "bg-rose-100 text-rose-700";
-  }
-  if (s.includes("Monitoring")) {
-    return "bg-amber-100 text-amber-700";
-  }
-  return "bg-slate-100 text-slate-700";
-}
-
 function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
   const [stats, setStats] = useState({ totalApps: 0, activeSites: 0, pendingCases: 0, pendingDocRate: 0 });
   const [userRows, setUserRows] = useState<any[]>([]);
@@ -39,11 +25,11 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Modal States
   const [showAddUser, setShowAddUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newUserInfo, setNewUserInfo] = useState({ name: '', email: '', role: 'Site Coordinator', site: '' });
   const [isAdding, setIsAdding] = useState(false);
+  const [userFilter, setUserFilter] = useState("");
 
   const fetchDashboardData = () => {
     setLoading(true);
@@ -63,394 +49,388 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  useEffect(() => { fetchDashboardData(); }, []);
 
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
     setIsAdding(true);
     fetch("/api/x_1985733_cafsys/caf/admin/add_user", {
-        method: 'POST',
-        headers: { 
-            "X-UserToken": (window as any).g_ck || "",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: newUserInfo })
+      method: 'POST',
+      headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
+      body: JSON.stringify({ data: newUserInfo })
     })
-    .then(res => res.json())
-    .then(() => {
-        alert("User added successfully!");
-        setShowAddUser(false);
-        fetchDashboardData();
-    })
-    .catch(err => alert("Error: " + err.message))
-    .finally(() => setIsAdding(false));
+      .then(res => res.json())
+      .then(() => { alert("User added successfully!"); setShowAddUser(false); setNewUserInfo({ name: '', email: '', role: 'Site Coordinator', site: '' }); fetchDashboardData(); })
+      .catch(err => alert("Error: " + err.message))
+      .finally(() => setIsAdding(false));
   };
 
-  const overviewCards = [
-    {
-      title: "Total Applications",
-      value: loading ? "..." : stats.totalApps.toString(),
-      note: "System-wide submissions",
-      bg: "bg-sky-50",
-      text: "text-sky-700",
-    },
-    {
-      title: "Active Access Sites",
-      value: loading ? "..." : stats.activeSites.toString(),
-      note: "Configured service points",
-      bg: "bg-emerald-50",
-      text: "text-emerald-700",
-    },
-    {
-      title: "Pending Cases",
-      value: loading ? "..." : stats.pendingCases.toString(),
-      note: "Awaiting staff action",
-      bg: "bg-amber-50",
-      text: "text-amber-700",
-    },
-    {
-      title: "Pending Doc Rate",
-      value: loading ? "..." : (stats.pendingDocRate || 0) + "%",
-      note: "Applicants needing files",
-      bg: "bg-rose-50",
-      text: "text-rose-700",
-    },
+  const filteredUsers = userRows.filter(u =>
+    !userFilter || u.name?.toLowerCase().includes(userFilter.toLowerCase()) || u.email?.toLowerCase().includes(userFilter.toLowerCase())
+  );
+
+  const tabs = [
+    { id: "overview", label: "Overview", icon: "📊" },
+    { id: "users", label: "Users", icon: "👥" },
+    { id: "sites", label: "Sites", icon: "🏥" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/30">
       <div className="flex min-h-screen">
-        <aside className="hidden w-72 flex-col border-r border-slate-200 bg-white xl:flex sticky top-0 h-screen">
-          <div className="border-b border-slate-200 px-6 py-8">
-            <h1 className="text-xl font-black tracking-tight text-slate-800">ADMIN CONTROL</h1>
-            <p className="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Portal Analytics</p>
+
+        {/* ── Sidebar ── */}
+        <aside className="hidden w-64 flex-col bg-slate-900 xl:flex sticky top-0 h-screen">
+          <div className="px-6 py-6">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center">
+                <span className="text-white text-sm font-black">A</span>
+              </div>
+              <div>
+                <h1 className="text-sm font-black text-white tracking-tight">Admin Panel</h1>
+                <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">Control Center</p>
+              </div>
+            </div>
           </div>
 
-          <nav className="flex-1 px-4 py-6">
-            <div className="space-y-2">
-              <button 
-                onClick={() => setActiveTab("overview")}
-                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-bold transition flex items-center gap-3 ${activeTab === 'overview' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>
-                <div className={`w-2 h-2 rounded-full ${activeTab === 'overview' ? 'bg-sky-400' : 'bg-slate-300'}`}></div>
-                Overview
+          <nav className="flex-1 px-3 mt-2">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`cursor-pointer w-full flex items-center gap-3 rounded-xl px-4 py-3 mb-1 text-left text-sm font-semibold transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-white/10 text-white'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                }`}
+              >
+                <span className="text-base">{tab.icon}</span>
+                {tab.label}
+                {activeTab === tab.id && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-sky-400"></div>}
               </button>
-              <button 
-                onClick={() => setActiveTab("users")}
-                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-bold transition flex items-center gap-3 ${activeTab === 'users' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>
-                <div className={`w-2 h-2 rounded-full ${activeTab === 'users' ? 'bg-sky-400' : 'bg-slate-300'}`}></div>
-                User Management
-              </button>
-              <button 
-                onClick={() => setActiveTab("sites")}
-                className={`cursor-pointer w-full rounded-2xl px-4 py-3 text-left font-bold transition flex items-center gap-3 ${activeTab === 'sites' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>
-                <div className={`w-2 h-2 rounded-full ${activeTab === 'sites' ? 'bg-sky-400' : 'bg-slate-300'}`}></div>
-                Access Sites
-              </button>
-            </div>
+            ))}
           </nav>
 
-          <div className="p-4">
+          <div className="p-3 space-y-2">
+            <button
+              onClick={() => setActivePage("staff")}
+              className="cursor-pointer w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-400 hover:text-slate-200 hover:bg-white/5 transition"
+            >
+              <span className="text-base">📋</span> Staff View
+            </button>
             <button
               onClick={() => setActivePage("landing")}
-              className="cursor-pointer w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3 font-bold text-slate-600 hover:border-sky-500 hover:text-sky-700 transition"
+              className="cursor-pointer w-full rounded-xl bg-white/10 px-4 py-3 text-sm font-bold text-white hover:bg-white/20 transition text-center"
             >
-              Exit Dashboard
+              ← Exit Dashboard
             </button>
           </div>
         </aside>
 
+        {/* ── Main ── */}
         <main className="flex-1 overflow-y-auto">
-          <header className="bg-white px-8 py-8 border-b border-slate-200">
-             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <h2 className="text-4xl font-black text-slate-900 tracking-tight">System Oversight</h2>
-                  <p className="mt-2 text-slate-500 font-medium">Real-time statistics and infrastructure control.</p>
-                </div>
-                <div className="flex items-center gap-3">
-                   <button 
-                      onClick={() => setActivePage("staff")} 
-                      className="cursor-pointer rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 font-bold text-slate-700 hover:border-sky-500 transition"
-                   >
-                     Staff View
-                   </button>
-                   <button 
-                      onClick={() => setShowAddUser(true)}
-                      className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-bold text-white hover:bg-sky-700 shadow-lg shadow-sky-200 transition"
-                   >
-                     + New Account
-                   </button>
-                </div>
-             </div>
-          </header>
 
-          <div className="p-8 space-y-8">
+          {/* Header */}
+          <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-lg border-b border-slate-100">
+            <div className="px-8 py-5 flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-black text-slate-900">
+                  {activeTab === 'overview' ? 'Dashboard Overview' : activeTab === 'users' ? 'User Management' : 'Access Sites'}
+                </h2>
+                <p className="text-xs text-slate-400 font-medium mt-0.5">Real-time system analytics</p>
+              </div>
+              <button
+                onClick={() => setShowAddUser(true)}
+                className="cursor-pointer rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-sky-700 shadow-sm transition"
+              >
+                + New Account
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6 lg:p-8">
+
+            {/* ══ OVERVIEW TAB ══ */}
             {activeTab === 'overview' && (
-              <>
-                <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-                  {overviewCards.map((card) => (
-                    <div key={card.title} className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm relative overflow-hidden group">
-                      <div className={`absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 rounded-full opacity-10 group-hover:scale-110 transition ${card.bg.replace('bg-', 'bg-')}`}></div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{card.title}</p>
-                      <p className={`mt-4 text-5xl font-black tracking-tight ${card.text}`}>{card.value}</p>
-                      <p className="mt-2 text-xs font-bold text-slate-400">{card.note}</p>
+              <div className="space-y-6">
+
+                {/* Stat Cards */}
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                  {[
+                    { label: "Total Applications", value: stats.totalApps, color: "sky", icon: "📄" },
+                    { label: "Active Sites", value: stats.activeSites, color: "emerald", icon: "🏥" },
+                    { label: "Pending Cases", value: stats.pendingCases, color: "amber", icon: "⏳" },
+                    { label: "Missing Doc Rate", value: `${stats.pendingDocRate || 0}%`, color: "rose", icon: "📎" },
+                  ].map(card => (
+                    <div key={card.label} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{card.label}</span>
+                        <span className="text-lg">{card.icon}</span>
+                      </div>
+                      <p className={`text-3xl font-black text-${card.color}-600 tracking-tight`}>
+                        {loading ? "..." : card.value}
+                      </p>
                     </div>
                   ))}
                 </div>
 
-                <div className="grid gap-8 xl:grid-cols-[1.4fr_0.6fr]">
-                   <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm">
-                      <div className="flex items-center justify-between border-b border-slate-50 pb-6 mb-6">
-                        <h3 className="text-2xl font-black text-slate-900">Key Performance</h3>
-                        <div className="px-4 py-1.5 bg-sky-50 rounded-full text-xs font-bold text-sky-700">Live Sync</div>
-                      </div>
-                      <div className="grid gap-4">
-                        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl group cursor-pointer hover:bg-sky-50 transition">
-                           <div className="font-bold text-slate-800">Missing Document Rate</div>
-                           <div className="text-2xl font-black text-sky-600">{(stats.pendingDocRate || 0)}%</div>
-                        </div>
-                        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl group cursor-pointer hover:bg-emerald-50 transition">
-                           <div className="font-bold text-slate-800">Operational Access Sites</div>
-                           <div className="text-2xl font-black text-emerald-600">{stats.activeSites}</div>
-                        </div>
-                      </div>
-                   </div>
+                {/* Two-column layout */}
+                <div className="grid gap-6 xl:grid-cols-5">
 
-                   <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden">
-                      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-sky-500/20 to-transparent"></div>
-                      <div className="relative z-10">
-                        <h3 className="text-2xl font-black">Portal Notice</h3>
-                        <p className="mt-4 text-slate-400 font-medium leading-relaxed">
-                          The system core is fully connected to the ServiceNow backend. All statistics, user roles, and site configurations are retrieved in real-time.
-                        </p>
-                        <div className="mt-8 p-5 bg-white/5 rounded-2xl border border-white/10">
-                           <p className="text-xs font-bold text-sky-400 uppercase tracking-widest">System Status</p>
-                           <p className="mt-2 text-sm font-bold text-slate-100">Database Synchronization: <span className="text-emerald-400">Stable</span></p>
-                        </div>
-                        <button onClick={() => setActiveTab('users')} className="mt-8 w-full py-4 bg-sky-500 rounded-2xl font-black text-sm hover:bg-sky-400 transition">
-                           Review Registered Staff
-                        </button>
+                  {/* Performance Panel */}
+                  <div className="xl:col-span-3 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div className="px-6 py-4 border-b border-slate-50 flex items-center justify-between">
+                      <h3 className="text-sm font-black text-slate-800">Key Metrics</h3>
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase">Live</span>
+                    </div>
+                    <div className="p-6 space-y-3">
+                      <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-sky-50 transition">
+                        <span className="text-sm font-semibold text-slate-700">Missing Document Rate</span>
+                        <span className="text-lg font-black text-sky-600">{stats.pendingDocRate || 0}%</span>
                       </div>
-                   </div>
-                </div>
-              </>
-            )}
+                      <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-emerald-50 transition">
+                        <span className="text-sm font-semibold text-slate-700">Operational Sites</span>
+                        <span className="text-lg font-black text-emerald-600">{stats.activeSites}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-amber-50 transition">
+                        <span className="text-sm font-semibold text-slate-700">Cases Awaiting Review</span>
+                        <span className="text-lg font-black text-amber-600">{stats.pendingCases}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-violet-50 transition">
+                        <span className="text-sm font-semibold text-slate-700">Registered Staff</span>
+                        <span className="text-lg font-black text-violet-600">{userRows.length}</span>
+                      </div>
+                    </div>
+                  </div>
 
-            {activeTab === 'users' && (
-              <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-sm">
-                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between mb-10">
-                   <div>
-                      <h3 className="text-3xl font-black text-slate-900">User Directory</h3>
-                      <p className="mt-1 text-slate-500 font-medium uppercase text-xs tracking-widest">Portal staff and access coordinators</p>
-                   </div>
-                   <div className="flex items-center gap-3">
-                      <input 
-                         type="text" 
-                         placeholder="Filter names..." 
-                         className="px-6 py-3 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:border-sky-500 transition"
-                      />
-                      <button onClick={() => setShowAddUser(true)} className="px-6 py-3 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-800 transition">
-                        Add New
+                  {/* Portal Notice */}
+                  <div className="xl:col-span-2 bg-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-sm font-black uppercase tracking-wider text-sky-400">System Notice</h3>
+                      <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+                        All portal statistics, user roles, and site configurations are synced live from the ServiceNow backend.
+                      </p>
+                    </div>
+                    <div className="mt-6 space-y-3">
+                      <div className="p-3 bg-white/5 rounded-xl border border-white/10">
+                        <p className="text-[10px] font-bold text-slate-500 uppercase">Database Status</p>
+                        <p className="text-sm font-bold text-emerald-400 mt-1">● Synchronized</p>
+                      </div>
+                      <button onClick={() => setActiveTab('users')} className="cursor-pointer w-full py-3 bg-sky-500 rounded-xl font-bold text-sm hover:bg-sky-400 transition">
+                        Review Staff Accounts →
                       </button>
-                   </div>
-                </div>
-
-                <div className="overflow-x-auto">
-                   <table className="w-full text-left">
-                      <thead>
-                        <tr className="text-[10px] font-black uppercase text-slate-400 tracking-widest border-b border-slate-100">
-                          <th className="pb-4 px-4">Account Holder</th>
-                          <th className="pb-4 px-4">Role Designation</th>
-                          <th className="pb-4 px-4">Site Assignment</th>
-                          <th className="pb-4 px-4">Management</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-50">
-                        {loading ? (
-                           <tr><td colSpan={4} className="py-20 text-center text-slate-400 font-bold italic underline decoration-sky-300">Synchronizing records...</td></tr>
-                        ) : userRows.map(user => (
-                           <tr key={user.name + user.role} className="group hover:bg-slate-50 transition">
-                              <td className="py-6 px-4">
-                                <div className="flex items-center gap-4">
-                                   <div className="w-10 h-10 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-black text-lg">
-                                      {user.name.charAt(0)}
-                                   </div>
-                                   <div className="font-black text-slate-800">{user.name}</div>
-                                </div>
-                              </td>
-                              <td className="py-6 px-4 font-bold text-slate-500 text-sm whitespace-nowrap">{user.role}</td>
-                              <td className="py-6 px-4">
-                                 <span className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black text-slate-600 uppercase">
-                                    {user.site}
-                                 </span>
-                              </td>
-                              <td className="py-6 px-4">
-                                 <button 
-                                    onClick={() => setSelectedUser(user)}
-                                    className="cursor-pointer px-4 py-2 opacity-0 group-hover:opacity-100  bg-white border-2 border-slate-200 rounded-xl font-bold text-xs hover:border-sky-500 hover:text-sky-700 transition"
-                                 >
-                                   View Details
-                                 </button>
-                              </td>
-                           </tr>
-                        ))}
-                      </tbody>
-                   </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
 
+            {/* ══ USERS TAB ══ */}
+            {activeTab === 'users' && (
+              <div className="space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <input
+                    type="text"
+                    placeholder="Search by name or email..."
+                    value={userFilter}
+                    onChange={e => setUserFilter(e.target.value)}
+                    className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition w-full sm:w-72"
+                  />
+                  <button onClick={() => setShowAddUser(true)} className="cursor-pointer px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition whitespace-nowrap">
+                    + Add User
+                  </button>
+                </div>
+
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="bg-slate-50 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                        <th className="py-3 px-5">Name</th>
+                        <th className="py-3 px-5">Email</th>
+                        <th className="py-3 px-5">Role</th>
+                        <th className="py-3 px-5">Site</th>
+                        <th className="py-3 px-5 text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {loading ? (
+                        <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">Loading users...</td></tr>
+                      ) : filteredUsers.length === 0 ? (
+                        <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">No users found.</td></tr>
+                      ) : filteredUsers.map((user, i) => (
+                        <tr key={user.name + i} className="group hover:bg-sky-50/30 transition">
+                          <td className="py-3.5 px-5">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-black text-sm shrink-0">
+                                {user.name?.charAt(0) || "?"}
+                              </div>
+                              <span className="font-bold text-sm text-slate-800">{user.name}</span>
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-5 text-sm text-slate-500">{user.email || "—"}</td>
+                          <td className="py-3.5 px-5">
+                            <span className={`text-[10px] font-bold uppercase px-2.5 py-1 rounded-full ${
+                              user.role === 'Administrator' ? 'bg-violet-100 text-violet-700' : 'bg-sky-100 text-sky-700'
+                            }`}>
+                              {user.role}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-5 text-sm text-slate-500">{user.site}</td>
+                          <td className="py-3.5 px-5 text-right">
+                            <button
+                              onClick={() => setSelectedUser(user)}
+                              className="cursor-pointer px-3 py-1.5 text-xs font-bold text-sky-600 bg-sky-50 rounded-lg hover:bg-sky-100 transition opacity-0 group-hover:opacity-100"
+                            >
+                              View
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* ══ SITES TAB ══ */}
             {activeTab === 'sites' && (
-               <div className="grid gap-6 lg:grid-cols-2">
-                  {siteRows.map(site => (
-                     <div key={site.name} className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-sm flex items-center justify-between group hover:border-sky-500 transition">
-                        <div>
-                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{site.region}</p>
-                           <h4 className="mt-1 text-2xl font-black text-slate-800 tracking-tight">{site.name}</h4>
-                           <p className="mt-4 flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                              <span className="text-sm font-bold text-slate-500">{site.cases} active applications</span>
-                           </p>
+              <div className="space-y-5">
+                {loading ? (
+                  <div className="bg-white rounded-2xl border border-slate-100 p-16 text-center">
+                    <p className="text-sm text-slate-400 italic">Loading access sites...</p>
+                  </div>
+                ) : siteRows.length === 0 ? (
+                  <div className="bg-white rounded-2xl border border-slate-100 p-16 text-center">
+                    <p className="text-4xl mb-3">🏥</p>
+                    <h3 className="text-lg font-bold text-slate-700">No Sites Configured</h3>
+                    <p className="text-sm text-slate-400 mt-2 max-w-md mx-auto">
+                      Access sites will appear here once they are registered in your ServiceNow instance under <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">x_1985733_cafsys_site</code>.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {siteRows.map((site, i) => (
+                      <div key={site.name + i} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 hover:border-sky-200 hover:shadow-md transition">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="min-w-0">
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{site.region}</p>
+                            <h4 className="text-base font-black text-slate-800 mt-1 truncate">{site.name}</h4>
+                          </div>
+                          <span className={`shrink-0 text-[10px] font-bold uppercase px-2.5 py-1 rounded-full ${
+                            site.status === 'Operational' ? 'bg-emerald-100 text-emerald-700'
+                              : site.status === 'Inactive' ? 'bg-rose-100 text-rose-700'
+                              : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {site.status}
+                          </span>
                         </div>
-                        <div className="flex flex-col items-end gap-3">
-                           <span className={`px-4 py-1.5 rounded-2xl text-[10px] font-black uppercase tracking-tight ${getStatusStyle(site.status)}`}>
-                             {site.status}
-                           </span>
-                           <button className="cursor-pointer text-xs font-black text-sky-600 underline">Configure Site</button>
+                        <div className="mt-4 flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                          <span className="text-xs font-semibold text-slate-500">{site.cases} active case{site.cases !== 1 ? 's' : ''}</span>
                         </div>
-                     </div>
-                  ))}
-               </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </main>
       </div>
 
+      {/* ── Add User Modal ── */}
       {showAddUser && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-           <div className="bg-white rounded-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl">
-              <div className="bg-slate-900 p-8 text-white">
-                 <h3 className="text-2xl font-black">Register New System Account</h3>
-                 <p className="mt-1 text-slate-400 font-medium">Create a new site coordinator or admin login.</p>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+            <div className="bg-slate-900 px-6 py-5 text-white">
+              <h3 className="text-lg font-black">Create Staff Account</h3>
+              <p className="text-xs text-slate-400 mt-0.5">New coordinator or administrator login</p>
+            </div>
+            <form onSubmit={handleAddUser} className="p-6 space-y-4">
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
+                <input required value={newUserInfo.name} onChange={e => setNewUserInfo({...newUserInfo, name: e.target.value})} type="text" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
               </div>
-              <form onSubmit={handleAddUser} className="p-8 space-y-5">
-                 <div className="space-y-1">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</label>
-                    <input 
-                      required
-                      value={newUserInfo.name}
-                      onChange={e => setNewUserInfo({...newUserInfo, name: e.target.value})}
-                      type="text" 
-                      className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-sky-500" 
-                    />
-                 </div>
-                 <div className="space-y-1">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Address</label>
-                    <input 
-                      required
-                      value={newUserInfo.email}
-                      onChange={e => setNewUserInfo({...newUserInfo, email: e.target.value})}
-                      type="email" 
-                      className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-sky-500" 
-                    />
-                 </div>
-                 <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Role</label>
-                        <select 
-                          value={newUserInfo.role}
-                          onChange={e => setNewUserInfo({...newUserInfo, role: e.target.value})}
-                          className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-sky-500"
-                        >
-                           <option>Site Coordinator</option>
-                           <option>Administrator</option>
-                        </select>
-                    </div>
-                    <div className="space-y-1">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Access Site</label>
-                        <select 
-                          value={newUserInfo.site}
-                          onChange={e => setNewUserInfo({...newUserInfo, site: e.target.value})}
-                          className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold outline-none focus:border-sky-500"
-                        >
-                           <option value="">System-wide</option>
-                           {siteRows.map(s => <option key={s.name}>{s.name}</option>)}
-                        </select>
-                    </div>
-                 </div>
-                 <div className="flex gap-3 mt-8">
-                    <button 
-                      type="button"
-                      onClick={() => setShowAddUser(false)}
-                      className="cursor-pointer flex-1 py-4 font-black text-slate-400 hover:text-slate-600 transition"
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      disabled={isAdding}
-                      type="submit"
-                      className="cursor-pointer flex-[2] py-4 bg-sky-600 text-white font-black rounded-2xl hover:bg-sky-700 shadow-lg shadow-sky-200"
-                    >
-                      {isAdding ? "Registering..." : "Create Account"}
-                    </button>
-                 </div>
-              </form>
-           </div>
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
+                <input required value={newUserInfo.email} onChange={e => setNewUserInfo({...newUserInfo, email: e.target.value})} type="email" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Role</label>
+                  <select value={newUserInfo.role} onChange={e => setNewUserInfo({...newUserInfo, role: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400">
+                    <option>Site Coordinator</option>
+                    <option>Administrator</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Site</label>
+                  <select value={newUserInfo.site} onChange={e => setNewUserInfo({...newUserInfo, site: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium outline-none focus:border-sky-400">
+                    <option value="">System-wide</option>
+                    {siteRows.map(s => <option key={s.name}>{s.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => setShowAddUser(false)} className="cursor-pointer flex-1 py-2.5 text-sm font-bold text-slate-400 hover:text-slate-600 transition">Cancel</button>
+                <button disabled={isAdding} type="submit" className="cursor-pointer flex-[2] py-2.5 bg-sky-600 text-white text-sm font-bold rounded-xl hover:bg-sky-700 transition disabled:opacity-50">
+                  {isAdding ? "Creating..." : "Create Account"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
+      {/* ── User Detail Modal ── */}
       {selectedUser && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-           <div className="bg-white rounded-[2.5rem] w-full max-w-xl overflow-hidden shadow-2xl relative">
-              <button 
-                 onClick={() => setSelectedUser(null)}
-                 className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition"
-              >
-                 ✕
-              </button>
-              <div className="p-10">
-                 <div className="flex items-center gap-6 mb-8 pb-8 border-b border-slate-50">
-                    <div className="w-20 h-20 rounded-[2rem] bg-sky-600 text-white flex items-center justify-center text-4xl font-black">
-                       {selectedUser.name.charAt(0)}
-                    </div>
-                    <div>
-                       <h3 className="text-3xl font-black text-slate-900">{selectedUser.name}</h3>
-                       <p className="text-sky-600 font-bold">{selectedUser.role}</p>
-                    </div>
-                 </div>
-
-                 <div className="grid gap-6 md:grid-cols-2">
-                    <div className="space-y-1">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact Email</p>
-                       <p className="font-bold text-slate-700">{selectedUser.email || "N/A"}</p>
-                    </div>
-                    <div className="space-y-1">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Site Assignment</p>
-                       <p className="font-bold text-slate-700">{selectedUser.site}</p>
-                    </div>
-                    <div className="space-y-1">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Account Status</p>
-                       <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase">
-                          {selectedUser.status}
-                       </span>
-                    </div>
-                    <div className="space-y-1">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Last Activity</p>
-                       <p className="font-bold text-slate-500 italic">Connected Live</p>
-                    </div>
-                 </div>
-
-                 <div className="mt-10 flex gap-4">
-                    <button className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm hover:bg-slate-800 transition">
-                       Update Permissions
-                    </button>
-                    <button className="flex-1 py-4 border-2 border-rose-100 text-rose-500 rounded-2xl font-black text-sm hover:bg-rose-50 transition">
-                       Deactivate User
-                    </button>
-                 </div>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+            <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-black text-lg">
+                  {selectedUser.name?.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900">{selectedUser.name}</h3>
+                  <span className={`text-[10px] font-bold uppercase ${selectedUser.role === 'Administrator' ? 'text-violet-600' : 'text-sky-600'}`}>
+                    {selectedUser.role}
+                  </span>
+                </div>
               </div>
-           </div>
+              <button onClick={() => setSelectedUser(null)} className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition text-sm">✕</button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-slate-50 rounded-xl p-3">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Email</p>
+                  <p className="text-sm font-semibold text-slate-700 mt-1 truncate">{selectedUser.email || "Not set"}</p>
+                </div>
+                <div className="bg-slate-50 rounded-xl p-3">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Site</p>
+                  <p className="text-sm font-semibold text-slate-700 mt-1 truncate">{selectedUser.site}</p>
+                </div>
+                <div className="bg-slate-50 rounded-xl p-3">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Status</p>
+                  <p className="text-sm font-semibold text-emerald-600 mt-1">● Active</p>
+                </div>
+                <div className="bg-slate-50 rounded-xl p-3">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Access</p>
+                  <p className="text-sm font-semibold text-slate-700 mt-1">Full Portal</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="px-6 pb-6 flex gap-3">
+              <button className="cursor-pointer flex-1 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition">
+                Edit Permissions
+              </button>
+              <button className="cursor-pointer flex-1 py-2.5 border border-rose-200 text-rose-500 rounded-xl text-sm font-bold hover:bg-rose-50 transition">
+                Deactivate
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
