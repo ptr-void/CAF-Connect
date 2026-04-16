@@ -58,6 +58,10 @@ declare global {
                         table: 'sys_module'
                         id: 'af61d5eb0eda44eea87fad4717006799'
                     }
+                    restapi_caf_add_user: {
+                        table: 'sys_ws_operation'
+                        id: 'f474bdd2ed8246e6b3f06624401ff41d'
+                    }
                     restapi_caf_admin_dashboard: {
                         table: 'sys_ws_operation'
                         id: 'dd73a9a50666442980b8bd494407d58b'
@@ -69,6 +73,10 @@ declare global {
                     restapi_caf_applications_post: {
                         table: 'sys_ws_operation'
                         id: '260c73537da548378db47f70d3779185'
+                    }
+                    restapi_caf_batch_approve: {
+                        table: 'sys_ws_operation'
+                        id: '1e7ab6c298db446aa1c5079d20bede28'
                     }
                     restapi_caf_documents_reqs: {
                         table: 'sys_ws_operation'

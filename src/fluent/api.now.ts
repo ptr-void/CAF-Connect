@@ -509,7 +509,7 @@ export const cafApi = RestApi({
                     appGa.addAggregate('COUNT');
                     appGa.query();
                     if (appGa.next()) {
-                        stats.totalApps = appGa.getAggregate('COUNT');
+                        stats.totalApps = parseInt(appGa.getAggregate('COUNT') || '0');
                     }
 
                     var pendingGa = new GlideAggregate('x_1985733_cafsys_application');
@@ -526,9 +526,8 @@ export const cafApi = RestApi({
                     missingGa.query();
                     if (missingGa.next()) {
                        var missingCount = parseInt(missingGa.getAggregate('COUNT') || '0');
-                       var total = parseInt(stats.totalApps);
-                       if (total > 0) {
-                           stats.pendingDocRate = Math.round((missingCount / total) * 100);
+                       if (stats.totalApps > 0) {
+                           stats.pendingDocRate = Math.round((missingCount / stats.totalApps) * 100);
                        }
                     }
 
@@ -748,6 +747,66 @@ export const cafApi = RestApi({
 
                     response.setStatus(200);
                     response.setBody(results);
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_batch_approve'],
+            name: 'batch_approve',
+            method: 'POST',
+            path: '/staff/batch_approve',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var body = request.body.data;
+                    var site = body.site;
+                    if (!site) throw new Error('Site is required');
+
+                    var gr = new GlideRecord('x_1985733_cafsys_application');
+                    gr.addQuery('selected_site.site_name', site);
+                    gr.addQuery('state', 'IN', '1,2,Pending,Pending Review'); // Under Review/Pending
+                    gr.query();
+                    
+                    var count = 0;
+                    while (gr.next()) {
+                        gr.setValue('state', '3'); // Approved
+                        gr.update();
+                        count++;
+                    }
+
+                    response.setStatus(200);
+                    response.setBody({ message: 'Success', approved_count: count });
+                } catch(ex) {
+                    response.setStatus(500);
+                    response.setBody({ error: ex.message });
+                }
+              })(request, response);
+            `,
+        },
+        {
+            $id: Now.ID['restapi_caf_add_user'],
+            name: 'add_user',
+            method: 'POST',
+            path: '/admin/add_user',
+            script: script`
+              (function process(request, response) {
+                try {
+                    var body = request.body.data;
+                    var gr = new GlideRecord('x_1985733_cafsys_portal_user');
+                    gr.initialize();
+                    gr.setValue('full_name', body.name);
+                    gr.setValue('email', body.email);
+                    gr.setValue('password', body.password || 'TemporaryPassword123!');
+                    gr.setValue('account_type', body.role);
+                    gr.setValue('assigned_site', body.site);
+                    var sysId = gr.insert();
+
+                    response.setStatus(201);
+                    response.setBody({ message: 'User added', sys_id: sysId });
                 } catch(ex) {
                     response.setStatus(500);
                     response.setBody({ error: ex.message });
