@@ -260,37 +260,37 @@ Coordination Notes: ${coordNotes}
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Patient Full Name <span style={{ color: "red" }}>*</span></label>
-                    <input type="text" value={patientName} onChange={(e) => { setPatientName(e.target.value); setErrors({...errors, patientName: ""}); }} placeholder="Enter patient full name" className={`w-full rounded-2xl border ${errors.patientName ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.patientName && <p className="mt-1 text-xs text-red-500">{errors.patientName}</p>}
+                    <input type="text" value={patientName} onChange={(e) => { setPatientName(e.target.value); setErrors({...errors, patientName: ""}); }} placeholder="Enter patient full name" className={`w-full rounded-2xl border ${errors.patientName ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.patientName ? { borderColor: "red" } : {}} />
+                    {errors.patientName && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.patientName}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Birth Date <span style={{ color: "red" }}>*</span></label>
-                    <input type="date" value={birthDate} onChange={(e) => { setBirthDate(e.target.value); setErrors({...errors, birthDate: ""}); }} className={`w-full rounded-2xl border ${errors.birthDate ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.birthDate && <p className="mt-1 text-xs text-red-500">{errors.birthDate}</p>}
+                    <input type="date" value={birthDate} onChange={(e) => { setBirthDate(e.target.value); setErrors({...errors, birthDate: ""}); }} className={`w-full rounded-2xl border ${errors.birthDate ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.birthDate ? { borderColor: "red" } : {}} />
+                    {errors.birthDate && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.birthDate}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Sex <span style={{ color: "red" }}>*</span></label>
-                    <select value={sex} onChange={(e) => { setSex(e.target.value); setErrors({...errors, sex: ""}); }} className={`w-full rounded-2xl border ${errors.sex ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}>
+                    <select value={sex} onChange={(e) => { setSex(e.target.value); setErrors({...errors, sex: ""}); }} className={`w-full rounded-2xl border ${errors.sex ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.sex ? { borderColor: "red" } : {}}>
                       <option value="">Select sex</option>
                       <option>Male</option>
                       <option>Female</option>
                     </select>
-                    {errors.sex && <p className="mt-1 text-xs text-red-500">{errors.sex}</p>}
+                    {errors.sex && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.sex}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number <span style={{ color: "red" }}>*</span></label>
-                    <input type="text" value={mobileNumber} onChange={(e) => { setMobileNumber(e.target.value); setErrors({...errors, mobileNumber: ""}); }} placeholder="09XXXXXXXXX" className={`w-full rounded-2xl border ${errors.mobileNumber ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.mobileNumber && <p className="mt-1 text-xs text-red-500">{errors.mobileNumber}</p>}
+                    <input type="text" value={mobileNumber} onChange={(e) => { setMobileNumber(e.target.value); setErrors({...errors, mobileNumber: ""}); }} placeholder="09XXXXXXXXX" className={`w-full rounded-2xl border ${errors.mobileNumber ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.mobileNumber ? { borderColor: "red" } : {}} />
+                    {errors.mobileNumber && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.mobileNumber}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email <span style={{ color: "red" }}>*</span></label>
-                    <input type="email" value={contactEmail} onChange={(e) => { setContactEmail(e.target.value); setErrors({...errors, contactEmail: ""}); }} placeholder="Email for case updates" className={`w-full rounded-2xl border ${errors.contactEmail ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.contactEmail && <p className="mt-1 text-xs text-red-500">{errors.contactEmail}</p>}
+                    <input type="email" value={contactEmail} onChange={(e) => { setContactEmail(e.target.value); setErrors({...errors, contactEmail: ""}); }} placeholder="Email for case updates" className={`w-full rounded-2xl border ${errors.contactEmail ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.contactEmail ? { borderColor: "red" } : {}} />
+                    {errors.contactEmail && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.contactEmail}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Home Address <span style={{ color: "red" }}>*</span></label>
-                    <textarea rows={3} value={address} onChange={(e) => { setAddress(e.target.value); setErrors({...errors, address: ""}); }} placeholder="Enter complete home address" className={`w-full rounded-2xl border ${errors.address ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.address && <p className="mt-1 text-xs text-red-500">{errors.address}</p>}
+                    <textarea rows={3} value={address} onChange={(e) => { setAddress(e.target.value); setErrors({...errors, address: ""}); }} placeholder="Enter complete home address" className={`w-full rounded-2xl border ${errors.address ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.address ? { borderColor: "red" } : {}} />
+                    {errors.address && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.address}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Applicant / Representative Name</label>
@@ -318,35 +318,35 @@ Coordination Notes: ${coordNotes}
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Diagnosis <span style={{ color: "red" }}>*</span></label>
-                    <input type="text" value={diagnosis} onChange={(e) => { setDiagnosis(e.target.value); setErrors({...errors, diagnosis: ""}); }} placeholder="Enter diagnosis" className={`w-full rounded-2xl border ${errors.diagnosis ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.diagnosis && <p className="mt-1 text-xs text-red-500">{errors.diagnosis}</p>}
+                    <input type="text" value={diagnosis} onChange={(e) => { setDiagnosis(e.target.value); setErrors({...errors, diagnosis: ""}); }} placeholder="Enter diagnosis" className={`w-full rounded-2xl border ${errors.diagnosis ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.diagnosis ? { borderColor: "red" } : {}} />
+                    {errors.diagnosis && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.diagnosis}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Date of Diagnosis <span style={{ color: "red" }}>*</span></label>
-                    <input type="date" value={diagnosisDate} onChange={(e) => { setDiagnosisDate(e.target.value); setErrors({...errors, diagnosisDate: ""}); }} className={`w-full rounded-2xl border ${errors.diagnosisDate ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.diagnosisDate && <p className="mt-1 text-xs text-red-500">{errors.diagnosisDate}</p>}
+                    <input type="date" value={diagnosisDate} onChange={(e) => { setDiagnosisDate(e.target.value); setErrors({...errors, diagnosisDate: ""}); }} className={`w-full rounded-2xl border ${errors.diagnosisDate ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.diagnosisDate ? { borderColor: "red" } : {}} />
+                    {errors.diagnosisDate && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.diagnosisDate}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treating Hospital / Facility <span style={{ color: "red" }}>*</span></label>
-                    <input type="text" value={hospital} onChange={(e) => { setHospital(e.target.value); setErrors({...errors, hospital: ""}); }} placeholder="Enter hospital or clinic" className={`w-full rounded-2xl border ${errors.hospital ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.hospital && <p className="mt-1 text-xs text-red-500">{errors.hospital}</p>}
+                    <input type="text" value={hospital} onChange={(e) => { setHospital(e.target.value); setErrors({...errors, hospital: ""}); }} placeholder="Enter hospital or clinic" className={`w-full rounded-2xl border ${errors.hospital ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.hospital ? { borderColor: "red" } : {}} />
+                    {errors.hospital && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.hospital}</p>}
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-slate-700">Attending Physician <span style={{ color: "red" }}>*</span></label>
-                    <input type="text" value={physician} onChange={(e) => { setPhysician(e.target.value); setErrors({...errors, physician: ""}); }} placeholder="Enter physician name" className={`w-full rounded-2xl border ${errors.physician ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.physician && <p className="mt-1 text-xs text-red-500">{errors.physician}</p>}
+                    <input type="text" value={physician} onChange={(e) => { setPhysician(e.target.value); setErrors({...errors, physician: ""}); }} placeholder="Enter physician name" className={`w-full rounded-2xl border ${errors.physician ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.physician ? { borderColor: "red" } : {}} />
+                    {errors.physician && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.physician}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP) <span style={{ color: "red" }}>*</span></label>
-                    <input type="number" step="1000" min="0" value={requestedAmount} onChange={(e) => { setRequestedAmount(e.target.value); setErrors({...errors, requestedAmount: ""}); }} placeholder="e.g. 50000" className={`w-full rounded-2xl border ${errors.requestedAmount ? 'border-red-500 bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} />
-                    {errors.requestedAmount && <p className="mt-1 text-xs text-red-500">{errors.requestedAmount}</p>}
+                    <input type="number" step="1000" min="0" value={requestedAmount} onChange={(e) => { setRequestedAmount(e.target.value); setErrors({...errors, requestedAmount: ""}); }} placeholder="e.g. 50000" className={`w-full rounded-2xl border ${errors.requestedAmount ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`} style={errors.requestedAmount ? { borderColor: "red" } : {}} />
+                    {errors.requestedAmount && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.requestedAmount}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Medical Abstract or Clinical Summary (PDF/Image) <span style={{ color: "red" }}>*</span></label>
-                    <input type="file" accept=".pdf,image/*" onChange={(e) => { setErrors({...errors, documentUrl: ""}); handleFileUpload(e); }} disabled={uploadingDoc} className={`w-full cursor-pointer rounded-2xl border ${errors.documentUrl ? 'border-red-500 bg-red-50' : 'border-slate-300'} bg-slate-50 px-4 py-3 outline-none focus:border-sky-500 text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100 disabled:opacity-50`} />
+                    <input type="file" accept=".pdf,image/*" onChange={(e) => { setErrors({...errors, documentUrl: ""}); handleFileUpload(e); }} disabled={uploadingDoc} className={`w-full cursor-pointer rounded-2xl border ${errors.documentUrl ? 'bg-red-50' : 'border-slate-300'} bg-slate-50 px-4 py-3 outline-none focus:border-sky-500 text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100 disabled:opacity-50`} style={errors.documentUrl ? { borderColor: "red" } : {}} />
                     {uploadingDoc && <p className="mt-2 text-sm text-sky-600 animate-pulse">Uploading securely...</p>}
                     {documentUrl && <p className="mt-2 text-sm text-emerald-600 font-medium">✓ Document uploaded successfully</p>}
-                    {errors.documentUrl && <p className="mt-1 text-xs text-red-500">{errors.documentUrl}</p>}
+                    {errors.documentUrl && <p style={{ color: "red" }} className="mt-1 text-xs">{errors.documentUrl}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treatment Notes / Assistance Needed</label>
