@@ -72,7 +72,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
     fetch("/api/x_1985733_cafsys/caf/admin/update_user", {
       method: "POST",
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
-      body: JSON.stringify({ email: selectedUser.email, role: selectedUserRole })
+      body: JSON.stringify({ id: selectedUser.id, role: selectedUserRole })
     })
       .then(res => res.json())
       .then(() => { fetchDashboardData(); setSelectedUser(null); })
@@ -85,7 +85,7 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
     fetch("/api/x_1985733_cafsys/caf/admin/update_user", {
       method: "POST",
       headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
-      body: JSON.stringify({ email: selectedUser.email, is_active: newStatus })
+      body: JSON.stringify({ id: selectedUser.id, is_active: newStatus })
     })
       .then(res => res.json())
       .then(() => { fetchDashboardData(); setSelectedUser(null); })
