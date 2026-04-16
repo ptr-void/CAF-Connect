@@ -302,8 +302,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 
       {/* ── Add User Modal ── */}
       {showAddUser && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }} className="flex items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
-          <div className="rounded-3xl bg-white w-full max-w-lg shadow-xl ring-1 ring-slate-200 overflow-hidden relative">
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, backgroundColor: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)' }} className="flex items-center justify-center p-6">
+          <div style={{ width: '100%', maxWidth: '32rem', margin: '0 auto' }} className="rounded-3xl bg-white shadow-xl ring-1 ring-slate-200 overflow-hidden relative">
 
             <div className="bg-gradient-to-br from-sky-50 to-emerald-50 px-8 py-6">
               <p className="text-sm font-semibold text-sky-700">Account Registration</p>
@@ -350,8 +350,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 
       {/* ── User Detail Modal ── */}
       {selectedUser && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }} className="flex items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
-          <div className="rounded-3xl bg-white w-full max-w-lg shadow-xl ring-1 ring-slate-200 overflow-hidden relative">
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, backgroundColor: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)' }} className="flex items-center justify-center p-6">
+          <div style={{ width: '100%', maxWidth: '32rem', margin: '0 auto' }} className="rounded-3xl bg-white shadow-xl ring-1 ring-slate-200 overflow-hidden relative">
             <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-100 text-lg font-bold text-sky-700">
