@@ -46,7 +46,14 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [mobileNumber, setMobileNumber] = useState("");
   const [coordNotes, setCoordNotes] = useState("");
 
+  const [documentUrl, setDocumentUrl] = useState("");
+  const [uploadingDoc, setUploadingDoc] = useState(false);
+
   const steps = ["Personal Details", "Diagnosis Details", "Access Site & Contact", "Review & Submit"];
+
+  const isStep1Valid = !!(patientName && birthDate && sex && mobileNumber && contactEmail && address);
+  const isStep2Valid = !!(diagnosis && diagnosisDate && hospital && physician && requestedAmount && documentUrl);
+
 
   const siteDetails: Record<string, { location: string, availability: string, types: string }> = {
     "Jose R. Reyes Memorial Medical Center": {
@@ -81,6 +88,44 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingDoc(true);
+    try {
+      const apiKey = "367759188279963";
+      const apiSecret = "4T0twk-P-EIKvemW4aeGAK75etI";
+      const timestamp = Math.round(new Date().getTime() / 1000).toString();
+      
+      const signatureString = `timestamp=${timestamp}${apiSecret}`;
+      const msgBuffer = new TextEncoder().encode(signatureString);
+      const hashBuffer = await crypto.subtle.digest("SHA-1", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const signature = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("api_key", apiKey);
+      formData.append("timestamp", timestamp);
+      formData.append("signature", signature);
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/defkzzqcs/auto/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || "Upload failed");
+      
+      setDocumentUrl(data.secure_url);
+    } catch (err: any) {
+      alert("Failed to upload document: " + err.message);
+    } finally {
+      setUploadingDoc(false);
+    }
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     setError("");
@@ -98,6 +143,7 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
           requested_amount: requestedAmount,
           selected_site: selectedSite || "Pending Assignment",
           phone_number: mobileNumber,
+          document_url: documentUrl,
           medical_abstract: `
 Birth Date: ${birthDate}
 Sex: ${sex}
@@ -181,15 +227,15 @@ Coordination Notes: ${coordNotes}
                 <p className="mt-2 text-sm text-slate-500">Enter the patient and applicant information exactly as it appears on official documents.</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Patient Full Name</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Patient Full Name <span className="text-red-500">*</span></label>
                     <input type="text" value={patientName} onChange={(e) => setPatientName(e.target.value)} placeholder="Enter patient full name" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Birth Date</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Birth Date <span className="text-red-500">*</span></label>
                     <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Sex</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Sex <span className="text-red-500">*</span></label>
                     <select value={sex} onChange={(e) => setSex(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option value="">Select sex</option>
                       <option>Male</option>
@@ -197,15 +243,15 @@ Coordination Notes: ${coordNotes}
                     </select>
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Mobile Number <span className="text-red-500">*</span></label>
                     <input type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} placeholder="09XXXXXXXXX" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email <span className="text-red-500">*</span></label>
                     <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="Email for case updates" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Home Address</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Home Address <span className="text-red-500">*</span></label>
                     <textarea rows={3} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter complete home address" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
@@ -218,7 +264,7 @@ Coordination Notes: ${coordNotes}
                   </div>
                 </div>
                 <div className="mt-8 flex justify-end">
-                  <button onClick={() => setCurrentStep(2)} disabled={!patientName} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50">
+                  <button onClick={() => setCurrentStep(2)} disabled={!isStep1Valid} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed">
                     Next Step
                   </button>
                 </div>
@@ -233,24 +279,30 @@ Coordination Notes: ${coordNotes}
                 <p className="mt-2 text-sm text-slate-500">Provide the medical and treatment details needed for the initial review.</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Diagnosis</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Diagnosis <span className="text-red-500">*</span></label>
                     <input type="text" value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Enter diagnosis" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Date of Diagnosis</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Date of Diagnosis <span className="text-red-500">*</span></label>
                     <input type="date" value={diagnosisDate} onChange={(e) => setDiagnosisDate(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Treating Hospital / Facility</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Treating Hospital / Facility <span className="text-red-500">*</span></label>
                     <input type="text" value={hospital} onChange={(e) => setHospital(e.target.value)} placeholder="Enter hospital or clinic" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Attending Physician</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Attending Physician <span className="text-red-500">*</span></label>
                     <input type="text" value={physician} onChange={(e) => setPhysician(e.target.value)} placeholder="Enter physician name" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP)</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Requested Assistance Amount (PHP) <span className="text-red-500">*</span></label>
                     <input type="number" step="1000" min="0" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="e.g. 50000" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-2 block text-sm font-medium text-slate-700">Medical Abstract or Clinical Summary (PDF/Image) <span className="text-red-500">*</span></label>
+                    <input type="file" accept=".pdf,image/*" onChange={handleFileUpload} disabled={uploadingDoc} className="w-full cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 outline-none focus:border-sky-500 cursor-pointer text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-sky-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-sky-700 hover:file:bg-sky-100 disabled:opacity-50" />
+                    {uploadingDoc && <p className="mt-2 text-sm text-sky-600 animate-pulse">Uploading securely...</p>}
+                    {documentUrl && <p className="mt-2 text-sm text-emerald-600 font-medium">✓ Document uploaded successfully</p>}
                   </div>
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Treatment Notes / Assistance Needed</label>
@@ -259,7 +311,7 @@ Coordination Notes: ${coordNotes}
                 </div>
                 <div className="mt-8 flex items-center justify-between">
                   <button onClick={() => setCurrentStep(1)} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:border-slate-400">Back</button>
-                  <button onClick={() => setCurrentStep(3)} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700">Next Step</button>
+                  <button onClick={() => setCurrentStep(3)} disabled={!isStep2Valid || uploadingDoc} className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed">Next Step</button>
                 </div>
               </div>
             )}
