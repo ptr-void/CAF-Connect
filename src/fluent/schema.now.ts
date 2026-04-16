@@ -1,4 +1,4 @@
-import { Table, StringColumn, Role, BooleanColumn, CurrencyColumn } from '@servicenow/sdk/core';
+import { Table, StringColumn, Role, BooleanColumn, DecimalColumn } from '@servicenow/sdk/core';
 
 
 export const applicantRole = Role({
@@ -35,8 +35,8 @@ export const x_1985733_cafsys_application = Table({
         ai_reasoning: StringColumn({ label: 'AI Reasoning', maxLength: 4000 }),
         
         needs_manual_review: BooleanColumn({ label: 'Needs Manual Review' }),
-        requested_amount: CurrencyColumn({ label: 'Requested Amount' }),
-        approved_amount: CurrencyColumn({ label: 'Approved Amount' })
+        requested_amount: DecimalColumn({ label: 'Requested Amount' }),
+        approved_amount: DecimalColumn({ label: 'Approved Amount' })
     }
 });
 
