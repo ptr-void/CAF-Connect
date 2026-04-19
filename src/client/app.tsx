@@ -11,6 +11,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import HelpSupportPage from "./pages/HelpSupportPage";
 import StaffDashboardPage from "./pages/StaffDashboardPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import EligibilityPage from "./pages/EligibilityPage";
 
 type PageKey =
   | "landing"
@@ -106,6 +107,8 @@ function App() {
         return <LoginPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
       case "register":
         return <RegisterPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
+      case "eligibility":
+        return <EligibilityPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "documents":
         return <DocumentsPage setActivePage={setActivePage} />;
       case "application":

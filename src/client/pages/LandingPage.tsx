@@ -228,7 +228,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                   onClick={() => setActivePage("sites")}
                   className="cursor-pointer rounded-2xl bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-800"
                 >
-                  View All Sites
+                  View All
                 </button>
               </div>
 
@@ -246,7 +246,7 @@ function LandingPage({ setActivePage }: LandingPageProps) {
                       onClick={() => setActivePage("sites")}
                       className="cursor-pointer mt-4 text-sm font-semibold text-sky-700 hover:text-sky-800"
                     >
-                      Select this site →
+                      View More →
                     </button>
                   </div>
                 ))}
