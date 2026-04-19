@@ -208,21 +208,30 @@ export const cafApi = RestApi({
             script: script`
               (function process(request, response) {
                 try {
-                    var bodyObj = JSON.parse(request.body.dataString);
+                    var bodyObj = JSON.parse(request.body.dataString || "{}");
                     var patientName = bodyObj.patient_name || 'Unknown';
                     var diagnosis = bodyObj.diagnosis || 'None provided';
                     var abstract = bodyObj.medical_abstract || 'None provided';
 
-                    var systemPrompt = "You are a clinical eligibility screener for a Cancer Assistance Fund (CAF). Determine if the applicant is 'Possibly Eligible' or 'Not Eligible' strictly based on this data. A patient is usually eligible if they have a confirmed cancer diagnosis and outline financial hardship. The output MUST be a JSON object with two exact keys: 'outcome' (either 'Possibly Eligible' or 'Not Eligible') and 'reasoning' (1 paragraph explanation).";
-                    var userPrompt = "Patient: " + patientName + "\\nDiagnosis: " + diagnosis + "\\nMedical Abstract: " + abstract;
+                    var systemPrompt = "You are a clinical eligibility screener for a Cancer Assistance Fund (CAF). Determine if the applicant is 'Possibly Eligible' or 'Not Eligible' strictly based on this data. The output MUST be a JSON object with two exact keys: 'outcome' and 'reasoning'.";
+                    var userPrompt = "Patient: " + patientName + "\nDiagnosis: " + diagnosis + "\nMedical Abstract: " + abstract;
+
+                    var key = (gs.getProperty('x_1985733_cafsys.groq_api_key') || '').trim();
+
+                    if (!key) {
+                        response.setStatus(500);
+                        response.setBody({ error: "Groq API key is missing." });
+                        return;
+                    }
+
+                    gs.info("CAF-DEBUG version test 2026-04-20");
+                    gs.info("CAF-DEBUG key length: " + key.length);
+                    gs.info("CAF-DEBUG key prefix: " + key.substring(0, 8));
 
                     var rm = new sn_ws.RESTMessageV2();
-                    gs.info("CAF-DEBUG: Processing Groq evaluation with key gsk_om6uRr...");
                     rm.setEndpoint('https://api.groq.com/openai/v1/chat/completions');
                     rm.setHttpMethod('POST');
                     rm.setRequestHeader('Content-Type', 'application/json');
-                    var key = "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";
-                    gs.info("CAF-DEBUG: Executing Groq Evaluate with key prefix: " + key.substring(0, 10));
                     rm.setRequestHeader('Authorization', 'Bearer ' + key);
 
                     var payload = {
@@ -235,9 +244,13 @@ export const cafApi = RestApi({
                     };
 
                     rm.setRequestBody(JSON.stringify(payload));
+
                     var res = rm.execute();
                     var httpStatus = res.getStatusCode();
                     var responseBody = res.getBody();
+
+                    gs.info("CAF-DEBUG Groq status: " + httpStatus);
+                    gs.info("CAF-DEBUG Groq body: " + responseBody);
 
                     if (httpStatus === 200) {
                         var groqData = JSON.parse(responseBody);
@@ -245,16 +258,18 @@ export const cafApi = RestApi({
                         response.setStatus(200);
                         response.setBody(JSON.parse(content));
                     } else {
-                        gs.error("Groq API Error: " + responseBody);
-                        response.setStatus(500);
-                        response.setBody({ error: "Groq AI generation failed.", details: responseBody });
+                        response.setStatus(httpStatus);
+                        response.setBody({
+                            error: "Groq AI generation failed.",
+                            details: responseBody
+                        });
                     }
-                } catch(ex) {
+                } catch (ex) {
                     gs.error("Exception in Groq API: " + ex.message);
                     response.setStatus(500);
                     response.setBody({ error: ex.message });
                 }
-              })(request, response);
+            })(request, response);
             `,
         },
         {
