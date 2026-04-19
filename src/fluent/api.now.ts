@@ -277,7 +277,7 @@ export const cafApi = RestApi({
                     var results = [];
                     while (apps.next()) {
                         results.push({
-                            sys_id: apps.getUniqueValue(),
+                            sys_id: apps.getUniqueValue() + '',
                             number: apps.getValue('number'),
                             patient_name: apps.getValue('patient_name'),
                             medical_condition: apps.getValue('medical_condition'),
@@ -319,7 +319,7 @@ export const cafApi = RestApi({
                     var results = [];
                     while (apps.next()) {
                         results.push({
-                            sys_id: apps.getUniqueValue(),
+                            sys_id: apps.getUniqueValue() + '',
                             number: apps.getValue('number'),
                             patient_name: apps.getValue('patient_name'),
                             medical_condition: apps.getValue('medical_condition'),
@@ -543,7 +543,7 @@ export const cafApi = RestApi({
                     userGr.query();
                     while (userGr.next()) {
                         users.push({
-                            user_id: userGr.getUniqueValue(),
+                            user_id: userGr.getUniqueValue() + '',
                             name: userGr.getValue('full_name'),
                             email: userGr.getValue('email') || userGr.getValue('u_email') || userGr.getValue('email_address'),
                             role: userGr.getValue('account_type'),
