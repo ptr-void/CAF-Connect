@@ -795,50 +795,52 @@ export const cafApi = RestApi({
             script: script`
               (function process(request, response) {
                 try {
-                    var body = request.body.data;
-                    var action = body ? body.action : null;
-                    var debugInfo = {
-                        receivedAction: action,
-                        hasBody: !!body,
-                        bodyKeys: body ? Object.keys(body) : [],
-                        rawBodyStr: JSON.stringify(body)
-                    };
+                    var bodyObj = {};
+                    try {
+                        if (request.body.dataString) {
+                            bodyObj = JSON.parse(request.body.dataString);
+                        } else if (request.body.data) {
+                            bodyObj = request.body.data;
+                        }
+                    } catch(e) {}
+                    
+                    var action = bodyObj.action || null;
 
                     if (action === 'update_role') {
                         var gr = new GlideRecord('x_1985733_cafsys_portal_user');
-                        if (gr.get(body.user_id)) {
+                        if (gr.get(bodyObj.user_id)) {
                             var oldRole = gr.getValue('account_type');
-                            gr.setValue('account_type', body.role);
+                            gr.setValue('account_type', bodyObj.role);
                             gr.update();
                             response.setStatus(200);
-                            response.setBody({ message: 'Role updated from ' + oldRole + ' to ' + body.role, debug: debugInfo });
+                            response.setBody({ message: 'Role updated from ' + oldRole + ' to ' + bodyObj.role });
                         } else {
-                            response.setStatus(200);
-                            response.setBody({ error: 'User not found by id: ' + body.user_id, debug: debugInfo });
+                            response.setStatus(404);
+                            response.setBody({ error: 'User not found by id: ' + bodyObj.user_id });
                         }
                     } else if (action === 'toggle_active') {
                         var gr2 = new GlideRecord('x_1985733_cafsys_portal_user');
-                        if (gr2.get(body.user_id)) {
-                            var newVal = body.is_active ? '1' : '0';
+                        if (gr2.get(bodyObj.user_id)) {
+                            var newVal = bodyObj.is_active === true || bodyObj.is_active === 'true' ? true : false;
                             gr2.setValue('is_active', newVal);
                             gr2.update();
                             response.setStatus(200);
-                            response.setBody({ message: 'Active set to ' + newVal, debug: debugInfo });
+                            response.setBody({ message: 'Active set to ' + newVal });
                         } else {
-                            response.setStatus(200);
-                            response.setBody({ error: 'User not found by id: ' + body.user_id, debug: debugInfo });
+                            response.setStatus(404);
+                            response.setBody({ error: 'User not found by id: ' + bodyObj.user_id });
                         }
                     } else {
                         var newGr = new GlideRecord('x_1985733_cafsys_portal_user');
                         newGr.initialize();
-                        newGr.setValue('full_name', body.name);
-                        newGr.setValue('email', body.email);
-                        newGr.setValue('password', body.password || 'TemporaryPassword123!');
-                        newGr.setValue('account_type', body.role);
-                        newGr.setValue('assigned_site', body.site);
+                        newGr.setValue('full_name', bodyObj.name);
+                        newGr.setValue('email', bodyObj.email);
+                        newGr.setValue('password', bodyObj.password || 'TemporaryPassword123!');
+                        newGr.setValue('account_type', bodyObj.role);
+                        newGr.setValue('assigned_site', bodyObj.site);
                         var sysId = newGr.insert();
                         response.setStatus(201);
-                        response.setBody({ message: 'User added', sys_id: sysId, debug: debugInfo });
+                        response.setBody({ message: 'User added', sys_id: sysId });
                     }
                 } catch(ex) {
                     response.setStatus(500);
