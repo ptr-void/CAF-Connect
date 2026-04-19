@@ -158,7 +158,7 @@ function ApplicationPage({ setActivePage, currentUser, intakePreFill }: Applicat
     setIsLoadingAi(true);
 
     try {
-      const res = await fetch("/api/x_1985733_cafsys/caf/groq/evaluate", {
+      const res = await fetch("/api/x_1985733_cafsys/caf/groq/evaluate-v2", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

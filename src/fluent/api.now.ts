@@ -204,7 +204,7 @@ export const cafApi = RestApi({
             $id: Now.ID['restapi_groq_ai_evaluate'],
             name: 'groq-evaluate',
             method: 'POST',
-            path: '/groq/evaluate',
+            path: '/groq/evaluate-v2',
             script: script`
               (function process(request, response) {
                 try {
@@ -212,28 +212,28 @@ export const cafApi = RestApi({
                     var patientName = bodyObj.patient_name || 'Unknown';
                     var diagnosis = bodyObj.diagnosis || 'None provided';
                     var abstract = bodyObj.medical_abstract || 'None provided';
-
+        
                     var systemPrompt = "You are a clinical eligibility screener for a Cancer Assistance Fund (CAF). Determine if the applicant is 'Possibly Eligible' or 'Not Eligible' strictly based on this data. The output MUST be a JSON object with two exact keys: 'outcome' and 'reasoning'.";
-                    var userPrompt = "Patient: " + patientName + "\nDiagnosis: " + diagnosis + "\nMedical Abstract: " + abstract;
-
+                    var userPrompt = "Patient: " + patientName + "\\nDiagnosis: " + diagnosis + "\\nMedical Abstract: " + abstract;
+        
                     var key = "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".trim();
-
+        
                     if (!key) {
                         response.setStatus(500);
                         response.setBody({ error: "Groq API key is missing." });
                         return;
                     }
-
+        
                     gs.info("CAF-DEBUG version test 2026-04-20");
                     gs.info("CAF-DEBUG key length: " + key.length);
                     gs.info("CAF-DEBUG key prefix: " + key.substring(0, 8));
-
+        
                     var rm = new sn_ws.RESTMessageV2();
                     rm.setEndpoint('https://api.groq.com/openai/v1/chat/completions');
                     rm.setHttpMethod('POST');
                     rm.setRequestHeader('Content-Type', 'application/json');
                     rm.setRequestHeader('Authorization', 'Bearer ' + key);
-
+        
                     var payload = {
                         model: "llama-3.3-70b-versatile",
                         messages: [
@@ -242,16 +242,16 @@ export const cafApi = RestApi({
                         ],
                         response_format: { type: "json_object" }
                     };
-
+        
                     rm.setRequestBody(JSON.stringify(payload));
-
+        
                     var res = rm.execute();
                     var httpStatus = res.getStatusCode();
                     var responseBody = res.getBody();
-
+        
                     gs.info("CAF-DEBUG Groq status: " + httpStatus);
                     gs.info("CAF-DEBUG Groq body: " + responseBody);
-
+        
                     if (httpStatus === 200) {
                         var groqData = JSON.parse(responseBody);
                         var content = groqData.choices[0].message.content;
@@ -260,7 +260,7 @@ export const cafApi = RestApi({
                     } else {
                         response.setStatus(httpStatus);
                         response.setBody({
-                            error: "Groq AI generation failed. Test: {key}",
+                            error: "SERVER TEST APR20 GROQ V2",
                             details: responseBody
                         });
                     }
@@ -269,7 +269,7 @@ export const cafApi = RestApi({
                     response.setStatus(500);
                     response.setBody({ error: ex.message });
                 }
-            })(request, response);
+              })(request, response);
             `,
         },
         {

@@ -9,14 +9,42 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: '1569fe0583d403102cecbb96feaad368'
                     }
+                    '22571f0183d803102cecbb96feaad337': {
+                        table: 'sys_scope_privilege'
+                        id: '22571f0183d803102cecbb96feaad337'
+                    }
                     '22d9f64583d403102cecbb96feaad3bc': {
                         table: 'sys_scope_privilege'
                         id: '22d9f64583d403102cecbb96feaad3bc'
                     }
+                    '3ca780ed83dc83102cecbb96feaad3a0': {
+                        table: 'sys_ui_element'
+                        id: '3ca780ed83dc83102cecbb96feaad3a0'
+                    }
+                    '3ca780ed83dc83102cecbb96feaad3a4': {
+                        table: 'sys_ui_element'
+                        id: '3ca780ed83dc83102cecbb96feaad3a4'
+                    }
                     '683ff201831803102cecbb96feaad368': {
                         table: 'sys_scope_privilege'
                         id: '683ff201831803102cecbb96feaad368'
-                        deleted: true
+                        deleted: false
+                    }
+                    '6a571f0183d803102cecbb96feaad330': {
+                        table: 'sys_scope_privilege'
+                        id: '6a571f0183d803102cecbb96feaad330'
+                    }
+                    '70a780ed83dc83102cecbb96feaad3a4': {
+                        table: 'sys_ui_element'
+                        id: '70a780ed83dc83102cecbb96feaad3a4'
+                    }
+                    '7657d34183d803102cecbb96feaad384': {
+                        table: 'sys_scope_privilege'
+                        id: '7657d34183d803102cecbb96feaad384'
+                    }
+                    '7657d34183d803102cecbb96feaad388': {
+                        table: 'sys_scope_privilege'
+                        id: '7657d34183d803102cecbb96feaad388'
                     }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
@@ -26,9 +54,17 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: '8d55724d839403102cecbb96feaad31e'
                     }
+                    '915e89a98318c3102cecbb96feaad323': {
+                        table: 'sys_scope_privilege'
+                        id: '915e89a98318c3102cecbb96feaad323'
+                    }
                     'app.css': {
                         table: 'sys_ux_theme_asset'
                         id: 'cd15633048964cffa121bf70dfccef2e'
+                    }
+                    b4a780ed83dc83102cecbb96feaad3a3: {
+                        table: 'sys_ui_element'
+                        id: 'b4a780ed83dc83102cecbb96feaad3a3'
                     }
                     bom_json: {
                         table: 'sys_module'
@@ -50,9 +86,29 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: 'd969fe0583d403102cecbb96feaad36e'
                     }
+                    e257d34183d803102cecbb96feaad378: {
+                        table: 'sys_scope_privilege'
+                        id: 'e257d34183d803102cecbb96feaad378'
+                    }
+                    e257d34183d803102cecbb96feaad37c: {
+                        table: 'sys_scope_privilege'
+                        id: 'e257d34183d803102cecbb96feaad37c'
+                    }
+                    e257d34183d803102cecbb96feaad380: {
+                        table: 'sys_scope_privilege'
+                        id: 'e257d34183d803102cecbb96feaad380'
+                    }
                     email_notify_approval: {
                         table: 'sysevent_email_action'
                         id: 'd47b674ae0994c38853768debe3a5452'
+                    }
+                    f0a740ed83dc83102cecbb96feaad312: {
+                        table: 'sys_ui_section'
+                        id: 'f0a740ed83dc83102cecbb96feaad312'
+                    }
+                    f8a780ed83dc83102cecbb96feaad3a2: {
+                        table: 'sys_ui_element'
+                        id: 'f8a780ed83dc83102cecbb96feaad3a2'
                     }
                     package_json: {
                         table: 'sys_module'
@@ -130,6 +186,7 @@ declare global {
                     restapi_groq_ai_evaluate: {
                         table: 'sys_ws_operation'
                         id: '4785f880a8274af98e2533eb24fbd142'
+                        deleted: false
                     }
                     ui_approve: {
                         table: 'sys_ui_action'
