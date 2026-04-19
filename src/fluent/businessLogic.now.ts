@@ -1,4 +1,4 @@
-import { BusinessRule, ClientScript, UiAction, EmailNotification } from '@servicenow/sdk/core';
+import { BusinessRule, ClientScript, UiAction, EmailNotification, Role, Acl } from '@servicenow/sdk/core';
 
 
 export const setDefaultStatus = BusinessRule({
@@ -72,4 +72,19 @@ export const enforceEmailValidation = ClientScript({
             g_form.hideFieldMsg('email');
         }
     }`,
+});
+
+export const cafAdminRole = Role({
+    $id: Now.ID['role_caf_admin'],
+    name: 'x_1985733_cafsys.admin',
+    description: 'Administrator role for the CAF application',
+});
+
+export const cafApplicationAcl = Acl({
+    $id: Now.ID['acl_caf_application_write'],
+    table: 'x_1985733_cafsys_application',
+    type: 'record',
+    operation: 'write',
+    roles: [cafAdminRole],
+    description: 'Only CAF Admins can write to the application table from the backend',
 });
