@@ -434,13 +434,30 @@ export const cafApi = RestApi({
                     var results = [];
                     
                     if (!sites.hasNext()) {
-                         results = [
-                            { sys_id: 'mock1', site_name: 'Metro Manila Medical Center', region: 'NCR', address: '123 Health Ave, Manila', contact_number: '(02) 8123-4567', operating_hours: 'Mon-Sun, 24/7', remaining_funds: 2500000, status: 'Available', supported_cancers: 'All Major Cancers' },
-                            { sys_id: 'mock2', site_name: 'Cebu Doctors University Hospital', region: 'Central Visayas', address: 'Osmeña Blvd, Cebu City', contact_number: '(032) 255-5555', operating_hours: 'Mon-Sat, 8AM-5PM', remaining_funds: 0, status: 'Exhausted', supported_cancers: 'Breast, Lung, Colon' },
-                            { sys_id: 'mock3', site_name: 'Davao Regional Hospital', region: 'Davao Region', address: 'Tagum City, Davao del Norte', contact_number: '(084) 216-9133', operating_hours: 'Mon-Fri, 9AM-4PM', remaining_funds: 500000, status: 'Pending Confirmation', supported_cancers: 'Pediatric Oncology, Cervical' }
-                         ];
-                    } else {
-                        while (sites.next()) {
+                        function seedSite(name, region, funds, address, contact) {
+                            var seed = new GlideRecord('x_1985733_cafsys_site');
+                            seed.initialize();
+                            seed.setValue('site_name', name);
+                            seed.setValue('region', region);
+                            seed.setValue('total_funds', funds);
+                            seed.setValue('remaining_funds', funds);
+                            seed.setValue('address', address);
+                            seed.setValue('contact_number', contact);
+                            seed.setValue('supported_cancers', 'All Types');
+                            seed.setValue('is_active', '1');
+                            seed.insert();
+                        }
+                        
+                        seedSite('Metro Manila Medical Center', 'NCR', '500000000', 'Quezon City, Metro Manila', '02-8123-4567');
+                        seedSite('Cebu Doctors University Hospital', 'Visayas', '150000000', 'Cebu City, Cebu', '032-255-5555');
+                        seedSite('Davao Regional Medical Center', 'Mindanao', '200000000', 'Tagum City, Davao del Norte', '084-216-9111');
+                        
+                        sites = new GlideRecord('x_1985733_cafsys_site');
+                        sites.addQuery('is_active', true);
+                        sites.query();
+                    }
+
+                    while (sites.next()) {
                             results.push({
                                 sys_id: sites.getUniqueValue(),
                                 site_name: sites.getValue('site_name'),
@@ -573,6 +590,31 @@ export const cafApi = RestApi({
                     var sites = [];
                     var siteRec = new GlideRecord('x_1985733_cafsys_site');
                     siteRec.query();
+
+                    if (!siteRec.hasNext()) {
+                        function seedSite(name, region, funds, address, contact) {
+                            var seed = new GlideRecord('x_1985733_cafsys_site');
+                            seed.initialize();
+                            seed.setValue('site_name', name);
+                            seed.setValue('region', region);
+                            seed.setValue('total_funds', funds);
+                            seed.setValue('remaining_funds', funds);
+                            seed.setValue('address', address);
+                            seed.setValue('contact_number', contact);
+                            seed.setValue('supported_cancers', 'All Types');
+                            seed.setValue('is_active', '1');
+                            seed.insert();
+                        }
+                        
+                        seedSite('Metro Manila Medical Center', 'NCR', '500000000', 'Quezon City, Metro Manila', '02-8123-4567');
+                        seedSite('Cebu Doctors University Hospital', 'Visayas', '150000000', 'Cebu City, Cebu', '032-255-5555');
+                        seedSite('Davao Regional Medical Center', 'Mindanao', '200000000', 'Tagum City, Davao del Norte', '084-216-9111');
+                        
+                        // Re-query to fetch the newly created sites
+                        siteRec = new GlideRecord('x_1985733_cafsys_site');
+                        siteRec.query();
+                    }
+
                     while (siteRec.next()) {
                         var siteName = siteRec.getValue('site_name');
                         

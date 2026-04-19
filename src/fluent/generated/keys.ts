@@ -12,6 +12,7 @@ declare global {
                     '22571f0183d803102cecbb96feaad337': {
                         table: 'sys_scope_privilege'
                         id: '22571f0183d803102cecbb96feaad337'
+                        deleted: true
                     }
                     '22d9f64583d403102cecbb96feaad3bc': {
                         table: 'sys_scope_privilege'
@@ -20,31 +21,37 @@ declare global {
                     '3ca780ed83dc83102cecbb96feaad3a0': {
                         table: 'sys_ui_element'
                         id: '3ca780ed83dc83102cecbb96feaad3a0'
+                        deleted: true
                     }
                     '3ca780ed83dc83102cecbb96feaad3a4': {
                         table: 'sys_ui_element'
                         id: '3ca780ed83dc83102cecbb96feaad3a4'
+                        deleted: true
                     }
                     '683ff201831803102cecbb96feaad368': {
                         table: 'sys_scope_privilege'
                         id: '683ff201831803102cecbb96feaad368'
-                        deleted: false
+                        deleted: true
                     }
                     '6a571f0183d803102cecbb96feaad330': {
                         table: 'sys_scope_privilege'
                         id: '6a571f0183d803102cecbb96feaad330'
+                        deleted: true
                     }
                     '70a780ed83dc83102cecbb96feaad3a4': {
                         table: 'sys_ui_element'
                         id: '70a780ed83dc83102cecbb96feaad3a4'
+                        deleted: true
                     }
                     '7657d34183d803102cecbb96feaad384': {
                         table: 'sys_scope_privilege'
                         id: '7657d34183d803102cecbb96feaad384'
+                        deleted: true
                     }
                     '7657d34183d803102cecbb96feaad388': {
                         table: 'sys_scope_privilege'
                         id: '7657d34183d803102cecbb96feaad388'
+                        deleted: true
                     }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
@@ -57,6 +64,11 @@ declare global {
                     '915e89a98318c3102cecbb96feaad323': {
                         table: 'sys_scope_privilege'
                         id: '915e89a98318c3102cecbb96feaad323'
+                        deleted: true
+                    }
+                    acl_caf_application_write: {
+                        table: 'sys_security_acl'
+                        id: '9a790c96568648398e38aa8abeed3d1e'
                     }
                     'app.css': {
                         table: 'sys_ux_theme_asset'
@@ -65,6 +77,7 @@ declare global {
                     b4a780ed83dc83102cecbb96feaad3a3: {
                         table: 'sys_ui_element'
                         id: 'b4a780ed83dc83102cecbb96feaad3a3'
+                        deleted: true
                     }
                     bom_json: {
                         table: 'sys_module'
@@ -89,14 +102,17 @@ declare global {
                     e257d34183d803102cecbb96feaad378: {
                         table: 'sys_scope_privilege'
                         id: 'e257d34183d803102cecbb96feaad378'
+                        deleted: true
                     }
                     e257d34183d803102cecbb96feaad37c: {
                         table: 'sys_scope_privilege'
                         id: 'e257d34183d803102cecbb96feaad37c'
+                        deleted: true
                     }
                     e257d34183d803102cecbb96feaad380: {
                         table: 'sys_scope_privilege'
                         id: 'e257d34183d803102cecbb96feaad380'
+                        deleted: true
                     }
                     email_notify_approval: {
                         table: 'sysevent_email_action'
@@ -105,10 +121,12 @@ declare global {
                     f0a740ed83dc83102cecbb96feaad312: {
                         table: 'sys_ui_section'
                         id: 'f0a740ed83dc83102cecbb96feaad312'
+                        deleted: true
                     }
                     f8a780ed83dc83102cecbb96feaad3a2: {
                         table: 'sys_ui_element'
                         id: 'f8a780ed83dc83102cecbb96feaad3a2'
+                        deleted: true
                     }
                     package_json: {
                         table: 'sys_module'
@@ -382,6 +400,13 @@ declare global {
                         }
                     },
                     {
+                        table: 'sys_user_role'
+                        id: '3339ac4b7a8245859e5a99eada259116'
+                        key: {
+                            name: 'x_1985733_cafsys.admin'
+                        }
+                    },
+                    {
                         table: 'sys_documentation'
                         id: '36e346a645944278bb5ac0db86822ab5'
                         key: {
@@ -614,6 +639,19 @@ declare global {
                         id: '7c640837552c4c23b56301e147432603'
                         key: {
                             name: 'x_1985733_cafsys/main'
+                        }
+                    },
+                    {
+                        table: 'sys_security_acl_role'
+                        id: '7dcc0aa634b24a8b848dbf627d2d6718'
+                        key: {
+                            sys_security_acl: '9a790c96568648398e38aa8abeed3d1e'
+                            sys_user_role: {
+                                id: '3339ac4b7a8245859e5a99eada259116'
+                                key: {
+                                    name: 'x_1985733_cafsys.admin'
+                                }
+                            }
                         }
                     },
                     {
