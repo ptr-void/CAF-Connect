@@ -77,11 +77,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
       .then(res => res.json())
       .then(data => {
         // Optimistic UI update
-        const updatedUsers = userRows.map(u => 
+        const updatedUsers = userRows.map(u =>
           u.user_id === selectedUser.user_id ? { ...u, role: selectedUserRole } : u
         );
         setUserRows(updatedUsers);
-        alert("Role updated.");
         setSelectedUser(null);
       })
       .catch(err => alert("Network error: " + err))
@@ -139,11 +138,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`cursor-pointer rounded-2xl px-5 py-2.5 text-sm font-semibold transition ${
-                activeTab === tab.id
+              className={`cursor-pointer rounded-2xl px-5 py-2.5 text-sm font-semibold transition ${activeTab === tab.id
                   ? "bg-sky-600 text-white"
                   : "bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-sky-300 hover:text-sky-700"
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -246,20 +244,19 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                       <th className="pb-3 px-4 text-right">Action</th>
                     </tr>
                   </thead>
-                    <tbody className="divide-y divide-slate-50">
-                      {loading ? (
-                        <tr><td colSpan={4} className="py-16 text-center text-sm text-slate-400 italic">Loading user records...</td></tr>
-                      ) : filteredUsers.length === 0 ? (
-                        <tr><td colSpan={4} className="py-16 text-center text-sm text-slate-400 italic">No users found.</td></tr>
-                      ) : filteredUsers.map((user, i) => (
+                  <tbody className="divide-y divide-slate-50">
+                    {loading ? (
+                      <tr><td colSpan={4} className="py-16 text-center text-sm text-slate-400 italic">Loading user records...</td></tr>
+                    ) : filteredUsers.length === 0 ? (
+                      <tr><td colSpan={4} className="py-16 text-center text-sm text-slate-400 italic">No users found.</td></tr>
+                    ) : filteredUsers.map((user, i) => (
                       <tr key={user.name + i} className="group hover:bg-slate-50 transition">
                         <td className="py-4 px-4 text-sm font-semibold text-slate-800">
                           {user.name}
                         </td>
                         <td className="py-4 px-4">
-                          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                            user.role === 'Administrator' ? 'bg-violet-100 text-violet-700' : 'bg-sky-100 text-sky-700'
-                          }`}>{user.role}</span>
+                          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${user.role === 'Administrator' ? 'bg-violet-100 text-violet-700' : 'bg-sky-100 text-sky-700'
+                            }`}>{user.role}</span>
                         </td>
                         <td className="py-4 px-4 text-sm text-slate-500">{user.site}</td>
                         <td className="py-4 px-4 text-right">
@@ -303,11 +300,10 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                         <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{site.region}</p>
                         <h4 className="mt-1 text-lg font-bold text-slate-800 truncate">{site.name}</h4>
                       </div>
-                      <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
-                        site.status === 'Operational' ? 'bg-emerald-100 text-emerald-700'
+                      <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${site.status === 'Operational' ? 'bg-emerald-100 text-emerald-700'
                           : site.status === 'Inactive' ? 'bg-rose-100 text-rose-700'
-                          : 'bg-slate-100 text-slate-600'
-                      }`}>{site.status}</span>
+                            : 'bg-slate-100 text-slate-600'
+                        }`}>{site.status}</span>
                     </div>
                     <div className="mt-4 flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
@@ -334,23 +330,23 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
             <form onSubmit={handleAddUser} className="p-8 space-y-5">
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-700">Full Name <span className="text-red-500">*</span></label>
-                <input required value={newUserInfo.name} onChange={e => setNewUserInfo({...newUserInfo, name: e.target.value})} type="text" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                <input required value={newUserInfo.name} onChange={e => setNewUserInfo({ ...newUserInfo, name: e.target.value })} type="text" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
               </div>
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-700">Email Address <span className="text-red-500">*</span></label>
-                <input required value={newUserInfo.email} onChange={e => setNewUserInfo({...newUserInfo, email: e.target.value})} type="email" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
+                <input required value={newUserInfo.email} onChange={e => setNewUserInfo({ ...newUserInfo, email: e.target.value })} type="email" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="mb-2 block text-sm font-medium text-slate-700">Role</label>
-                  <select value={newUserInfo.role} onChange={e => setNewUserInfo({...newUserInfo, role: e.target.value})} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                  <select value={newUserInfo.role} onChange={e => setNewUserInfo({ ...newUserInfo, role: e.target.value })} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                     <option>Site Coordinator</option>
                     <option>Administrator</option>
                   </select>
                 </div>
                 <div>
                   <label className="mb-2 block text-sm font-medium text-slate-700">Access Site</label>
-                  <select value={newUserInfo.site} onChange={e => setNewUserInfo({...newUserInfo, site: e.target.value})} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
+                  <select value={newUserInfo.site} onChange={e => setNewUserInfo({ ...newUserInfo, site: e.target.value })} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                     <option value="">System-wide</option>
                     {siteRows.map(s => <option key={s.name}>{s.name}</option>)}
                   </select>
@@ -404,8 +400,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                 </div>
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Assign Role</p>
-                  <select 
-                    value={selectedUserRole} 
+                  <select
+                    value={selectedUserRole}
                     onChange={e => setSelectedUserRole(e.target.value)}
                     className="mt-1 w-full bg-transparent text-sm font-semibold text-slate-700 outline-none cursor-pointer"
                   >
