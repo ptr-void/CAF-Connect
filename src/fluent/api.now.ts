@@ -221,7 +221,9 @@ export const cafApi = RestApi({
                     rm.setEndpoint('https://api.groq.com/openai/v1/chat/completions');
                     rm.setHttpMethod('POST');
                     rm.setRequestHeader('Content-Type', 'application/json');
-                    rm.setRequestHeader('Authorization', 'Bearer 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');
+                    var key = "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";
+                    gs.info("CAF-DEBUG: Executing Groq Evaluate with key prefix: " + key.substring(0, 10));
+                    rm.setRequestHeader('Authorization', 'Bearer ' + key);
 
                     var payload = {
                         model: "llama-3.3-70b-versatile",
