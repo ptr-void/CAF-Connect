@@ -23,20 +23,20 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  
-  
+
+
   const [formData, setFormData] = useState({
     patient_name: "",
     age: "",
     region: "",
     contact: "",
-    type: currentUser?.account_type === 'Family Member / Guardian' ? 'Family Member' : 'Patient',
+    type: currentUser?.account_type === 'Family Member / Guardian' ? 'Family Member / Guardian' : 'Patient',
     diagnosis: "",
     facility: "",
     hasAbstract: "Select answer",
     hasId: "Select answer",
     visitedOffice: "Not Sure",
-    medical_abstract: "Patient presented with a biopsy-confirmed case needing financial oncology support." 
+    medical_abstract: "Patient presented with a biopsy-confirmed case needing financial oncology support."
   });
 
   const [aiResult, setAiResult] = useState({ outcome: "", reasoning: "" });
@@ -44,7 +44,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
   const steps = [
     "Patient Information",
     "Medical & Assistance Details",
-    "Eligibility Result", 
+    "Eligibility Result",
   ];
 
   const handleNextStep1 = () => {
@@ -66,7 +66,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
     const newErrors: Record<string, string> = {};
     if (!formData.diagnosis) newErrors.diagnosis = "Diagnosis is required";
     if (!formData.facility) newErrors.facility = "Facility is required";
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -74,13 +74,13 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
     setErrors({});
     await handleNextToStep3();
   };
-  
+
   const handleNextToStep3 = async () => {
     setCurrentStep(3);
     setIsLoading(true);
-    
+
     try {
-      
+
       const res = await fetch("/api/x_1985733_cafsys/caf/groq/evaluate", {
         method: "POST",
         headers: {
@@ -89,24 +89,24 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
         },
         body: JSON.stringify(formData)
       });
-      
+
       const data = await res.json();
       const payload = data.result || data;
-      
+
       if (!res.ok) {
-          let errorMsg = payload.error || payload.details || payload;
-          if (typeof errorMsg === 'object') {
-              errorMsg = JSON.stringify(errorMsg);
-          }
-          throw new Error(errorMsg);
+        let errorMsg = payload.error || payload.details || payload;
+        if (typeof errorMsg === 'object') {
+          errorMsg = JSON.stringify(errorMsg);
+        }
+        throw new Error(errorMsg);
       }
 
       if (payload.outcome) {
-          setAiResult(payload);
+        setAiResult(payload);
       } else {
-          setAiResult({ outcome: "Needs Manual Review", reasoning: "Could not automatically determine eligibility via AI. Please submit." });
+        setAiResult({ outcome: "Needs Manual Review", reasoning: "Could not automatically determine eligibility via AI. Please submit." });
       }
-    } catch(err: any) {
+    } catch (err: any) {
       console.error(err);
       setAiResult({ outcome: "Error", reasoning: `Server replied: ${err.message}` });
     } finally {
@@ -148,21 +148,19 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                   return (
                     <div key={step} className="flex items-center gap-3">
                       <div
-                        className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${
-                          isDone
+                        className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${isDone
                             ? "bg-emerald-600 text-white"
                             : isActive
                               ? "bg-sky-600 text-white"
                               : "bg-slate-200 text-slate-600"
-                        }`}
+                          }`}
                       >
                         {stepNumber}
                       </div>
                       <div>
                         <p
-                          className={`text-sm font-semibold ${
-                            isActive ? "text-sky-700" : "text-slate-700"
-                          }`}
+                          className={`text-sm font-semibold ${isActive ? "text-sky-700" : "text-slate-700"
+                            }`}
                         >
                           {step}
                         </p>
@@ -193,7 +191,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                       type="text"
                       placeholder="Enter full name"
                       value={formData.patient_name}
-                      onChange={(e) => { setFormData({...formData, patient_name: e.target.value}); setErrors({...errors, patientName: ""}); }}
+                      onChange={(e) => { setFormData({ ...formData, patient_name: e.target.value }); setErrors({ ...errors, patientName: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.patientName ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                       style={errors.patientName ? { borderColor: "red" } : {}}
                     />
@@ -208,7 +206,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                       type="number"
                       placeholder="Enter age"
                       value={formData.age}
-                      onChange={(e) => { setFormData({...formData, age: e.target.value}); setErrors({...errors, age: ""}); }}
+                      onChange={(e) => { setFormData({ ...formData, age: e.target.value }); setErrors({ ...errors, age: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.age ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                       style={errors.age ? { borderColor: "red" } : {}}
                     />
@@ -219,9 +217,9 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Region / Province <span style={{ color: "red" }}>*</span>
                     </label>
-                    <select 
+                    <select
                       value={formData.region}
-                      onChange={(e) => { setFormData({...formData, region: e.target.value}); setErrors({...errors, region: ""}); }}
+                      onChange={(e) => { setFormData({ ...formData, region: e.target.value }); setErrors({ ...errors, region: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.region ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                       style={errors.region ? { borderColor: "red" } : {}}>
                       <option>Select location</option>
@@ -241,7 +239,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                       type="text"
                       placeholder="09XXXXXXXXX"
                       value={formData.contact}
-                      onChange={(e) => { setFormData({...formData, contact: e.target.value}); setErrors({...errors, contact: ""}); }}
+                      onChange={(e) => { setFormData({ ...formData, contact: e.target.value }); setErrors({ ...errors, contact: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.contact ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                       style={errors.contact ? { borderColor: "red" } : {}}
                     />
@@ -252,18 +250,14 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Applicant Type
                     </label>
-                    <div className="grid gap-3 md:grid-cols-3">
+                    <div className="grid gap-3 md:grid-cols-2">
                       <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-                        <input type="radio" checked={formData.type === "Patient"} onChange={() => setFormData({...formData, type: "Patient"})} name="applicantType" className="mr-2" />
+                        <input type="radio" checked={formData.type === "Patient"} onChange={() => setFormData({ ...formData, type: "Patient" })} name="applicantType" className="mr-2" />
                         Patient
                       </label>
                       <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-                        <input type="radio" checked={formData.type === "Family Member"} onChange={() => setFormData({...formData, type: "Family Member"})} name="applicantType" className="mr-2" />
-                        Family Member
-                      </label>
-                      <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-                        <input type="radio" checked={formData.type === "Guardian"} onChange={() => setFormData({...formData, type: "Guardian"})} name="applicantType" className="mr-2" />
-                        Guardian / Representative
+                        <input type="radio" checked={formData.type === "Family Member / Guardian"} onChange={() => setFormData({ ...formData, type: "Family Member / Guardian" })} name="applicantType" className="mr-2" />
+                        Family Member / Guardian
                       </label>
                     </div>
                   </div>
@@ -299,7 +293,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                       type="text"
                       placeholder="Enter diagnosis"
                       value={formData.diagnosis}
-                      onChange={(e) => { setFormData({...formData, diagnosis: e.target.value}); setErrors({...errors, diagnosis: ""}); }}
+                      onChange={(e) => { setFormData({ ...formData, diagnosis: e.target.value }); setErrors({ ...errors, diagnosis: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.diagnosis ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                       style={errors.diagnosis ? { borderColor: "red" } : {}}
                     />
@@ -314,7 +308,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                       type="text"
                       placeholder="Enter hospital / treatment center"
                       value={formData.facility}
-                      onChange={(e) => { setFormData({...formData, facility: e.target.value}); setErrors({...errors, facility: ""}); }}
+                      onChange={(e) => { setFormData({ ...formData, facility: e.target.value }); setErrors({ ...errors, facility: "" }); }}
                       className={`cursor-pointer w-full rounded-2xl border ${errors.facility ? 'bg-red-50' : 'border-slate-300'} px-4 py-3 outline-none focus:border-sky-500`}
                       style={errors.facility ? { borderColor: "red" } : {}}
                     />
@@ -325,9 +319,9 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Has medical abstract?
                     </label>
-                    <select 
+                    <select
                       value={formData.hasAbstract}
-                      onChange={(e) => setFormData({...formData, hasAbstract: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, hasAbstract: e.target.value })}
                       className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select answer</option>
                       <option>Yes</option>
@@ -339,9 +333,9 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                     <label className="mb-2 block text-sm font-medium text-slate-700">
                       Has valid identification?
                     </label>
-                    <select 
+                    <select
                       value={formData.hasId}
-                      onChange={(e) => setFormData({...formData, hasId: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, hasId: e.target.value })}
                       className="cursor-pointer w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500">
                       <option>Select answer</option>
                       <option>Yes</option>
@@ -373,15 +367,15 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                     </label>
                     <div className="grid gap-3 md:grid-cols-3">
                       <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-                        <input type="radio" checked={formData.visitedOffice === "Yes"} onChange={() => setFormData({...formData, visitedOffice: "Yes"})} name="visitedOffice" className="mr-2" />
+                        <input type="radio" checked={formData.visitedOffice === "Yes"} onChange={() => setFormData({ ...formData, visitedOffice: "Yes" })} name="visitedOffice" className="mr-2" />
                         Yes
                       </label>
                       <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-                        <input type="radio" checked={formData.visitedOffice === "No"} onChange={() => setFormData({...formData, visitedOffice: "No"})} name="visitedOffice" className="mr-2" />
+                        <input type="radio" checked={formData.visitedOffice === "No"} onChange={() => setFormData({ ...formData, visitedOffice: "No" })} name="visitedOffice" className="mr-2" />
                         No
                       </label>
                       <label className="cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700">
-                        <input type="radio" checked={formData.visitedOffice === "Not Sure"} onChange={() => setFormData({...formData, visitedOffice: "Not Sure"})} name="visitedOffice" className="mr-2" />
+                        <input type="radio" checked={formData.visitedOffice === "Not Sure"} onChange={() => setFormData({ ...formData, visitedOffice: "Not Sure" })} name="visitedOffice" className="mr-2" />
                         Not Sure
                       </label>
                     </div>
@@ -430,7 +424,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                             {aiResult.reasoning || "The patient may qualify for CAF support, but some documents or details may still need verification by the assigned site coordinator or social service office."}
                           </p>
                         </div>
-    
+
                         <div className={`cursor-pointer rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ${aiResult.outcome.includes('Not') ? 'ring-red-100' : 'ring-emerald-100'}`}>
                           <p className="text-sm font-semibold text-slate-700">Recommended Action</p>
                           <p className="mt-2 text-sm text-slate-600">
@@ -439,7 +433,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                         </div>
                       </div>
                     </div>
-    
+
                     <div className="mt-6 grid gap-5 md:grid-cols-2">
                       <div className="rounded-3xl bg-white p-6 ring-1 ring-slate-200">
                         <p className="text-sm font-semibold text-sky-700">Next Steps</p>
@@ -455,15 +449,12 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                           </li>
                         </ul>
                       </div>
-    
+
                       <div className="rounded-3xl bg-white p-6 ring-1 ring-slate-200">
                         <p className="text-sm font-semibold text-amber-700">Needs Review Notes</p>
                         <div className="mt-4 space-y-3">
                           <div className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
                             AI Eligibility score is preliminary and subject to validation.
-                          </div>
-                          <div className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                            Selected access site should confirm eligibility requirements
                           </div>
                         </div>
                       </div>
@@ -538,7 +529,7 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                 Open Help Center
               </button>
             </div>
-            
+
             <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
               <p className="text-sm font-semibold text-emerald-700">Quick Links</p>
               <div className="mt-4 grid gap-3">

@@ -177,7 +177,10 @@ function LoginPage({ setActivePage, setIsAuthenticated, setCurrentUser }: LoginP
                     {loading ? "Signing in..." : "Sign In"}
                   </button>
 
-                  <button type="button" onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Check Eligibility</button>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <button type="button" onClick={() => setActivePage("eligibility")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Check Eligibility</button>
+                    <button type="button" onClick={() => setActivePage("tracker")} className="cursor-pointer rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:border-sky-400 hover:text-sky-700">Track Application</button>
+                  </div>
                 </div>
 
                 <p className="mt-6 text-center text-sm text-slate-600">
