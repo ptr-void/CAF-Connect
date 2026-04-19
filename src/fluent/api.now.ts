@@ -217,6 +217,7 @@ export const cafApi = RestApi({
                     var userPrompt = "Patient: " + patientName + "\\nDiagnosis: " + diagnosis + "\\nMedical Abstract: " + abstract;
 
                     var rm = new sn_ws.RESTMessageV2();
+                    gs.info("CAF-DEBUG: Processing Groq evaluation with key gsk_om6uRr...");
                     rm.setEndpoint('https://api.groq.com/openai/v1/chat/completions');
                     rm.setHttpMethod('POST');
                     rm.setRequestHeader('Content-Type', 'application/json');
