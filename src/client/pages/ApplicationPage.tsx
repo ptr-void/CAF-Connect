@@ -392,11 +392,11 @@ Coordination Notes: ${coordNotes}
                       </svg>
                       <p className="mb-1 text-sm font-semibold text-slate-700">Choose a file or drag & drop it here</p>
                       <p className="text-xs text-slate-500">JPEG, PNG, PDF, and MP4 formats, up to 50MB</p>
-                      <div className="mt-4 relative">
-                        <button type="button" className="cursor-pointer rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50">
+                      <div className="mt-4" style={{ display: 'flex', justifyContent: 'center' }}>
+                        <label style={{ cursor: uploadingDoc ? 'not-allowed' : 'pointer', opacity: uploadingDoc ? 0.6 : 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.75rem', border: '1px solid #cbd5e1', background: '#fff', padding: '0.5rem 1.25rem', fontSize: '0.875rem', fontWeight: '500', color: '#334155', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'background 0.15s' }}>
                           Browse File
-                        </button>
-                        <input type="file" accept=".pdf,image/*,video/mp4" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} className="absolute inset-0 h-full w-full opacity-0 cursor-pointer disabled:cursor-not-allowed" />
+                          <input type="file" accept=".pdf,image/*,video/mp4" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} style={{ display: 'none' }} />
+                        </label>
                       </div>
                     </div>
                     {uploadingDoc && <p className="mt-2 text-sm text-sky-600 animate-pulse">Uploading securely...</p>}

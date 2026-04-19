@@ -277,7 +277,7 @@ function DocumentsPage({ setActivePage, currentUser }: DocumentsPageProps) {
                           <input
                             type="file"
                             accept=".pdf,image/*,video/mp4"
-                            className="sr-only"
+                            style={{ display: 'none' }}
                             disabled={uploadingIdx !== null}
                             onChange={e => handleFileUpload(e, document.name, idx)}
                           />
@@ -429,7 +429,7 @@ function DocumentsPage({ setActivePage, currentUser }: DocumentsPageProps) {
                   <input
                     type="file"
                     accept=".pdf,image/*,video/mp4"
-                    className="sr-only"
+                    style={{ display: 'none' }}
                     onChange={e => {
                       const idx = requiredDocs.findIndex(d => d.name === guidanceDoc.name);
                       if (idx !== -1) {
