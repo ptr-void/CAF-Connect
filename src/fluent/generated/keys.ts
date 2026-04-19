@@ -9,10 +9,6 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: '1569fe0583d403102cecbb96feaad368'
                     }
-                    '22571f0183d803102cecbb96feaad337': {
-                        table: 'sys_scope_privilege'
-                        id: '22571f0183d803102cecbb96feaad337'
-                    }
                     '22d9f64583d403102cecbb96feaad3bc': {
                         table: 'sys_scope_privilege'
                         id: '22d9f64583d403102cecbb96feaad3bc'
@@ -21,18 +17,6 @@ declare global {
                         table: 'sys_scope_privilege'
                         id: '683ff201831803102cecbb96feaad368'
                         deleted: true
-                    }
-                    '6a571f0183d803102cecbb96feaad330': {
-                        table: 'sys_scope_privilege'
-                        id: '6a571f0183d803102cecbb96feaad330'
-                    }
-                    '7657d34183d803102cecbb96feaad384': {
-                        table: 'sys_scope_privilege'
-                        id: '7657d34183d803102cecbb96feaad384'
-                    }
-                    '7657d34183d803102cecbb96feaad388': {
-                        table: 'sys_scope_privilege'
-                        id: '7657d34183d803102cecbb96feaad388'
                     }
                     '8955724d839403102cecbb96feaad322': {
                         table: 'sys_scope_privilege'
@@ -65,18 +49,6 @@ declare global {
                     d969fe0583d403102cecbb96feaad36e: {
                         table: 'sys_scope_privilege'
                         id: 'd969fe0583d403102cecbb96feaad36e'
-                    }
-                    e257d34183d803102cecbb96feaad378: {
-                        table: 'sys_scope_privilege'
-                        id: 'e257d34183d803102cecbb96feaad378'
-                    }
-                    e257d34183d803102cecbb96feaad37c: {
-                        table: 'sys_scope_privilege'
-                        id: 'e257d34183d803102cecbb96feaad37c'
-                    }
-                    e257d34183d803102cecbb96feaad380: {
-                        table: 'sys_scope_privilege'
-                        id: 'e257d34183d803102cecbb96feaad380'
                     }
                     email_notify_approval: {
                         table: 'sysevent_email_action'
