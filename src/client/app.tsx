@@ -172,10 +172,21 @@ function App() {
           <nav className="hidden items-center gap-2 md:flex">
             {navLinks.filter(l => {
               if (l.secure && !isAuthenticated) return false;
-              if (l.key === "staff" && currentUser?.account_type !== "Coordinator" && currentUser?.account_type !== "Site Coordinator" && currentUser?.account_type !== "Administrator") return false;
+
+              const isStaffOrAdmin = currentUser?.account_type === "Administrator"
+                || currentUser?.account_type === "Site Coordinator"
+                || currentUser?.account_type === "Coordinator";
+
+              // Staff/admin only see: Home, Track (if needed), Staff Dashboard, Admin Dashboard
+              if (isStaffOrAdmin && (l.key === "eligibility" || l.key === "application" || l.key === "sites" || l.key === "help")) return false;
+
+              if (l.key === "staff" && !isStaffOrAdmin) return false;
               if (l.key === "admin" && currentUser?.account_type !== "Administrator") return false;
-              if ((l.key === "application" || l.key === "tracker") && 
-                  currentUser && currentUser.account_type !== "Patient" && currentUser.account_type !== "Family Member / Guardian" && currentUser.account_type !== "Applicant") {
+              if ((l.key === "application" || l.key === "tracker") &&
+                currentUser &&
+                currentUser.account_type !== "Patient" &&
+                currentUser.account_type !== "Family Member / Guardian" &&
+                currentUser.account_type !== "Applicant") {
                 return false;
               }
               return true;
