@@ -260,7 +260,7 @@ export const cafApi = RestApi({
                     } else {
                         response.setStatus(httpStatus);
                         response.setBody({
-                            error: "Groq AI generation failed. {key}",
+                            error: "Groq AI generation failed. Test: {key}",
                             details: responseBody
                         });
                     }
