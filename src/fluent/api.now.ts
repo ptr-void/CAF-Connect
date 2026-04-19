@@ -216,7 +216,7 @@ export const cafApi = RestApi({
                     var systemPrompt = "You are a clinical eligibility screener for a Cancer Assistance Fund (CAF). Determine if the applicant is 'Possibly Eligible' or 'Not Eligible' strictly based on this data. The output MUST be a JSON object with two exact keys: 'outcome' and 'reasoning'.";
                     var userPrompt = "Patient: " + patientName + "\nDiagnosis: " + diagnosis + "\nMedical Abstract: " + abstract;
 
-                    var key = (gs.getProperty('x_1985733_cafsys.groq_api_key') || '').trim();
+                    var key = "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".trim();
 
                     if (!key) {
                         response.setStatus(500);
@@ -260,7 +260,7 @@ export const cafApi = RestApi({
                     } else {
                         response.setStatus(httpStatus);
                         response.setBody({
-                            error: "Groq AI generation failed.",
+                            error: "Groq AI generation failed. {key}",
                             details: responseBody
                         });
                     }
