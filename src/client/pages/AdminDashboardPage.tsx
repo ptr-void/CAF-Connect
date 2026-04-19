@@ -437,6 +437,8 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   >
                     <option value="Administrator">Administrator</option>
                     <option value="Site Coordinator">Site Coordinator</option>
+                    <option value="Patient">Patient</option>
+                    <option value="Family Member / Guardian">Family Member / Guardian</option>
                   </select>
                 </div>
               </div>
@@ -448,13 +450,6 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   className="cursor-pointer flex-1 rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition disabled:opacity-50"
                 >
                   {isUpdatingUser ? "Updating..." : "Update Permission"}
-                </button>
-                <button
-                  disabled={isUpdatingUser}
-                  onClick={handleToggleDeactivate}
-                  className={`cursor-pointer flex-1 rounded-2xl border py-3 text-sm font-semibold transition disabled:opacity-50 ${selectedUser.status === 'Active' ? 'border-amber-200 text-amber-600 hover:bg-amber-50' : 'border-emerald-200 text-emerald-600 hover:bg-emerald-50'}`}
-                >
-                  {selectedUser.status === 'Active' ? "Deactivate User" : "Reactivate User"}
                 </button>
               </div>
             </div>
