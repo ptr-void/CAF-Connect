@@ -398,7 +398,7 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
                       <div className="mt-4">
                         <label className={`cursor-pointer inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus-within:ring-2 focus-within:ring-sky-500 ${uploadingDoc ? 'opacity-50 cursor-not-allowed' : ''}`}>
                           <span>Browse File</span>
-                          <input type="file" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} accept=".pdf,image/*,video/mp4" className="sr-only" />
+                          <input type="file" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} accept=".pdf,image/*,video/mp4" style={{ display: 'none' }} />
                         </label>
                       </div>
                     </div>
