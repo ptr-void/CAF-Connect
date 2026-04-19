@@ -96,6 +96,9 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
 
       if (!res.ok) {
         let errorMsg = payload.error || payload.details || payload;
+        if (payload.error && payload.details) {
+          errorMsg = `${payload.error} Details: ${payload.details}`;
+        }
         if (typeof errorMsg === 'object') {
           errorMsg = JSON.stringify(errorMsg);
         }
@@ -352,11 +355,11 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
                       </svg>
                       <p className="mb-1 text-sm font-semibold text-slate-700">Choose a file or drag & drop it here</p>
                       <p className="text-xs text-slate-500">JPEG, PNG, PDF, and MP4 formats, up to 50MB</p>
-                      <div className="mt-4 relative">
-                        <button type="button" className="cursor-pointer rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50">
-                          Browse File
-                        </button>
-                        <input type="file" multiple accept=".pdf,image/*,video/mp4" className="absolute inset-0 h-full w-full opacity-0 cursor-pointer" />
+                      <div className="mt-4">
+                        <label className="cursor-pointer inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus-within:ring-2 focus-within:ring-sky-500">
+                          <span>Browse File</span>
+                          <input type="file" multiple accept=".pdf,image/*,video/mp4" className="sr-only" />
+                        </label>
                       </div>
                     </div>
                     <p className="mt-2 text-xs text-slate-500">Required for the AI Review Result Summary / Feedback.</p>
