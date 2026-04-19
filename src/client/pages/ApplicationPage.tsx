@@ -16,14 +16,16 @@ type PageKey =
 type ApplicationPageProps = {
   setActivePage: (page: PageKey) => void;
   currentUser?: any;
+  intakePreFill?: any;
 };
 
-function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
+function ApplicationPage({ setActivePage, currentUser, intakePreFill }: ApplicationPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sites, setSites] = useState<any[]>([]);
+  const [didPreFill, setDidPreFill] = useState(false);
 
   useEffect(() => {
     fetch("/api/x_1985733_cafsys/caf/sites", {
@@ -57,6 +59,16 @@ function ApplicationPage({ setActivePage, currentUser }: ApplicationPageProps) {
   const [contactEmail, setContactEmail] = useState(currentUser?.email || "");
   const [mobileNumber, setMobileNumber] = useState("");
   const [coordNotes, setCoordNotes] = useState("");
+
+  useEffect(() => {
+    if (intakePreFill && !didPreFill) {
+      if (intakePreFill.patient_name) setPatientName(intakePreFill.patient_name);
+      if (intakePreFill.contact) setMobileNumber(intakePreFill.contact);
+      if (intakePreFill.diagnosis) setDiagnosis(intakePreFill.diagnosis);
+      if (intakePreFill.facility) setHospital(intakePreFill.facility);
+      setDidPreFill(true);
+    }
+  }, [intakePreFill, didPreFill]);
 
   const [aiResult, setAiResult] = useState({ outcome: "", reasoning: "" });
   const [isLoadingAi, setIsLoadingAi] = useState(false);
@@ -236,6 +248,11 @@ Coordination Notes: ${coordNotes}
             <p className="mt-2 max-w-3xl text-slate-600">
               Complete the guided intake form for CAF assistance. The process is divided into clear steps so patients and guardians can submit information with less confusion.
             </p>
+            {didPreFill && (
+              <div className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 ring-1 ring-emerald-200">
+                <span className="font-semibold text-emerald-900">Success:</span> Your initial details have been smoothly imported from the AI Eligibility Checker to save you time!
+              </div>
+            )}
           </div>
           <div className="flex flex-wrap gap-3">
             <button

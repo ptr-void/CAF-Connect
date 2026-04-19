@@ -168,15 +168,24 @@ function AccessSitesPage({ setActivePage }: AccessSitesPageProps) {
                             <p className="mt-2 text-sm text-slate-700">{site.operating_hours}</p>
                           </div>
                         )}
-                        <div className="rounded-2xl bg-slate-50 px-4 py-3">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Remaining Funds</p>
-                          <p className="mt-2 text-sm font-bold text-slate-800">
-                            {site.remaining_funds ? `₱${Number(site.remaining_funds).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : "₱0.00"}
-                          </p>
+                        <div className="rounded-2xl bg-sky-50 px-4 py-3 ring-1 ring-sky-100">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-sky-700">Status of Funds</p>
+                          <div className="mt-2 flex items-baseline gap-2">
+                            <span className="text-lg font-bold text-sky-900">
+                              {site.remaining_funds ? `₱${Number(site.remaining_funds).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : "₱0.00"}
+                            </span>
+                            <span className="text-xs font-semibold text-slate-500 mb-1">Available</span>
+                          </div>
                         </div>
                         <div className="rounded-2xl bg-slate-50 px-4 py-3 md:col-span-2">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Priority Supported Cancers</p>
-                          <p className="mt-2 text-sm text-slate-700">{site.supported_cancers || "All Major Cancers"}</p>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Priority of Diagnosis</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {(site.supported_cancers || "All Major Cancers").split(',').map((cancer, i) => (
+                              <span key={i} className="inline-flex rounded-lg bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
+                                {cancer.trim()}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
