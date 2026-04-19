@@ -422,9 +422,9 @@ Coordination Notes: ${coordNotes}
                 <p className="text-sm font-semibold text-sky-700">Step 3</p>
                 <h2 className="mt-2 text-2xl font-bold text-slate-800">Access Site & Contact</h2>
                 <p className="mt-2 text-sm text-slate-500">Select the most appropriate access site and confirm coordination details.</p>
-                <div className="mt-6 space-y-5">
+                <div className="mt-6" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Selected Access Site</label>
+                    <label className="block text-sm font-medium text-slate-700" style={{ marginBottom: '8px' }}>Selected Access Site</label>
                     <select
                       value={selectedSite}
                       onChange={(e) => setSelectedSite(e.target.value)}
@@ -463,12 +463,12 @@ Coordination Notes: ${coordNotes}
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Contact Email</label>
+                    <label className="block text-sm font-medium text-slate-700" style={{ marginBottom: '8px' }}>Contact Email</label>
                     <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="Email for coordination updates" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">Additional Coordination Notes (Optional)</label>
+                    <label className="block text-sm font-medium text-slate-700" style={{ marginBottom: '8px' }}>Additional Coordination Notes (Optional)</label>
                     <textarea rows={3} value={coordNotes} onChange={(e) => setCoordNotes(e.target.value)} placeholder="Optional notes for staff or coordinator" className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-sky-500" />
                   </div>
 
