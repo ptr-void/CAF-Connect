@@ -76,33 +76,13 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
     })
       .then(res => res.json())
       .then(data => {
-        const d = data.result || data;
-        if (!d.error) {
-          fetchDashboardData(); setSelectedUser(null);
-        } else {
-          alert('Error: ' + d.error);
-        }
-      })
-      .catch(err => alert("Network error: " + err))
-      .finally(() => setIsUpdatingUser(false));
-  };
-
-  const handleToggleDeactivate = () => {
-    setIsUpdatingUser(true);
-    const newActive = selectedUser.status !== 'Active';
-    fetch("/api/x_1985733_cafsys/caf/admin/add_user", {
-      method: "POST",
-      headers: { "X-UserToken": (window as any).g_ck || "", "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "toggle_active", user_id: selectedUser.user_id, is_active: newActive })
-    })
-      .then(res => res.json())
-      .then(data => {
-        const d = data.result || data;
-        if (!d.error) {
-          fetchDashboardData(); setSelectedUser(null);
-        } else {
-          alert('Error: ' + d.error);
-        }
+        // Optimistic UI update
+        const updatedUsers = userRows.map(u => 
+          u.user_id === selectedUser.user_id ? { ...u, role: selectedUserRole } : u
+        );
+        setUserRows(updatedUsers);
+        alert("Role updated.");
+        setSelectedUser(null);
       })
       .catch(err => alert("Network error: " + err))
       .finally(() => setIsUpdatingUser(false));
@@ -261,23 +241,21 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
                   <thead>
                     <tr className="border-b border-slate-100 text-xs font-semibold uppercase text-slate-400 tracking-wider">
                       <th className="pb-3 px-4">Account Holder</th>
-                      <th className="pb-3 px-4">Email</th>
                       <th className="pb-3 px-4">Role</th>
                       <th className="pb-3 px-4">Site Assignment</th>
                       <th className="pb-3 px-4 text-right">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-50">
-                    {loading ? (
-                      <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">Loading user records...</td></tr>
-                    ) : filteredUsers.length === 0 ? (
-                      <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 italic">No users found.</td></tr>
-                    ) : filteredUsers.map((user, i) => (
+                    <tbody className="divide-y divide-slate-50">
+                      {loading ? (
+                        <tr><td colSpan={4} className="py-16 text-center text-sm text-slate-400 italic">Loading user records...</td></tr>
+                      ) : filteredUsers.length === 0 ? (
+                        <tr><td colSpan={4} className="py-16 text-center text-sm text-slate-400 italic">No users found.</td></tr>
+                      ) : filteredUsers.map((user, i) => (
                       <tr key={user.name + i} className="group hover:bg-slate-50 transition">
                         <td className="py-4 px-4 text-sm font-semibold text-slate-800">
                           {user.name}
                         </td>
-                        <td className="py-4 px-4 text-sm text-slate-500">{user.email || "—"}</td>
                         <td className="py-4 px-4">
                           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${
                             user.role === 'Administrator' ? 'bg-violet-100 text-violet-700' : 'bg-sky-100 text-sky-700'
@@ -416,10 +394,6 @@ function AdminDashboardPage({ setActivePage }: AdminDashboardPageProps) {
 
             <div className="p-8 space-y-5">
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl bg-slate-50 p-4">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Email</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-700 truncate">{selectedUser.email || "Not configured"}</p>
-                </div>
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Site Assignment</p>
                   <p className="mt-1 text-sm font-semibold text-slate-700 truncate">{selectedUser.site}</p>
