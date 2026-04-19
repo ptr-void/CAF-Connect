@@ -17,9 +17,10 @@ type PageKey =
 type EligibilityPageProps = {
   setActivePage: (page: PageKey) => void;
   currentUser?: any;
+  setIntakePreFill?: (data: any) => void;
 };
 
-function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
+function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: EligibilityPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -476,7 +477,10 @@ function EligibilityPage({ setActivePage, currentUser }: EligibilityPageProps) {
                     View Documents Guide
                   </button>
                   <button
-                    onClick={() => setActivePage("application")}
+                    onClick={() => {
+                      if (setIntakePreFill) setIntakePreFill({ ...formData, aiResult });
+                      setActivePage("application");
+                    }}
                     disabled={isLoading}
                     className={`cursor-pointer rounded-2xl px-6 py-3 font-semibold text-white ${isLoading ? 'bg-slate-400' : 'bg-sky-600 hover:bg-sky-700'}`}
                   >

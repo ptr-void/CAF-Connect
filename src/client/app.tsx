@@ -41,6 +41,7 @@ function App() {
   const [activePage, setActivePage] = useState<PageKey>(getInitialPage());
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<{ name: string; email: string; user_name: string; account_type?: string; assigned_site?: string } | null>(null);
+  const [intakePreFill, setIntakePreFill] = useState<any>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -108,11 +109,11 @@ function App() {
       case "register":
         return <RegisterPage setActivePage={setActivePage} setIsAuthenticated={setIsAuthenticated} setCurrentUser={setCurrentUser} />;
       case "eligibility":
-        return <EligibilityPage setActivePage={setActivePage} currentUser={currentUser} />;
+        return <EligibilityPage setActivePage={setActivePage} currentUser={currentUser} setIntakePreFill={setIntakePreFill} />;
       case "documents":
         return <DocumentsPage setActivePage={setActivePage} />;
       case "application":
-        return <ApplicationPage setActivePage={setActivePage} currentUser={currentUser} />;
+        return <ApplicationPage setActivePage={setActivePage} currentUser={currentUser} intakePreFill={intakePreFill} />;
       case "tracker":
         return <TrackerPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "sites":
