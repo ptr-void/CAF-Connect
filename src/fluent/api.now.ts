@@ -112,10 +112,8 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Look up the user in the native ServiceNow sys_user table by email
-                    var user = new GlideRecord('sys_user');
+                    var user = new GlideRecord('x_1985733_cafsys_portal_user');
                     user.addQuery('email', email);
-                    user.addQuery('active', true);
                     user.query();
 
                     if (!user.next()) {
@@ -124,11 +122,7 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Verify password using ServiceNow's native password checker
-                    var glideUser = GlideUser.getUserByID(user.getUniqueValue());
-                    var passwordValid = gs.checkPassword(user.getUniqueValue(), password);
-
-                    if (!passwordValid) {
+                    if (user.getValue('password') !== password) {
                         response.setStatus(401);
                         response.setBody({ error: 'Invalid password. Please try again.' });
                         return;
@@ -136,12 +130,12 @@ export const cafApi = RestApi({
 
                     response.setStatus(200);
                     response.setBody({
-                        user_name: user.getValue('user_name'),
-                        name: user.getValue('name'),
+                        user_name: user.getValue('email'),
+                        name: user.getValue('full_name'),
                         email: user.getValue('email'),
                         sys_id: user.getUniqueValue(),
-                        account_type: user.getValue('title') || 'Patient',
-                        assigned_site: user.getValue('department')
+                        account_type: user.getValue('account_type'),
+                        assigned_site: user.getValue('assigned_site')
                     });
                 } catch(ex) {
                     response.setStatus(500);
@@ -170,8 +164,7 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Check for duplicate email in sys_user
-                    var existing = new GlideRecord('sys_user');
+                    var existing = new GlideRecord('x_1985733_cafsys_portal_user');
                     existing.addQuery('email', email);
                     existing.query();
                     if (existing.next()) {
@@ -180,45 +173,26 @@ export const cafApi = RestApi({
                         return;
                     }
 
-                    // Generate a unique username from the email prefix
-                    var usernamePart = email.split('@')[0].replace(/[^a-zA-Z0-9_.]/g, '') + '_caf';
-                    var usernameCheck = new GlideRecord('sys_user');
-                    usernameCheck.addQuery('user_name', usernamePart);
-                    usernameCheck.query();
-                    if (usernameCheck.next()) {
-                        usernamePart = usernamePart + '_' + new Date().getTime().toString().slice(-4);
-                    }
-
-                    // Create the user in the native sys_user table
-                    var newUser = new GlideRecord('sys_user');
-                    newUser.setValue('name', fullName);
+                    var newUser = new GlideRecord('x_1985733_cafsys_portal_user');
+                    newUser.setValue('full_name', fullName);
                     newUser.setValue('email', email);
-                    newUser.setValue('user_name', usernamePart);
-                    // title field stores the CAF account_type (Patient / Family Member / Guardian)
-                    newUser.setValue('title', accountType);
-                    newUser.setValue('active', true);
+                    newUser.setValue('password', password);
+                    newUser.setValue('account_type', accountType);
 
                     if (body.assigned_site) {
-                        newUser.setValue('department', body.assigned_site);
+                        newUser.setValue('assigned_site', body.assigned_site);
                     }
 
                     var sysId = newUser.insert();
 
                     if (!sysId) {
                         response.setStatus(500);
-                        response.setBody({ error: 'Account creation failed. Please try again.' });
+                        response.setBody({ error: 'Account creation failed on the server.' });
                         return;
                     }
 
-                    // Set the password using ServiceNow native password utility
-                    var userForPw = new GlideRecord('sys_user');
-                    if (userForPw.get(sysId)) {
-                        userForPw.setNewPassword(password);
-                        userForPw.update();
-                    }
-
                     response.setStatus(201);
-                    response.setBody({ message: 'Account created successfully.', user_name: usernamePart });
+                    response.setBody({ message: 'Account created successfully.', user_name: email });
                 } catch(ex) {
                     response.setStatus(500);
                     response.setBody({ error: ex.message });
