@@ -88,3 +88,49 @@ export const cafApplicationAcl = Acl({
     roles: [cafAdminRole],
     description: 'Only CAF Admins can write to the application table from the backend',
 });
+
+export const deductFundsOnApproval = BusinessRule({
+    $id: Now.ID['br_deduct_funds_approval'],
+    name: 'Deduct Funds on Approval',
+    table: 'x_1985733_cafsys_application',
+    when: 'before',
+    action: ['update'],
+    active: true,
+    condition: 'current.state.changesTo(3)',
+    script: script`(function executeRule(current, previous) {
+        if (!current.selected_site) {
+            gs.warn("CAF Funds: No selected site for application " + current.number);
+            return;
+        }
+
+        var requestedStr = current.requested_amount ? current.requested_amount.toString() : "0";
+        var requestedVal = parseFloat(requestedStr.replace(/[^0-9.-]+/g, "")) || 0;
+
+        if (requestedVal <= 0) {
+            return;
+        }
+
+        var siteGr = new GlideRecord("x_1985733_cafsys_site");
+        siteGr.addQuery("site_name", current.selected_site);
+        siteGr.query();
+
+        if (siteGr.next()) {
+            var remainingStr = siteGr.remaining_funds ? siteGr.remaining_funds.toString() : "0";
+            var remainingVal = parseFloat(remainingStr.replace(/[^0-9.-]+/g, "")) || 0;
+            
+            var newRemaining = remainingVal - requestedVal;
+            if (newRemaining < 0) newRemaining = 0;
+
+            var formatted = parseFloat(newRemaining).toFixed(2);
+            formatted = formatted.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",");
+
+            siteGr.setValue("remaining_funds", "₱" + formatted);
+            siteGr.update();
+            
+            current.work_notes = (current.work_notes || "") + "\\nSystem: Successfully deducted ₱" + parseFloat(requestedVal).toFixed(2) + " from " + current.selected_site + " allocation.";
+        } else {
+            gs.warn("CAF Funds: Site " + current.selected_site + " not found.");
+        }
+    })(current, previous);`,
+});
+
