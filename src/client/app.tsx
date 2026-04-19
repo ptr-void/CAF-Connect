@@ -111,7 +111,7 @@ function App() {
       case "eligibility":
         return <EligibilityPage setActivePage={setActivePage} currentUser={currentUser} setIntakePreFill={setIntakePreFill} />;
       case "documents":
-        return <DocumentsPage setActivePage={setActivePage} />;
+        return <DocumentsPage setActivePage={setActivePage} currentUser={currentUser} />;
       case "application":
         return <ApplicationPage setActivePage={setActivePage} currentUser={currentUser} intakePreFill={intakePreFill} />;
       case "tracker":

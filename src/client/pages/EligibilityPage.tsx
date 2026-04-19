@@ -37,9 +37,11 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
     hasAbstract: "Select answer",
     hasId: "Select answer",
     visitedOffice: "Not Sure",
-    medical_abstract: "Patient presented with a biopsy-confirmed case needing financial oncology support."
+    medical_abstract: "Patient presented with a biopsy-confirmed case needing financial oncology support.",
+    documentUrl: ""
   });
 
+  const [uploadingDoc, setUploadingDoc] = useState(false);
   const [aiResult, setAiResult] = useState({ outcome: "", reasoning: "" });
 
   const steps = [
@@ -60,6 +62,44 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
     } else {
       setErrors({});
       setCurrentStep(2);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingDoc(true);
+    try {
+      const apiKey = "367759188279963";
+      const apiSecret = "4T0twk-P-EIKvemW4aeGAK75etI";
+      const timestamp = Math.round(new Date().getTime() / 1000).toString();
+
+      const signatureString = `timestamp=${timestamp}${apiSecret}`;
+      const msgBuffer = new TextEncoder().encode(signatureString);
+      const hashBuffer = await crypto.subtle.digest("SHA-1", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const signature = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+      const uploadData = new FormData();
+      uploadData.append("file", file);
+      uploadData.append("api_key", apiKey);
+      uploadData.append("timestamp", timestamp);
+      uploadData.append("signature", signature);
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/defkzzqcs/auto/upload`, {
+        method: "POST",
+        body: uploadData,
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || "Upload failed");
+
+      setFormData({ ...formData, documentUrl: data.secure_url });
+    } catch (err: any) {
+      alert("Failed to upload document: " + err.message);
+    } finally {
+      setUploadingDoc(false);
     }
   };
 
@@ -349,19 +389,22 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
 
                   <div className="md:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-slate-700">Supporting Documents / Patient Diagnosis</label>
-                    <div className="mt-2 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 py-10 px-6 transition hover:bg-slate-100">
-                      <svg className="mb-3 h-10 w-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <div className={`mt-2 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed ${errors.documentUrl ? 'border-red-400 bg-red-50' : 'border-slate-300 bg-slate-50'} py-10 px-6 transition hover:bg-slate-100`}>
+                      <svg className={`mb-3 h-10 w-10 ${formData.documentUrl ? 'text-emerald-500' : errors.documentUrl ? 'text-red-400' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                       </svg>
                       <p className="mb-1 text-sm font-semibold text-slate-700">Choose a file or drag & drop it here</p>
                       <p className="text-xs text-slate-500">JPEG, PNG, PDF, and MP4 formats, up to 50MB</p>
                       <div className="mt-4">
-                        <label className="cursor-pointer inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus-within:ring-2 focus-within:ring-sky-500">
+                        <label className={`cursor-pointer inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus-within:ring-2 focus-within:ring-sky-500 ${uploadingDoc ? 'opacity-50 cursor-not-allowed' : ''}`}>
                           <span>Browse File</span>
-                          <input type="file" multiple accept=".pdf,image/*,video/mp4" className="sr-only" />
+                          <input type="file" onChange={(e) => { setErrors({ ...errors, documentUrl: "" }); handleFileUpload(e); }} disabled={uploadingDoc} accept=".pdf,image/*,video/mp4" className="sr-only" />
                         </label>
                       </div>
                     </div>
+                    {uploadingDoc && <p className="mt-2 text-sm text-sky-600 animate-pulse">Uploading securely...</p>}
+                    {formData.documentUrl && <p className="mt-2 text-sm text-emerald-600 font-medium">✓ Document uploaded successfully</p>}
+                    {errors.documentUrl && <p style={{ color: "red" }} className="mt-2 text-xs">{errors.documentUrl}</p>}
                     <p className="mt-2 text-xs text-slate-500">Required for the AI Review Result Summary / Feedback.</p>
                   </div>
 
@@ -395,7 +438,7 @@ function EligibilityPage({ setActivePage, currentUser, setIntakePreFill }: Eligi
                   </button>
                   <button
                     onClick={handleNextToStep3WithValidation}
-                    disabled={isLoading}
+                    disabled={isLoading || uploadingDoc}
                     className="cursor-pointer rounded-2xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700 disabled:opacity-50"
                   >
                     {isLoading ? "Evaluating..." : "Check Eligibility"}
